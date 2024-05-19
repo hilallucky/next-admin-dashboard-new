@@ -1,0 +1,7 @@
+# Ignore artifacts:
+.next
+node_modules
+public
+package-lock.json
+package.json
+README.md
