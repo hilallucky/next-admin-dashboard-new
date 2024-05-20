@@ -1,24 +1,26 @@
-import nextAuth, { NextAuthOptions } from "next-auth";
-import Credentials from "next-auth/providers/credentials";
-import { prisma } from "./prisma";
-import bcrypt from "bcrypt";
+import nextAuth, { NextAuthOptions } from 'next-auth';
+import Credentials from 'next-auth/providers/credentials';
+import { prisma } from './prisma';
+import bcrypt from 'bcrypt';
+import { NextRequest, NextResponse } from 'next/server';
+import { useSession } from 'next-auth/react';
 
 export const authOptions: NextAuthOptions = {
   session: {
-    strategy: "jwt",
+    strategy: 'jwt',
   },
   providers: [
     Credentials({
-      name: "credentials",
+      name: 'credentials',
       credentials: {
         email: {
-          label: "Email",
-          type: "email",
-          placeholder: "example@example.com",
+          label: 'Email',
+          type: 'email',
+          placeholder: 'example@example.com',
         },
         password: {
-          label: "Password",
-          type: "password",
+          label: 'Password',
+          type: 'password',
         },
       },
       async authorize(credentials) {
@@ -32,9 +34,9 @@ export const authOptions: NextAuthOptions = {
 
         if (!user) return null;
 
-        const decodedPassword = await bcrypt.compare(
+        const decodedPassword = await bcrypt.compareSync(
           credentials.password,
-          user.password
+          user.password,
         );
 
         if (!decodedPassword) return null;
@@ -64,6 +66,18 @@ export const authOptions: NextAuthOptions = {
     },
   },
   pages: {
-    signIn: "/login",
+    signIn: '/login',
   },
 };
+
+// export function isAuthenticated(request: NextRequest) {
+//   const { data: session, status } = useSession();
+
+//   console.log({ status });
+
+//   if (status === 'authenticated') {
+//     return NextResponse.next();
+//   }
+
+//   return NextResponse.redirect('/login');
+// }

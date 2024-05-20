@@ -1,26 +1,40 @@
 {
   "compilerOptions": {
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "target": "es5",
+    "lib": ["es6", "dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
+    "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "plugins": [
-        {
-            "name": "next"
-        }
-    ],
+    "noImplicitAny": false,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
+    "experimentalDecorators": true,
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@components/*": ["src/components/*"],
+      "@constants/*": ["src/constants/*"],
+      "@contexts/*": ["src/contexts/*"],
+      "@dto/*": ["src/dto/*"],
+      "@fetchers/*": ["src/fetchers/*"],
+      "@helpers/*": ["src/helpers/*"],
+      "@interfaces/*": ["src/interfaces/*"],
+      "@lib/*": ["src/lib/*"],
+      "@libs/*": ["src/libs/*"],
+      "@middleware/*": ["src/middleware/*"],
+      "@pages/*": ["src/pages/*"],
+      "@css/*": ["src/css/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "tailwind.config.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/ui/Layout.tsx", "middleware.ts"],
   "exclude": ["node_modules"]
 }

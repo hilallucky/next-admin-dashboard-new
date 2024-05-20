@@ -1,4 +1,4 @@
-import { PrismaClient } from "../../prisma/generated/client";
+import { PrismaClient } from '../../prisma/generated/client';
 
 const globalForPrisma = global as unknown as {
   prisma: PrismaClient | undefined;
@@ -6,8 +6,31 @@ const globalForPrisma = global as unknown as {
 
 export const prisma =
   globalForPrisma.prisma ||
-    new PrismaClient({
-      log: ["query"],
-    });
+  new PrismaClient({
+    log: [
+      {
+        emit: 'event',
+        level: 'query',
+      },
+      {
+        emit: 'stdout',
+        level: 'error',
+      },
+      {
+        emit: 'stdout',
+        level: 'info',
+      },
+      {
+        emit: 'stdout',
+        level: 'warn',
+      },
+    ],
+  });
 
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
+prisma.$on('query', (e) => {
+  console.log('Query: ' + e.query);
+  console.log('Params: ' + e.params);
+  console.log('Duration: ' + e.duration + 'ms');
+});
+
+if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;

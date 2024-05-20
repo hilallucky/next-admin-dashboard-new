@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  basePath: ''  
+  pageExtensions: ['ts', 'tsx']
 };
 
 export default nextConfig;
