@@ -1,0 +1,23 @@
+model Supplier {
+    id            Int       @id @default(autoincrement())
+    uid           String    @unique @default(cuid())
+    code          String    @unique
+    name          String
+    address       String
+    officePhone   String
+    contactPerson String
+    mobilePhone   String
+    status        Int       @default(0)
+    createdBy     Int?
+    createdAt     DateTime  @default(now())
+    updatedBy     Int?
+    updatedAt     DateTime? @updatedAt
+    deletedBy     Int?
+    deletedAt     DateTime?
+
+    products       Product[]
+    productAliases ProductAlias[]
+    purchaseOrders PurchaseOrder[]
+
+    @@map("suppliers")
+}

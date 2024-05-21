@@ -1,0 +1,46 @@
+model PurchaseOrder {
+    id           Int       @id @default(autoincrement())
+    uid          String    @unique @default(cuid())
+    poNumber     String    @unique
+    supplierId   Int
+    totalAmount  Int
+    totalItem    Int
+    top          Int
+    orderDate    DateTime
+    deliveryDate DateTime
+    status       Int       @default(0)
+    remarks      String?
+    createdBy    Int?
+    createdAt    DateTime  @default(now())
+    updatedBy    Int?
+    updatedAt    DateTime? @updatedAt
+    deletedBy    Int?
+    deletedAt    DateTime?
+
+    supplier     Supplier              @relation(fields: [supplierId], references: [id])
+    orderDetails PurchaseOrderDetail[]
+
+    @@map("purchase_orders")
+}
+
+model PurchaseOrderDetail {
+    id              Int       @id @default(autoincrement())
+    uid             String    @unique @default(cuid())
+    purchaseOrderId Int
+    productId       Int
+    amount          Int
+    quantity        Int
+    unitPrice       Decimal   @db.Decimal(10, 2)
+    status          Int       @default(0)
+    createdBy       Int?
+    createdAt       DateTime  @default(now())
+    updatedBy       Int?
+    updatedAt       DateTime? @updatedAt
+    deletedBy       Int?
+    deletedAt       DateTime?
+
+    purchaseOrder PurchaseOrder @relation(fields: [purchaseOrderId], references: [id])
+    product       Product       @relation(fields: [productId], references: [id])
+
+    @@map("purchase_order_details")
+}

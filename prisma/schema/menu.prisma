@@ -1,0 +1,63 @@
+model MasterMenu {
+    id          Int       @id @default(autoincrement())
+    uid         String    @unique @default(cuid())
+    name        String
+    description String?
+    url         String?
+    icon        String?
+    order       Int       @default(1)
+    status      Int       @default(0)
+    createdBy   Int?
+    createdAt   DateTime  @default(now())
+    updatedBy   Int?
+    updatedAt   DateTime? @updatedAt
+    deletedBy   Int?
+    deletedAt   DateTime?
+
+    subMenus SubMenu[]
+
+    @@map("master_menus")
+}
+
+model SubMenu {
+    id           Int       @id @default(autoincrement())
+    uid          String    @unique @default(cuid())
+    name         String
+    description  String?
+    url          String?
+    icon         String?
+    order        Int       @default(1)
+    status       Int       @default(0)
+    createdBy    Int?
+    createdAt    DateTime  @default(now())
+    updatedBy    Int?
+    updatedAt    DateTime? @updatedAt
+    deletedBy    Int?
+    deletedAt    DateTime?
+    masterMenuId Int
+
+    masterMenu MasterMenu @relation(fields: [masterMenuId], references: [id])
+
+    @@map("sub_menus")
+}
+
+model RoleMenuAccess {
+    id          Int       @id @default(autoincrement())
+    uid         String    @unique @default(cuid())
+    name        String
+    description String?
+    roleId      Int
+    submenuId   Int
+    status      Int       @default(0)
+    createdBy   Int?
+    createdAt   DateTime  @default(now())
+    updatedBy   Int?
+    updatedAt   DateTime? @updatedAt
+    deletedBy   Int?
+    deletedAt   DateTime?
+
+    role    Role    @relation(fields: [roleId], references: [id])
+    subMenu SubMenu @relation(fields: [submenuId], references: [id])
+
+    @@map("role_menu_accesses")
+}

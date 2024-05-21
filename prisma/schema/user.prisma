@@ -14,25 +14,7 @@ model User {
     createdAt     DateTime  @default(now())
     updatedAt     DateTime? @updatedAt
     deletedAt     DateTime?
-
-    role  Role   @relation(fields: [roleId], references: [id])
-    roles Role[] @relation("RoleUsers")
-
-    createdRoles Role[] @relation("RoleCreatedBy")
-    updatedRoles Role[] @relation("RoleUpdatedBy")
-    deletedRoles Role[] @relation("RoleDeletedBy")
-
-    createdMenus MasterMenu[] @relation("MasterMenuCreatedBy")
-    updatedMenus MasterMenu[] @relation("MasterMenuUpdatedBy")
-    deletedMenus MasterMenu[] @relation("MasterMenuDeletedBy")
-
-    createdSubMenus SubMenu[] @relation("SubMenuCreatedBy")
-    updatedSubMenus SubMenu[] @relation("SubMenuUpdatedBy")
-    deletedSubMenus SubMenu[] @relation("SubMenuDeletedBy")
-
-    createdAccesses RoleMenuAccess[] @relation("RoleMenuAccessCreatedBy")
-    updatedAccesses RoleMenuAccess[] @relation("RoleMenuAccessUpdatedBy")
-    deletedAccesses RoleMenuAccess[] @relation("RoleMenuAccessDeletedBy")
+    role          Role      @relation(fields: [roleId], references: [id])
 
     @@map("users")
 }

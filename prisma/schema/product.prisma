@@ -1,0 +1,41 @@
+model Product {
+    id         Int       @id @default(autoincrement())
+    uid        String    @unique @default(cuid())
+    code       String    @unique
+    name       String
+    supplierId Int
+    quantity   Int
+    status     Int       @default(0)
+    createdBy  Int?
+    createdAt  DateTime  @default(now())
+    updatedBy  Int?
+    updatedAt  DateTime? @updatedAt
+    deletedBy  Int?
+    deletedAt  DateTime?
+
+    supplier     Supplier              @relation(fields: [supplierId], references: [id])
+    orderDetails PurchaseOrderDetail[]
+
+    @@map("products")
+}
+
+model ProductAlias {
+    id         Int       @id @default(autoincrement())
+    uid        String    @unique @default(cuid())
+    code       String    @unique
+    name       String
+    supplierId Int
+    productId  Int
+    status     Int       @default(0)
+    createdBy  Int?
+    createdAt  DateTime  @default(now())
+    updatedBy  Int?
+    updatedAt  DateTime? @updatedAt
+    deletedBy  Int?
+    deletedAt  DateTime?
+
+    supplier Supplier @relation(fields: [supplierId], references: [id])
+    product  Product  @relation(fields: [productId], references: [id])
+
+    @@map("product_aliases")
+}
