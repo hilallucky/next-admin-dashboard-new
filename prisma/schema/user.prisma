@@ -1,0 +1,38 @@
+model User {
+    id            Int       @id @default(autoincrement())
+    uid           String    @unique @default(cuid())
+    roleId        Int
+    username      String
+    email         String    @unique
+    password      String
+    firstName     String
+    lastName      String?
+    token         String?   @unique
+    refreshToken  String?   @unique
+    status        Int       @default(0)
+    latestLoginAt DateTime?
+    createdAt     DateTime  @default(now())
+    updatedAt     DateTime? @updatedAt
+    deletedAt     DateTime?
+
+    role  Role   @relation(fields: [roleId], references: [id])
+    roles Role[] @relation("RoleUsers")
+
+    createdRoles Role[] @relation("RoleCreatedBy")
+    updatedRoles Role[] @relation("RoleUpdatedBy")
+    deletedRoles Role[] @relation("RoleDeletedBy")
+
+    createdMenus MasterMenu[] @relation("MasterMenuCreatedBy")
+    updatedMenus MasterMenu[] @relation("MasterMenuUpdatedBy")
+    deletedMenus MasterMenu[] @relation("MasterMenuDeletedBy")
+
+    createdSubMenus SubMenu[] @relation("SubMenuCreatedBy")
+    updatedSubMenus SubMenu[] @relation("SubMenuUpdatedBy")
+    deletedSubMenus SubMenu[] @relation("SubMenuDeletedBy")
+
+    createdAccesses RoleMenuAccess[] @relation("RoleMenuAccessCreatedBy")
+    updatedAccesses RoleMenuAccess[] @relation("RoleMenuAccessUpdatedBy")
+    deletedAccesses RoleMenuAccess[] @relation("RoleMenuAccessDeletedBy")
+
+    @@map("users")
+}

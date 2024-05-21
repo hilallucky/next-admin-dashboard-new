@@ -121,11 +121,85 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
-  uuid: 'uuid',
-  name: 'name',
+  uid: 'uid',
+  roleId: 'roleId',
+  username: 'username',
   email: 'email',
   password: 'password',
-  token: 'token'
+  firstName: 'firstName',
+  lastName: 'lastName',
+  token: 'token',
+  refreshToken: 'refreshToken',
+  status: 'status',
+  latestLoginAt: 'latestLoginAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
+};
+
+exports.Prisma.RoleScalarFieldEnum = {
+  id: 'id',
+  uid: 'uid',
+  name: 'name',
+  description: 'description',
+  status: 'status',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedBy: 'updatedBy',
+  updatedAt: 'updatedAt',
+  deletedBy: 'deletedBy',
+  deletedAt: 'deletedAt'
+};
+
+exports.Prisma.MasterMenuScalarFieldEnum = {
+  id: 'id',
+  uid: 'uid',
+  name: 'name',
+  description: 'description',
+  url: 'url',
+  icon: 'icon',
+  order: 'order',
+  status: 'status',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedBy: 'updatedBy',
+  updatedAt: 'updatedAt',
+  deletedBy: 'deletedBy',
+  deletedAt: 'deletedAt'
+};
+
+exports.Prisma.SubMenuScalarFieldEnum = {
+  id: 'id',
+  uid: 'uid',
+  masterMenuId: 'masterMenuId',
+  name: 'name',
+  description: 'description',
+  url: 'url',
+  icon: 'icon',
+  order: 'order',
+  status: 'status',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedBy: 'updatedBy',
+  updatedAt: 'updatedAt',
+  deletedBy: 'deletedBy',
+  deletedAt: 'deletedAt'
+};
+
+exports.Prisma.RoleMenuAccessScalarFieldEnum = {
+  id: 'id',
+  uid: 'uid',
+  name: 'name',
+  description: 'description',
+  roleId: 'roleId',
+  submenuId: 'submenuId',
+  status: 'status',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedBy: 'updatedBy',
+  updatedAt: 'updatedAt',
+  deletedBy: 'deletedBy',
+  deletedAt: 'deletedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -140,7 +214,11 @@ exports.Prisma.NullsOrder = {
 
 
 exports.Prisma.ModelName = {
-  User: 'User'
+  User: 'User',
+  Role: 'Role',
+  MasterMenu: 'MasterMenu',
+  SubMenu: 'SubMenu',
+  RoleMenuAccess: 'RoleMenuAccess'
 };
 
 /**
