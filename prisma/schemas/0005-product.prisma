@@ -16,6 +16,10 @@ model Product {
     supplier     Supplier              @relation(fields: [supplierId], references: [id])
     orderDetails PurchaseOrderDetail[]
 
+    createdProductByUser User? @relation("ProductCreatedBy", fields: [createdBy], references: [id])
+    updatedProductByUser User? @relation("ProductUpdatedBy", fields: [updatedBy], references: [id])
+    deletedProductByUser User? @relation("ProductDeletedBy", fields: [deletedBy], references: [id])
+
     @@map("products")
 }
 
@@ -36,6 +40,10 @@ model ProductAlias {
 
     supplier Supplier @relation(fields: [supplierId], references: [id])
     product  Product  @relation(fields: [productId], references: [id])
+
+    createdProductAliasByUser User? @relation("ProductAliasCreatedBy", fields: [createdBy], references: [id])
+    updatedProductAliasByUser User? @relation("ProductAliasUpdatedBy", fields: [updatedBy], references: [id])
+    deletedProductAliasByUser User? @relation("ProductAliasDeletedBy", fields: [deletedBy], references: [id])
 
     @@map("product_aliases")
 }

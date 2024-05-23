@@ -16,6 +16,10 @@ model MasterMenu {
 
     subMenus SubMenu[]
 
+    createdMenusByUser User? @relation("MasterMenuCreatedBy", fields: [createdBy], references: [id])
+    updatedMenusByUser User? @relation("MasterMenuUpdatedBy", fields: [updatedBy], references: [id])
+    deletedMenusByUser User? @relation("MasterMenuDeletedBy", fields: [deletedBy], references: [id])
+
     @@map("master_menus")
 }
 
@@ -38,6 +42,12 @@ model SubMenu {
 
     masterMenu MasterMenu @relation(fields: [masterMenuId], references: [id])
 
+    createdSubMenusByUser User? @relation("SubMenuCreatedBy", fields: [createdBy], references: [id])
+    updatedSubMenusByUser User? @relation("SubMenuUpdatedBy", fields: [updatedBy], references: [id])
+    deletedSubMenusByUser User? @relation("SubMenuDeletedBy", fields: [deletedBy], references: [id])
+
+    RoleMenuAccess RoleMenuAccess[]
+
     @@map("sub_menus")
 }
 
@@ -56,8 +66,13 @@ model RoleMenuAccess {
     deletedBy   Int?
     deletedAt   DateTime?
 
-    role    Role    @relation(fields: [roleId], references: [id])
+    role Role @relation(fields: [roleId], references: [id])
+
     subMenu SubMenu @relation(fields: [submenuId], references: [id])
+
+    createdRoleMenuAccessesByUser User? @relation("RoleMenuAccessCreatedBy", fields: [createdBy], references: [id])
+    updatedRoleMenuAccessesByUser User? @relation("RoleMenuAccessUpdatedBy", fields: [updatedBy], references: [id])
+    deletedRoleMenuAccessesByUser User? @relation("RoleMenuAccessDeletedBy", fields: [deletedBy], references: [id])
 
     @@map("role_menu_accesses")
 }

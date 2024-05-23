@@ -11,7 +11,14 @@ model Role {
     deletedBy   Int?
     deletedAt   DateTime?
 
-    users User[]
+    User  User[]
+    users User[] @relation("RoleUsers")
+
+    createdRolesByUser User? @relation("RoleCreatedBy", fields: [createdBy], references: [id])
+    updatedRolesByUser User? @relation("RoleUpdatedBy", fields: [updatedBy], references: [id])
+    deletedRolesByUser User? @relation("RoleDeletedBy", fields: [deletedBy], references: [id])
+
+    RoleMenuAccess RoleMenuAccess[]
 
     @@map("roles")
 }

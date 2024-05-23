@@ -1,156 +1,306 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
-    provider = "prisma-client-js"
-    output   = "./generated/client"
+  provider = "prisma-client-js"
+  output   = "./generated/client"
 }
 
 datasource db {
-    provider = "mysql"
-    url      = env("MYSQL_DATABASE_URL")
+  provider = "mysql"
+  url      = env("MYSQL_DATABASE_URL")
 }
 
-// model User {
-//     id            Int       @id @default(autoincrement())
-//     uid           String    @unique @default(cuid())
-//     roleId        Int
-//     username      String
-//     email         String    @unique
-//     password      String
-//     firstName     String
-//     lastName      String?
-//     token         String?   @unique
-//     refreshToken  String?   @unique
-//     status        Int       @default(0)
-//     latestLoginAt DateTime?
-//     createdAt     DateTime  @default(now())
-//     updatedAt     DateTime? @updatedAt
-//     deletedAt     DateTime?
+model User {
+  id            Int       @id @default(autoincrement())
+  uid           String    @unique @default(cuid())
+  roleId        Int
+  username      String
+  email         String    @unique
+  password      String
+  firstName     String
+  lastName      String?
+  token         String?   @unique
+  refreshToken  String?   @unique
+  status        Int       @default(0)
+  latestLoginAt DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime? @updatedAt
+  deletedAt     DateTime?
 
-//     role  Role   @relation(fields: [roleId], references: [id])
-//     roles Role[] @relation("RoleUsers")
+  role  Role   @relation(fields: [roleId], references: [id])
+  roles Role[] @relation("RoleUsers")
 
-//     createdRoles Role[] @relation("RoleCreatedBy")
-//     updatedRoles Role[] @relation("RoleUpdatedBy")
-//     deletedRoles Role[] @relation("RoleDeletedBy")
+  createdRolesByUser Role[] @relation("RoleCreatedBy")
+  updatedRolesByUser Role[] @relation("RoleUpdatedBy")
+  deletedRolesByUser Role[] @relation("RoleDeletedBy")
 
-//     createdMenus MasterMenu[] @relation("MasterMenuCreatedBy")
-//     updatedMenus MasterMenu[] @relation("MasterMenuUpdatedBy")
-//     deletedMenus MasterMenu[] @relation("MasterMenuDeletedBy")
+  createdMenusByUser MasterMenu[] @relation("MasterMenuCreatedBy")
+  updatedMenusByUser MasterMenu[] @relation("MasterMenuUpdatedBy")
+  deletedMenusByUser MasterMenu[] @relation("MasterMenuDeletedBy")
 
-//     createdSubMenus SubMenu[] @relation("SubMenuCreatedBy")
-//     updatedSubMenus SubMenu[] @relation("SubMenuUpdatedBy")
-//     deletedSubMenus SubMenu[] @relation("SubMenuDeletedBy")
+  createdSubMenusByUser SubMenu[] @relation("SubMenuCreatedBy")
+  updatedSubMenusByUser SubMenu[] @relation("SubMenuUpdatedBy")
+  deletedSubMenusByUser SubMenu[] @relation("SubMenuDeletedBy")
 
-//     createdAccesses RoleMenuAccess[] @relation("RoleMenuAccessCreatedBy")
-//     updatedAccesses RoleMenuAccess[] @relation("RoleMenuAccessUpdatedBy")
-//     deletedAccesses RoleMenuAccess[] @relation("RoleMenuAccessDeletedBy")
+  createdRoleMenuAccessesByUser RoleMenuAccess[] @relation("RoleMenuAccessCreatedBy")
+  updatedRoleMenuAccessesByUser RoleMenuAccess[] @relation("RoleMenuAccessUpdatedBy")
+  deletedRoleMenuAccessesByUser RoleMenuAccess[] @relation("RoleMenuAccessDeletedBy")
 
-//     @@map("users")
-// }
+  createdSupplierByUser Supplier[] @relation("SupplierCreatedBy")
+  updatedSupplierByUser Supplier[] @relation("SupplierUpdatedBy")
+  deletedSupplierByUser Supplier[] @relation("SupplierDeletedBy")
 
-// model Role {
-//     id          Int       @id @default(autoincrement())
-//     uid         String    @unique @default(cuid())
-//     name        String
-//     description String?
-//     status      Int       @default(0)
-//     createdBy   Int?
-//     createdAt   DateTime  @default(now())
-//     updatedBy   Int?
-//     updatedAt   DateTime? @updatedAt
-//     deletedBy   Int?
-//     deletedAt   DateTime?
+  createdProductByUser Product[] @relation("ProductCreatedBy")
+  updatedProductByUser Product[] @relation("ProductUpdatedBy")
+  deletedProductByUser Product[] @relation("ProductDeletedBy")
 
-//     users User[] @relation("RoleUsers")
+  createdProductAliasByUser ProductAlias[] @relation("ProductAliasCreatedBy")
+  updatedProductAliasByUser ProductAlias[] @relation("ProductAliasUpdatedBy")
+  deletedProductAliasByUser ProductAlias[] @relation("ProductAliasDeletedBy")
 
-//     createdByUser  User?            @relation("RoleCreatedBy", fields: [createdBy], references: [id])
-//     updatedByUser  User?            @relation("RoleUpdatedBy", fields: [updatedBy], references: [id])
-//     deletedByUser  User?            @relation("RoleDeletedBy", fields: [deletedBy], references: [id])
-//     User           User[]
-//     RoleMenuAccess RoleMenuAccess[]
+  createdPurchaseOrderByUser PurchaseOrder[] @relation("PurchaseOrderCreatedBy")
+  updatedPurchaseOrderByUser PurchaseOrder[] @relation("PurchaseOrderUpdatedBy")
+  deletedPurchaseOrderByUser PurchaseOrder[] @relation("PurchaseOrderDeletedBy")
 
-//     @@map("roles")
-// }
+  createdPurchaseOrderDetailByUser PurchaseOrderDetail[] @relation("PurchaseOrderDetailCreatedBy")
+  updatedPurchaseOrderDetailByUser PurchaseOrderDetail[] @relation("PurchaseOrderDetailUpdatedBy")
+  deletedPurchaseOrderDetailByUser PurchaseOrderDetail[] @relation("PurchaseOrderDetailDeletedBy")
 
-// model MasterMenu {
-//     id          Int       @id @default(autoincrement())
-//     uid         String    @unique @default(cuid())
-//     name        String
-//     description String?
-//     url         String?
-//     icon        String?
-//     order       Int       @default(1)
-//     status      Int       @default(0)
-//     createdBy   Int?
-//     createdAt   DateTime  @default(now())
-//     updatedBy   Int?
-//     updatedAt   DateTime? @updatedAt
-//     deletedBy   Int?
-//     deletedAt   DateTime?
+  @@map("users")
+}
 
-//     subMenus SubMenu[]
+model Role {
+  id          Int       @id @default(autoincrement())
+  uid         String    @unique @default(cuid())
+  name        String
+  description String?
+  status      Int       @default(0)
+  createdBy   Int?
+  createdAt   DateTime  @default(now())
+  updatedBy   Int?
+  updatedAt   DateTime? @updatedAt
+  deletedBy   Int?
+  deletedAt   DateTime?
 
-//     createdByUser User? @relation("MasterMenuCreatedBy", fields: [createdBy], references: [id])
-//     updatedByUser User? @relation("MasterMenuUpdatedBy", fields: [updatedBy], references: [id])
-//     deletedByUser User? @relation("MasterMenuDeletedBy", fields: [deletedBy], references: [id])
-// }
+  User  User[]
+  users User[] @relation("RoleUsers")
 
-// model SubMenu {
-//     id           Int       @id @default(autoincrement())
-//     uid          String    @unique @default(cuid())
-//     masterMenuId Int
-//     name         String
-//     description  String?
-//     url          String?
-//     icon         String?
-//     order        Int       @default(1)
-//     status       Int       @default(0)
-//     createdBy    Int?
-//     createdAt    DateTime  @default(now())
-//     updatedBy    Int?
-//     updatedAt    DateTime? @updatedAt
-//     deletedBy    Int?
-//     deletedAt    DateTime?
+  createdRolesByUser User? @relation("RoleCreatedBy", fields: [createdBy], references: [id])
+  updatedRolesByUser User? @relation("RoleUpdatedBy", fields: [updatedBy], references: [id])
+  deletedRolesByUser User? @relation("RoleDeletedBy", fields: [deletedBy], references: [id])
 
-//     masterMenu MasterMenu @relation(fields: [masterMenuId], references: [id])
+  RoleMenuAccess RoleMenuAccess[]
 
-//     createdByUser  User?            @relation("SubMenuCreatedBy", fields: [createdBy], references: [id])
-//     updatedByUser  User?            @relation("SubMenuUpdatedBy", fields: [updatedBy], references: [id])
-//     deletedByUser  User?            @relation("SubMenuDeletedBy", fields: [deletedBy], references: [id])
-//     RoleMenuAccess RoleMenuAccess[]
+  @@map("roles")
+}
 
-//     @@map("sub_menus")
-// }
+model MasterMenu {
+  id          Int       @id @default(autoincrement())
+  uid         String    @unique @default(cuid())
+  name        String
+  description String?
+  url         String?
+  icon        String?
+  order       Int       @default(1)
+  status      Int       @default(0)
+  createdBy   Int?
+  createdAt   DateTime  @default(now())
+  updatedBy   Int?
+  updatedAt   DateTime? @updatedAt
+  deletedBy   Int?
+  deletedAt   DateTime?
 
-// model RoleMenuAccess {
-//     id          Int       @id @default(autoincrement())
-//     uid         String    @unique @default(cuid())
-//     name        String
-//     description String?
-//     roleId      Int
-//     submenuId   Int
-//     status      Int       @default(0)
-//     createdBy   Int?
-//     createdAt   DateTime  @default(now())
-//     updatedBy   Int?
-//     updatedAt   DateTime? @updatedAt
-//     deletedBy   Int?
-//     deletedAt   DateTime?
+  subMenus SubMenu[]
 
-//     role Role @relation(fields: [roleId], references: [id])
+  createdMenusByUser User? @relation("MasterMenuCreatedBy", fields: [createdBy], references: [id])
+  updatedMenusByUser User? @relation("MasterMenuUpdatedBy", fields: [updatedBy], references: [id])
+  deletedMenusByUser User? @relation("MasterMenuDeletedBy", fields: [deletedBy], references: [id])
 
-//     subMenu SubMenu @relation(fields: [submenuId], references: [id])
+  @@map("master_menus")
+}
 
-//     createdByUser User? @relation("RoleMenuAccessCreatedBy", fields: [createdBy], references: [id])
-//     updatedByUser User? @relation("RoleMenuAccessUpdatedBy", fields: [updatedBy], references: [id])
-//     deletedByUser User? @relation("RoleMenuAccessDeletedBy", fields: [deletedBy], references: [id])
+model SubMenu {
+  id           Int       @id @default(autoincrement())
+  uid          String    @unique @default(cuid())
+  name         String
+  description  String?
+  url          String?
+  icon         String?
+  order        Int       @default(1)
+  status       Int       @default(0)
+  createdBy    Int?
+  createdAt    DateTime  @default(now())
+  updatedBy    Int?
+  updatedAt    DateTime? @updatedAt
+  deletedBy    Int?
+  deletedAt    DateTime?
+  masterMenuId Int
 
-//     @@map("role_menu_accesses")
-// }
+  masterMenu MasterMenu @relation(fields: [masterMenuId], references: [id])
 
+  createdSubMenusByUser User? @relation("SubMenuCreatedBy", fields: [createdBy], references: [id])
+  updatedSubMenusByUser User? @relation("SubMenuUpdatedBy", fields: [updatedBy], references: [id])
+  deletedSubMenusByUser User? @relation("SubMenuDeletedBy", fields: [deletedBy], references: [id])
 
+  RoleMenuAccess RoleMenuAccess[]
+
+  @@map("sub_menus")
+}
+
+model RoleMenuAccess {
+  id          Int       @id @default(autoincrement())
+  uid         String    @unique @default(cuid())
+  name        String
+  description String?
+  roleId      Int
+  submenuId   Int
+  status      Int       @default(0)
+  createdBy   Int?
+  createdAt   DateTime  @default(now())
+  updatedBy   Int?
+  updatedAt   DateTime? @updatedAt
+  deletedBy   Int?
+  deletedAt   DateTime?
+
+  role Role @relation(fields: [roleId], references: [id])
+
+  subMenu SubMenu @relation(fields: [submenuId], references: [id])
+
+  createdRoleMenuAccessesByUser User? @relation("RoleMenuAccessCreatedBy", fields: [createdBy], references: [id])
+  updatedRoleMenuAccessesByUser User? @relation("RoleMenuAccessUpdatedBy", fields: [updatedBy], references: [id])
+  deletedRoleMenuAccessesByUser User? @relation("RoleMenuAccessDeletedBy", fields: [deletedBy], references: [id])
+
+  @@map("role_menu_accesses")
+}
+
+model Supplier {
+  id            Int       @id @default(autoincrement())
+  uid           String    @unique @default(cuid())
+  code          String    @unique
+  name          String
+  address       String
+  officePhone   String
+  contactPerson String
+  mobilePhone   String
+  status        Int       @default(0)
+  createdBy     Int?
+  createdAt     DateTime  @default(now())
+  updatedBy     Int?
+  updatedAt     DateTime? @updatedAt
+  deletedBy     Int?
+  deletedAt     DateTime?
+
+  products       Product[]
+  productAliases ProductAlias[]
+  purchaseOrders PurchaseOrder[]
+
+  createdSupplierByUser User? @relation("SupplierCreatedBy", fields: [createdBy], references: [id])
+  updatedSupplierByUser User? @relation("SupplierUpdatedBy", fields: [updatedBy], references: [id])
+  deletedSupplierByUser User? @relation("SupplierDeletedBy", fields: [deletedBy], references: [id])
+
+  @@map("suppliers")
+}
+
+model Product {
+  id         Int       @id @default(autoincrement())
+  uid        String    @unique @default(cuid())
+  code       String    @unique
+  name       String
+  supplierId Int
+  quantity   Int
+  status     Int       @default(0)
+  createdBy  Int?
+  createdAt  DateTime  @default(now())
+  updatedBy  Int?
+  updatedAt  DateTime? @updatedAt
+  deletedBy  Int?
+  deletedAt  DateTime?
+
+  supplier     Supplier              @relation(fields: [supplierId], references: [id])
+  orderDetails PurchaseOrderDetail[]
+
+  createdProductByUser User?          @relation("ProductCreatedBy", fields: [createdBy], references: [id])
+  updatedProductByUser User?          @relation("ProductUpdatedBy", fields: [updatedBy], references: [id])
+  deletedProductByUser User?          @relation("ProductDeletedBy", fields: [deletedBy], references: [id])
+  ProductAlias         ProductAlias[]
+
+  @@map("products")
+}
+
+model ProductAlias {
+  id         Int       @id @default(autoincrement())
+  uid        String    @unique @default(cuid())
+  code       String    @unique
+  name       String
+  supplierId Int
+  productId  Int
+  status     Int       @default(0)
+  createdBy  Int?
+  createdAt  DateTime  @default(now())
+  updatedBy  Int?
+  updatedAt  DateTime? @updatedAt
+  deletedBy  Int?
+  deletedAt  DateTime?
+
+  supplier Supplier @relation(fields: [supplierId], references: [id])
+  product  Product  @relation(fields: [productId], references: [id])
+
+  createdProductAliasByUser User? @relation("ProductAliasCreatedBy", fields: [createdBy], references: [id])
+  updatedProductAliasByUser User? @relation("ProductAliasUpdatedBy", fields: [updatedBy], references: [id])
+  deletedProductAliasByUser User? @relation("ProductAliasDeletedBy", fields: [deletedBy], references: [id])
+
+  @@map("product_aliases")
+}
+
+model PurchaseOrder {
+  id           Int       @id @default(autoincrement())
+  uid          String    @unique @default(cuid())
+  poNumber     String    @unique
+  supplierId   Int
+  totalAmount  Int
+  totalItem    Int
+  top          Int
+  orderDate    DateTime
+  deliveryDate DateTime
+  status       Int       @default(0)
+  remarks      String?
+  createdBy    Int?
+  createdAt    DateTime  @default(now())
+  updatedBy    Int?
+  updatedAt    DateTime? @updatedAt
+  deletedBy    Int?
+  deletedAt    DateTime?
+
+  supplier     Supplier              @relation(fields: [supplierId], references: [id])
+  orderDetails PurchaseOrderDetail[]
+
+  createdPurchaseOrderByUser User? @relation("PurchaseOrderCreatedBy", fields: [createdBy], references: [id])
+  updatedPurchaseOrderByUser User? @relation("PurchaseOrderUpdatedBy", fields: [updatedBy], references: [id])
+  deletedPurchaseOrderByUser User? @relation("PurchaseOrderDeletedBy", fields: [deletedBy], references: [id])
+
+  @@map("purchase_orders")
+}
+
+model PurchaseOrderDetail {
+  id              Int       @id @default(autoincrement())
+  uid             String    @unique @default(cuid())
+  purchaseOrderId Int
+  productId       Int
+  amount          Int
+  quantity        Int
+  unitPrice       Decimal   @db.Decimal(10, 2)
+  status          Int       @default(0)
+  createdBy       Int?
+  createdAt       DateTime  @default(now())
+  updatedBy       Int?
+  updatedAt       DateTime? @updatedAt
+  deletedBy       Int?
+  deletedAt       DateTime?
+
+  purchaseOrder PurchaseOrder @relation(fields: [purchaseOrderId], references: [id])
+  product       Product       @relation(fields: [productId], references: [id])
+
+  createdPurchaseOrderDetailByUser User? @relation("PurchaseOrderDetailCreatedBy", fields: [createdBy], references: [id])
+  updatedPurchaseOrderDetailByUser User? @relation("PurchaseOrderDetailUpdatedBy", fields: [updatedBy], references: [id])
+  deletedPurchaseOrderDetailByUser User? @relation("PurchaseOrderDetailDeletedBy", fields: [deletedBy], references: [id])
+
+  @@map("purchase_order_details")
+}

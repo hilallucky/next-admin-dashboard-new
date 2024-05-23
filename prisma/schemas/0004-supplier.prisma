@@ -19,5 +19,9 @@ model Supplier {
     productAliases ProductAlias[]
     purchaseOrders PurchaseOrder[]
 
+    createdSupplierByUser User? @relation("SupplierCreatedBy", fields: [createdBy], references: [id])
+    updatedSupplierByUser User? @relation("SupplierUpdatedBy", fields: [updatedBy], references: [id])
+    deletedSupplierByUser User? @relation("SupplierDeletedBy", fields: [deletedBy], references: [id])
+
     @@map("suppliers")
 }

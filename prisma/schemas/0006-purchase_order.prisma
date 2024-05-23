@@ -20,6 +20,10 @@ model PurchaseOrder {
     supplier     Supplier              @relation(fields: [supplierId], references: [id])
     orderDetails PurchaseOrderDetail[]
 
+    createdPurchaseOrderByUser User? @relation("PurchaseOrderCreatedBy", fields: [createdBy], references: [id])
+    updatedPurchaseOrderByUser User? @relation("PurchaseOrderUpdatedBy", fields: [updatedBy], references: [id])
+    deletedPurchaseOrderByUser User? @relation("PurchaseOrderDeletedBy", fields: [deletedBy], references: [id])
+
     @@map("purchase_orders")
 }
 
@@ -41,6 +45,10 @@ model PurchaseOrderDetail {
 
     purchaseOrder PurchaseOrder @relation(fields: [purchaseOrderId], references: [id])
     product       Product       @relation(fields: [productId], references: [id])
+
+    createdPurchaseOrderDetailByUser User? @relation("PurchaseOrderDetailCreatedBy", fields: [createdBy], references: [id])
+    updatedPurchaseOrderDetailByUser User? @relation("PurchaseOrderDetailUpdatedBy", fields: [updatedBy], references: [id])
+    deletedPurchaseOrderDetailByUser User? @relation("PurchaseOrderDetailDeletedBy", fields: [deletedBy], references: [id])
 
     @@map("purchase_order_details")
 }

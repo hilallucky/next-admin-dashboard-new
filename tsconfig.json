@@ -35,6 +35,6 @@
       "@css/*": ["src/css/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/ui/Layout.tsx", "middleware.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/ui/Layout.tsx", "middleware.ts", "prisma/merge-schemas.js-bu"],
   "exclude": ["node_modules"]
 }

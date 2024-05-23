@@ -53,8 +53,20 @@ prisma/
   ├── schema.prisma
   └── merge-schemas.js
 
+```bash
 node prisma/merge-schemas.js
 npx prisma migrate dev --name init
 npx prisma generate
+```
+
+2ns way:
+```bash
+cd prisma\schemas
+cat *.prisma >> ../schema.prisma
+cd ../..
+npx prisma format
+npx prisma generate
+npx prisma migrate dev --name [migration_name]
+npm run prisma:migrate --name=[name]
 ```
 

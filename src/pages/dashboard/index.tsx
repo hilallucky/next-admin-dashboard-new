@@ -1,19 +1,19 @@
-import { signOut, useSession } from 'next-auth/react';
-import React from 'react';
+import { Metadata } from "next";
+import DefaultLayout from "@/components/Layouts/DefaultLayout";
+import ECommerce from "@/ui/ECommerce/E-commerce";
 
-const dashboard = () => {
-  const { data: session, status } = useSession();
-
-  if (status === 'authenticated') {
-    return (
-      <>
-        <p>Signed in as {session.user.email}</p>
-        <button onClick={() => signOut()}>Sign out</button>
-      </>
-    );
-  }
-
-  return <a href="/api/auth/signin">Sign in</a>;
+export const metadata: Metadata = {
+    title:
+        "Next.js E-commerce Dashboard | TailAdmin - Next.js Dashboard Template",
+    description: "This is Next.js Home for TailAdmin Dashboard Template",
 };
 
-export default dashboard;
+export default function Home() {
+    return (
+        <>
+            <DefaultLayout>
+                <ECommerce />
+            </DefaultLayout>
+        </>
+    );
+}

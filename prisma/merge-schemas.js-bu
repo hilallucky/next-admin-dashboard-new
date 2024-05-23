@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const schemaDir = path.join(__dirname, 'schema');
+const schemaDir = path.join(__dirname, 'schemas');
 const schemaFiles = fs
   .readdirSync(schemaDir)
   .filter((file) => file.endsWith('.prisma'));

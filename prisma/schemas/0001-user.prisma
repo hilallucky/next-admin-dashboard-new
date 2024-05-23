@@ -1,0 +1,58 @@
+model User {
+    id            Int       @id @default(autoincrement())
+    uid           String    @unique @default(cuid())
+    roleId        Int
+    username      String
+    email         String    @unique
+    password      String
+    firstName     String
+    lastName      String?
+    token         String?   @unique
+    refreshToken  String?   @unique
+    status        Int       @default(0)
+    latestLoginAt DateTime?
+    createdAt     DateTime  @default(now())
+    updatedAt     DateTime? @updatedAt
+    deletedAt     DateTime?
+
+    role  Role   @relation(fields: [roleId], references: [id])
+    roles Role[] @relation("RoleUsers")
+
+    createdRolesByUser Role[] @relation("RoleCreatedBy")
+    updatedRolesByUser Role[] @relation("RoleUpdatedBy")
+    deletedRolesByUser Role[] @relation("RoleDeletedBy")
+
+    createdMenusByUser MasterMenu[] @relation("MasterMenuCreatedBy")
+    updatedMenusByUser MasterMenu[] @relation("MasterMenuUpdatedBy")
+    deletedMenusByUser MasterMenu[] @relation("MasterMenuDeletedBy")
+
+    createdSubMenusByUser SubMenu[] @relation("SubMenuCreatedBy")
+    updatedSubMenusByUser SubMenu[] @relation("SubMenuUpdatedBy")
+    deletedSubMenusByUser SubMenu[] @relation("SubMenuDeletedBy")
+
+    createdRoleMenuAccessesByUser RoleMenuAccess[] @relation("RoleMenuAccessCreatedBy")
+    updatedRoleMenuAccessesByUser RoleMenuAccess[] @relation("RoleMenuAccessUpdatedBy")
+    deletedRoleMenuAccessesByUser RoleMenuAccess[] @relation("RoleMenuAccessDeletedBy")
+
+    createdSupplierByUser Supplier[] @relation("SupplierCreatedBy")
+    updatedSupplierByUser Supplier[] @relation("SupplierUpdatedBy")
+    deletedSupplierByUser Supplier[] @relation("SupplierDeletedBy")
+
+    createdProductByUser Product[] @relation("ProductCreatedBy")
+    updatedProductByUser Product[] @relation("ProductUpdatedBy")
+    deletedProductByUser Product[] @relation("ProductDeletedBy")
+
+    createdProductAliasByUser ProductAlias[] @relation("ProductAliasCreatedBy")
+    updatedProductAliasByUser ProductAlias[] @relation("ProductAliasUpdatedBy")
+    deletedProductAliasByUser ProductAlias[] @relation("ProductAliasDeletedBy")
+
+    createdPurchaseOrderByUser PurchaseOrder[] @relation("PurchaseOrderCreatedBy")
+    updatedPurchaseOrderByUser PurchaseOrder[] @relation("PurchaseOrderUpdatedBy")
+    deletedPurchaseOrderByUser PurchaseOrder[] @relation("PurchaseOrderDeletedBy")
+
+    createdPurchaseOrderDetailByUser PurchaseOrderDetail[] @relation("PurchaseOrderDetailCreatedBy")
+    updatedPurchaseOrderDetailByUser PurchaseOrderDetail[] @relation("PurchaseOrderDetailUpdatedBy")
+    deletedPurchaseOrderDetailByUser PurchaseOrderDetail[] @relation("PurchaseOrderDetailDeletedBy")
+
+    @@map("users")
+}

@@ -171,7 +171,6 @@ exports.Prisma.MasterMenuScalarFieldEnum = {
 exports.Prisma.SubMenuScalarFieldEnum = {
   id: 'id',
   uid: 'uid',
-  masterMenuId: 'masterMenuId',
   name: 'name',
   description: 'description',
   url: 'url',
@@ -183,7 +182,8 @@ exports.Prisma.SubMenuScalarFieldEnum = {
   updatedBy: 'updatedBy',
   updatedAt: 'updatedAt',
   deletedBy: 'deletedBy',
-  deletedAt: 'deletedAt'
+  deletedAt: 'deletedAt',
+  masterMenuId: 'masterMenuId'
 };
 
 exports.Prisma.RoleMenuAccessScalarFieldEnum = {
@@ -193,6 +193,93 @@ exports.Prisma.RoleMenuAccessScalarFieldEnum = {
   description: 'description',
   roleId: 'roleId',
   submenuId: 'submenuId',
+  status: 'status',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedBy: 'updatedBy',
+  updatedAt: 'updatedAt',
+  deletedBy: 'deletedBy',
+  deletedAt: 'deletedAt'
+};
+
+exports.Prisma.SupplierScalarFieldEnum = {
+  id: 'id',
+  uid: 'uid',
+  code: 'code',
+  name: 'name',
+  address: 'address',
+  officePhone: 'officePhone',
+  contactPerson: 'contactPerson',
+  mobilePhone: 'mobilePhone',
+  status: 'status',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedBy: 'updatedBy',
+  updatedAt: 'updatedAt',
+  deletedBy: 'deletedBy',
+  deletedAt: 'deletedAt'
+};
+
+exports.Prisma.ProductScalarFieldEnum = {
+  id: 'id',
+  uid: 'uid',
+  code: 'code',
+  name: 'name',
+  supplierId: 'supplierId',
+  quantity: 'quantity',
+  status: 'status',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedBy: 'updatedBy',
+  updatedAt: 'updatedAt',
+  deletedBy: 'deletedBy',
+  deletedAt: 'deletedAt'
+};
+
+exports.Prisma.ProductAliasScalarFieldEnum = {
+  id: 'id',
+  uid: 'uid',
+  code: 'code',
+  name: 'name',
+  supplierId: 'supplierId',
+  productId: 'productId',
+  status: 'status',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedBy: 'updatedBy',
+  updatedAt: 'updatedAt',
+  deletedBy: 'deletedBy',
+  deletedAt: 'deletedAt'
+};
+
+exports.Prisma.PurchaseOrderScalarFieldEnum = {
+  id: 'id',
+  uid: 'uid',
+  poNumber: 'poNumber',
+  supplierId: 'supplierId',
+  totalAmount: 'totalAmount',
+  totalItem: 'totalItem',
+  top: 'top',
+  orderDate: 'orderDate',
+  deliveryDate: 'deliveryDate',
+  status: 'status',
+  remarks: 'remarks',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedBy: 'updatedBy',
+  updatedAt: 'updatedAt',
+  deletedBy: 'deletedBy',
+  deletedAt: 'deletedAt'
+};
+
+exports.Prisma.PurchaseOrderDetailScalarFieldEnum = {
+  id: 'id',
+  uid: 'uid',
+  purchaseOrderId: 'purchaseOrderId',
+  productId: 'productId',
+  amount: 'amount',
+  quantity: 'quantity',
+  unitPrice: 'unitPrice',
   status: 'status',
   createdBy: 'createdBy',
   createdAt: 'createdAt',
@@ -218,7 +305,12 @@ exports.Prisma.ModelName = {
   Role: 'Role',
   MasterMenu: 'MasterMenu',
   SubMenu: 'SubMenu',
-  RoleMenuAccess: 'RoleMenuAccess'
+  RoleMenuAccess: 'RoleMenuAccess',
+  Supplier: 'Supplier',
+  Product: 'Product',
+  ProductAlias: 'ProductAlias',
+  PurchaseOrder: 'PurchaseOrder',
+  PurchaseOrderDetail: 'PurchaseOrderDetail'
 };
 
 /**

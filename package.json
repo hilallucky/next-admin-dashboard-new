@@ -9,9 +9,13 @@
         "start": "next start",
         "lint": "next lint",
         "lint:fix": "next lint --fix",
-        "prisma": "prisma generate",
-        "prisma:migrate": "npx prisma migrate dev",
-        "prisma:merge-schemas": "node prisma/merge-schemas.js"
+        "prisma:cat":"cd prisma/schemas && cat *.prisma >> ../schema.prisma",
+        "prisma:format": "prisma format",
+        "prisma:reset": "prisma migrate reset",
+        "prisma:generate": "prisma generate",
+        "prisma:migrate": "prisma migrate dev --name ${npm_config_name}",
+        "prisma:merge-schemas": "node prisma/merge-schemas.js",
+        "test:param": "echo \"The value of --foo is '${npm_config_foo}'\""
     },
     "dependencies": {
         "@auth/prisma-adapter": "^2.1.0",

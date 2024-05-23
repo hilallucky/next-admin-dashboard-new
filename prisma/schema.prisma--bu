@@ -1,0 +1,156 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+    provider = "prisma-client-js"
+    output   = "./generated/client"
+}
+
+datasource db {
+    provider = "mysql"
+    url      = env("MYSQL_DATABASE_URL")
+}
+
+// model User {
+//     id            Int       @id @default(autoincrement())
+//     uid           String    @unique @default(cuid())
+//     roleId        Int
+//     username      String
+//     email         String    @unique
+//     password      String
+//     firstName     String
+//     lastName      String?
+//     token         String?   @unique
+//     refreshToken  String?   @unique
+//     status        Int       @default(0)
+//     latestLoginAt DateTime?
+//     createdAt     DateTime  @default(now())
+//     updatedAt     DateTime? @updatedAt
+//     deletedAt     DateTime?
+
+//     role  Role   @relation(fields: [roleId], references: [id])
+//     roles Role[] @relation("RoleUsers")
+
+//     createdRoles Role[] @relation("RoleCreatedBy")
+//     updatedRoles Role[] @relation("RoleUpdatedBy")
+//     deletedRoles Role[] @relation("RoleDeletedBy")
+
+//     createdMenus MasterMenu[] @relation("MasterMenuCreatedBy")
+//     updatedMenus MasterMenu[] @relation("MasterMenuUpdatedBy")
+//     deletedMenus MasterMenu[] @relation("MasterMenuDeletedBy")
+
+//     createdSubMenus SubMenu[] @relation("SubMenuCreatedBy")
+//     updatedSubMenus SubMenu[] @relation("SubMenuUpdatedBy")
+//     deletedSubMenus SubMenu[] @relation("SubMenuDeletedBy")
+
+//     createdAccesses RoleMenuAccess[] @relation("RoleMenuAccessCreatedBy")
+//     updatedAccesses RoleMenuAccess[] @relation("RoleMenuAccessUpdatedBy")
+//     deletedAccesses RoleMenuAccess[] @relation("RoleMenuAccessDeletedBy")
+
+//     @@map("users")
+// }
+
+// model Role {
+//     id          Int       @id @default(autoincrement())
+//     uid         String    @unique @default(cuid())
+//     name        String
+//     description String?
+//     status      Int       @default(0)
+//     createdBy   Int?
+//     createdAt   DateTime  @default(now())
+//     updatedBy   Int?
+//     updatedAt   DateTime? @updatedAt
+//     deletedBy   Int?
+//     deletedAt   DateTime?
+
+//     users User[] @relation("RoleUsers")
+
+//     createdByUser  User?            @relation("RoleCreatedBy", fields: [createdBy], references: [id])
+//     updatedByUser  User?            @relation("RoleUpdatedBy", fields: [updatedBy], references: [id])
+//     deletedByUser  User?            @relation("RoleDeletedBy", fields: [deletedBy], references: [id])
+//     User           User[]
+//     RoleMenuAccess RoleMenuAccess[]
+
+//     @@map("roles")
+// }
+
+// model MasterMenu {
+//     id          Int       @id @default(autoincrement())
+//     uid         String    @unique @default(cuid())
+//     name        String
+//     description String?
+//     url         String?
+//     icon        String?
+//     order       Int       @default(1)
+//     status      Int       @default(0)
+//     createdBy   Int?
+//     createdAt   DateTime  @default(now())
+//     updatedBy   Int?
+//     updatedAt   DateTime? @updatedAt
+//     deletedBy   Int?
+//     deletedAt   DateTime?
+
+//     subMenus SubMenu[]
+
+//     createdByUser User? @relation("MasterMenuCreatedBy", fields: [createdBy], references: [id])
+//     updatedByUser User? @relation("MasterMenuUpdatedBy", fields: [updatedBy], references: [id])
+//     deletedByUser User? @relation("MasterMenuDeletedBy", fields: [deletedBy], references: [id])
+// }
+
+// model SubMenu {
+//     id           Int       @id @default(autoincrement())
+//     uid          String    @unique @default(cuid())
+//     masterMenuId Int
+//     name         String
+//     description  String?
+//     url          String?
+//     icon         String?
+//     order        Int       @default(1)
+//     status       Int       @default(0)
+//     createdBy    Int?
+//     createdAt    DateTime  @default(now())
+//     updatedBy    Int?
+//     updatedAt    DateTime? @updatedAt
+//     deletedBy    Int?
+//     deletedAt    DateTime?
+
+//     masterMenu MasterMenu @relation(fields: [masterMenuId], references: [id])
+
+//     createdByUser  User?            @relation("SubMenuCreatedBy", fields: [createdBy], references: [id])
+//     updatedByUser  User?            @relation("SubMenuUpdatedBy", fields: [updatedBy], references: [id])
+//     deletedByUser  User?            @relation("SubMenuDeletedBy", fields: [deletedBy], references: [id])
+//     RoleMenuAccess RoleMenuAccess[]
+
+//     @@map("sub_menus")
+// }
+
+// model RoleMenuAccess {
+//     id          Int       @id @default(autoincrement())
+//     uid         String    @unique @default(cuid())
+//     name        String
+//     description String?
+//     roleId      Int
+//     submenuId   Int
+//     status      Int       @default(0)
+//     createdBy   Int?
+//     createdAt   DateTime  @default(now())
+//     updatedBy   Int?
+//     updatedAt   DateTime? @updatedAt
+//     deletedBy   Int?
+//     deletedAt   DateTime?
+
+//     role Role @relation(fields: [roleId], references: [id])
+
+//     subMenu SubMenu @relation(fields: [submenuId], references: [id])
+
+//     createdByUser User? @relation("RoleMenuAccessCreatedBy", fields: [createdBy], references: [id])
+//     updatedByUser User? @relation("RoleMenuAccessUpdatedBy", fields: [updatedBy], references: [id])
+//     deletedByUser User? @relation("RoleMenuAccessDeletedBy", fields: [deletedBy], references: [id])
+
+//     @@map("role_menu_accesses")
+// }
+
+
