@@ -32,9 +32,10 @@
       "@libs/*": ["src/libs/*"],
       "@middleware/*": ["src/middleware/*"],
       "@pages/*": ["src/pages/*"],
-      "@css/*": ["src/css/*"]
+      "@css/*": ["src/css/*"],
+      "@prisma_/*": ["prisma/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/ui/Layout.tsx", "middleware.ts", "prisma/merge-schemas.js-bu"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/ui/Layout.tsx", "middleware.ts", "prisma/merge-schemas.js-bu", "prisma/seeders/seed.js"],
   "exclude": ["node_modules"]
 }

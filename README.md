@@ -59,7 +59,7 @@ npx prisma migrate dev --name init
 npx prisma generate
 ```
 
-2ns way:
+2nd way:
 ```bash
 cd prisma\schemas
 cat *.prisma >> ../schema.prisma
@@ -70,3 +70,17 @@ npx prisma migrate dev --name [migration_name]
 npm run prisma:migrate --name=[name]
 ```
 
+## Seeder
+Create folder seeders
+Create file seed.ts
+npm i -D tsx
+add in package.json
+```bash
+    "prisma": {
+        "seed": "tsx ./prisma/seeders/seed.ts"
+    },
+```
+run 
+```bash 
+npx prisma db seed 
+```
