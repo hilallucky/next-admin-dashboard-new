@@ -1,47 +1,47 @@
-import { BRAND } from "@/types/brand";
-import Image from "next/image";
-import nextConfig from "@/../next.config";
+import { BRAND } from '@/types/brand';
+import Image from 'next/image';
+import nextConfig from '@/../next.config';
 
 const imagePath = `${nextConfig.basePath}/images/brand/`;
 
 const brandData: BRAND[] = [
   {
     logo: `${imagePath}/brand-01.svg`,
-    name: "Google",
+    name: 'Google',
     visitors: 3.5,
-    revenues: "5,768",
+    revenues: '5,768',
     sales: 590,
     conversion: 4.8,
   },
   {
     logo: `${imagePath}/brand-02.svg`,
-    name: "Twitter",
+    name: 'Twitter',
     visitors: 2.2,
-    revenues: "4,635",
+    revenues: '4,635',
     sales: 467,
     conversion: 4.3,
   },
   {
     logo: `${imagePath}/brand-03.svg`,
-    name: "Github",
+    name: 'Github',
     visitors: 2.1,
-    revenues: "4,290",
+    revenues: '4,290',
     sales: 420,
     conversion: 3.7,
   },
   {
     logo: `${imagePath}/brand-04.svg`,
-    name: "Vimeo",
+    name: 'Vimeo',
     visitors: 1.5,
-    revenues: "3,580",
+    revenues: '3,580',
     sales: 389,
     conversion: 2.5,
   },
   {
     logo: `${imagePath}/brand-05.svg`,
-    name: "Facebook",
+    name: 'Facebook',
     visitors: 3.5,
-    revenues: "6,768",
+    revenues: '6,768',
     sales: 390,
     conversion: 4.2,
   },
@@ -85,10 +85,10 @@ const TableOne = () => {
 
         {brandData.map((brand, key) => (
           <div
-            className={`grid grid-cols-3 sm:grid-cols-5 ${
+            className={`grid grid-cols-3 sm:grid-cols-5 hover:bg-gray-3 dark:hover:bg-meta-4 ${
               key === brandData.length - 1
-                ? ""
-                : "border-b border-stroke dark:border-strokedark"
+                ? ''
+                : 'border-b border-stroke dark:border-strokedark'
             }`}
             key={key}
           >

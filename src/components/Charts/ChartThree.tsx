@@ -1,6 +1,13 @@
-import { ApexOptions } from "apexcharts";
-import React, { useState } from "react";
-import ReactApexChart from "react-apexcharts";
+'use client';
+
+import { ApexOptions } from 'apexcharts';
+import React, { useState } from 'react';
+import dynamic from 'next/dynamic';
+// import ReactApexChart from 'react-apexcharts';
+
+const ReactApexChart = dynamic(() => import('react-apexcharts'), {
+  ssr: false,
+});
 
 interface ChartThreeState {
   series: number[];
@@ -8,21 +15,21 @@ interface ChartThreeState {
 
 const options: ApexOptions = {
   chart: {
-    fontFamily: "Satoshi, sans-serif",
-    type: "donut",
+    fontFamily: 'Satoshi, sans-serif',
+    type: 'donut',
   },
-  colors: ["#3C50E0", "#6577F3", "#8FD0EF", "#0FADCF"],
-  labels: ["Desktop", "Tablet", "Mobile", "Unknown"],
+  colors: ['#3C50E0', '#6577F3', '#8FD0EF', '#0FADCF'],
+  labels: ['Desktop', 'Tablet', 'Mobile', 'Unknown'],
   legend: {
     show: false,
-    position: "bottom",
+    position: 'bottom',
   },
 
   plotOptions: {
     pie: {
       donut: {
-        size: "65%",
-        background: "transparent",
+        size: '65%',
+        background: 'transparent',
       },
     },
   },
