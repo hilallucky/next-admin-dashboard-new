@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, ReactNode } from 'react';
-import Sidebar from '@/ui/Layouts/Sidebar';
+import Sidebar from '@ui/Layouts/Sidebar';
 import Header from '@ui/Layouts/Header';
 
 export default function DefaultLayout({
@@ -24,7 +24,7 @@ export default function DefaultLayout({
           {/* <!-- ===== Header End ===== --> */}
 
           {/* <!-- ===== Main Content Start ===== --> */}
-          <main>
+          <main className='dark:bg-boxdark-2 dark:text-bodydark'>
             <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
               {children}
             </div>

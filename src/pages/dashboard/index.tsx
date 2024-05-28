@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import DefaultLayout from '@/components/Layouts/DefaultLayout';
+import DefaultLayout from '@/ui/Layouts/DefaultLayout';
 import ECommerce from '@/ui/ECommerce/E-commerce';
 
 export const metadata: Metadata = {
