@@ -7,7 +7,7 @@ import { Metadata } from 'next';
 import nextConfig from '@/../next.config';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { signIn } from 'next-auth/react';
-import TextField from '@/components/input/TextField/TextField';
+import TextField from '@components/Input/TextField/TextField';
 
 export const metadata: Metadata = {
   title: 'Next.js SignIn Page | TailAdmin - Next.js Dashboard Template',

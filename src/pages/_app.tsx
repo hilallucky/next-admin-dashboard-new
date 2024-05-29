@@ -1,9 +1,9 @@
-// // import "@/styles/globals.css";
+// import "@/styles/globals.css";
 
-// // import "jsvectormap/dist/css/jsvectormap.css";
-// // import "flatpickr/dist/flatpickr.min.css";
-// import '@css/satoshi.css';
-// import '@css/style.css';
+import "jsvectormap/dist/css/jsvectormap.css";
+import "flatpickr/dist/flatpickr.min.css";
+import '@css/satoshi.css';
+import '@css/style.css';
 // import { SessionProvider } from 'next-auth/react';
 // import type { AppProps } from 'next/app';
 
@@ -19,8 +19,6 @@
 // }
 
 
-import '@css/satoshi.css';
-import '@css/style.css';
 import { SessionProvider } from 'next-auth/react';
 import React, { useEffect, useState } from 'react';
 import Loader from '@components/Common/Loader';
