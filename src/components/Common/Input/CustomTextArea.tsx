@@ -30,21 +30,31 @@ const CustomTextArea = ({
     status,
     ...props
 }: Props) => {
+    const textareaClassName = disabled
+        ? Statuses.disable
+        : status === 'active'
+            ? Statuses.active
+            : Statuses.default;
+
     return (
         <div>
             {/* <!-- Textarea Fields --> */}
-            <div className="flex flex-col gap-5.5 p-6.5">
+            <div className="flex flex-col gap-5.5 pt-3">
                 <div>
                     <label htmlFor={name} className="mb-3 block text-sm font-medium text-black dark:text-white">
                         {label}
                     </label>
                     <textarea
+                        name={name}
                         rows={6}
+                        required={required}
                         placeholder={placeholder}
                         disabled={disabled}
-                        value={data || ''}
-                        className={disabled ? Statuses.disable : status === 'active' ? Statuses.active : Statuses.default}
+                        // value={data || ''}
+                        className={textareaClassName}
+                        {...props}
                     ></textarea>
+                    {error && <p className="mt-1 text-xs text-red-500">{error}</p>}
                 </div>
             </div>
         </div >

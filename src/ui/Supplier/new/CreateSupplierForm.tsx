@@ -21,211 +21,263 @@ import React, { useState } from 'react'
 import { Form } from 'react-final-form';
 import { CreateSupplierValidation } from './CreateSupplierValidation';
 import ErrorAlerts from '@/components/Alerts/ErrorAlerts';
+import axios from 'axios';
 import { useRouter } from 'next/router';
 
 const CreateSupplierForm = () => {
-    const formDefaultValues = {
-        showAtCreateSupplierFormPage: true,
-        createSupplierFormBehaviour: '0',
-        isActive: true,
-        name: null,
-        address: null,
-        officePhone: null,
-        contactPerson: null,
-        mobilePhone: null,
-        status: null,
-        createdBy: null,
-        updatedBy: null,
-    };
+    const [showToast, setShowToast] = useState(false);
+    const [toastMessage, setToastMessage] = useState('');
+    const [toastType, setToastType] = useState('');
+    const [toast, setToast] = useState({ type: '', title: '', message: '' });
 
     const [error, setError] = useState('');
-    const router = useRouter();
-    const [showReview, setShowReview] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [formValues, setFormValues] = useState(formDefaultValues);
-    // const [selectedProductId, setSelectedProductId] = useState('');
-    // const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+    const [formValues, setFormValues] = useState({
+        name: '',
+        address: '',
+        officePhone: '',
+        contactPerson: '',
+        mobilePhone: '',
+        status: 0,
+        createdBy: 1,
+        updatedBy: 1,
+    });
 
-    const onSubmit = async (values: any) => {
-        setFormValues({ ...formValues, ...values });
-        setShowReview(true);
+
+    const handleChange = (event: any) => {
+        const { attributes, name, value } = event.target;
+        setFormValues({ ...formValues, [name]: value });
+
+        if (value === '') {
+            setError(`${attributes.alias.value} is required`); // Set the custom error message
+        } else {
+            setError(''); // Clear the error message if the field is not empty
+        }
     };
 
-    const handleSubmit = async () => {
-        setIsLoading(true);
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
 
-        const {
-            name,
-            address,
-            officePhone,
-            contactPerson,
-            mobilePhone,
-            status,
-            createdBy,
-            updatedBy, } = formValues;
+        try {
+            const response = await axios.post('/api/v1/suppliers', formValues);
 
-        const playload = {
-            name,
-            address:name,
-            officePhone:name,
-            contactPerson:name,
-            mobilePhone:name,
-            status:0,
-            createdBy:1,
-            updatedBy:1,
-        };
-
-        const response = await fetch(router.basePath + '/api/v1/suppliers', {
-            method: 'POST',
-            headers: {
-                // countryCode: countryCode,
-                // Authorization: `Bearer ${authState?.accessToken?.accessToken}`,
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(playload),
-        });
-
-        if (!response.ok) {
-            const data = await response.json();
-            const message = data.error || 'Something wrong with the server, please try again!';
-
-            setIsLoading(false);
-            // setToastConfig({
-            //     open: true,
-            //     title: 'Error',
-            //     body: `<b>${data.message || 'Something wrong with the server, please try again!'
-            //         }</b>`,
-            //     type: 'error',
-            // });
-            <ErrorAlerts title='Error' message={message} />
-            return;
+            if (response.status === 201) {
+                // setToastMessage('Supplier added successfully!');
+                // setToastType('success');
+                setToast({ type: 'success', title: 'Success', message: 'Supplier added successfully!' });
+                setShowToast(true);;
+            } else {
+                // setToastMessage('Error adding supplier.');
+                // setToastType('error');
+                setToast({ type: 'error', title: 'Error', message: 'Error adding supplier!' });
+                setShowToast(true);
+            }
+        } catch (error) {
+            // setToastMessage('Error adding supplier.');
+            // setToastType('error');
+            setToast({ type: 'error', title: 'Error', message: 'Error adding supplier!' });
+            setShowToast(true);
         }
+    };
 
-        setIsLoading(false);
-        // setToastConfig({
-        //     open: true,
-        //     title: 'Succesful',
-        //     body: '<b>User has been successfuly created!</b>',
-        //     type: 'success',
-        // });
-        const message = response?.message;
 
-        <ErrorAlerts title='Error' message={message} />
-
-        router.push('/user/list');
+    const hideToast = () => {
+        setShowToast(false);
     };
 
     return (
-        <Form
-            validate={CreateSupplierValidation}
-            initialValues={formValues}
-            onSubmit={onSubmit}
-            mutators={{
-                setCustomCampaignCode: (args, state, utils) => {
-                },
-            }}
-            render={({ handleSubmit, errors, touched, values, form, invalid }) => (
-                <form onSubmit={handleSubmit}>
+        <div>
 
-                    <div>CreateForm</div>
+            <form onSubmit={handleSubmit}>
 
-                    <Breadcrumb pageName="CreateSupplierForm" />
+                <Breadcrumb pageName="Create Supplier" pageLink="CreateSupplierForm" />
 
-                    <div className="grid grid-cols-1 gap-9 sm:grid-cols-2">
-                        <div className="flex flex-col gap-9">
-                            {/* <!-- Input Fields --> */}
-                            <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-                                <div className="border-b border-stroke px-6.5 py-4 dark:border-strokedark">
-                                    <h3 className="font-medium text-black dark:text-white">
-                                        Input Fields
-                                    </h3>
+                <div className="grid-cols-2 gap-9 sm:grid-cols-2">
+                    <div className="flex flex-col gap-9">
+                        {/* <!-- Input Fields --> */}
+                        <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+                            <div className="border-b border-stroke px-6.5 py-4 dark:border-strokedark">
+                                <h3 className="font-medium text-black dark:text-white">
+                                    Input Data Supplier
+                                </h3>
+                            </div>
+                            <div className="flex flex-col gap-5.5 p-6.5">
+                                <div>
+                                    <TextField
+                                        type="text"
+                                        name="name"
+                                        alias="Name"
+                                        label="Name"
+                                        required={true}
+                                        // error={error}
+                                        value={formValues.name}
+                                        onChange={handleChange}
+                                        icon={
+                                            <svg
+                                                className="fill-current"
+                                                width="22"
+                                                height="22"
+                                                viewBox="0 0 22 22"
+                                                fill="none"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                                <path
+                                                    d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"
+                                                    fill=""
+                                                />
+                                                <circle cx="12" cy="7" r="4" />
+                                            </svg>
+                                        }
+                                        placeholder="Supplier name"
+                                    />
+
+                                    <CustomTextArea
+                                        name="address"
+                                        label="Supplier address"
+                                        alias="Supplier address"
+                                        placeholder="Supplier address"
+                                        required={true}
+                                        disabled={false}
+                                        // error={error}
+                                        value={formValues.address}
+                                        onChange={handleChange}
+                                        icon={
+                                            <svg
+                                                className="fill-current"
+                                                width="22"
+                                                height="22"
+                                                viewBox="0 0 22 22"
+                                                fill="none"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                                <path
+                                                    d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
+                                                    fill=""
+                                                />
+                                                <circle cx="12" cy="7" r="4" />
+                                            </svg>
+                                        }
+                                        status="default"
+                                    />
+
+                                    <TextField
+                                        type="text"
+                                        name="officePhone"
+                                        alias="Office Phone"
+                                        label="Office Phone"
+                                        required={true}
+                                        // error={error}
+                                        value={formValues.officePhone}
+                                        onChange={handleChange}
+                                        icon={
+                                            <svg
+                                                className="fill-current"
+                                                width="22"
+                                                height="22"
+                                                viewBox="0 0 22 22"
+                                                fill="none"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                                <path
+                                                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+                                                    fill=""
+                                                />
+                                            </svg>
+                                        }
+                                        placeholder="Supplier office phone"
+                                    />
+
+                                    <TextField
+                                        type="text"
+                                        name="contactPerson"
+                                        alias="Contact Person"
+                                        label="Contact Person"
+                                        required={true}
+                                        // error={error}
+                                        value={formValues.contactPerson}
+                                        onChange={handleChange}
+                                        icon={
+                                            <svg
+                                                className="fill-current"
+                                                width="22"
+                                                height="22"
+                                                viewBox="0 0 22 22"
+                                                fill="none"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                                <path
+                                                    d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"
+                                                    fill=""
+                                                />
+                                                <circle cx="12" cy="7" r="4" />
+                                            </svg>
+                                        }
+                                        placeholder="Supplier contact person"
+                                    />
+
+                                    <TextField
+                                        type="text"
+                                        name="mobilePhone"
+                                        alias="Mobile Phone"
+                                        label="Mobile Phone"
+                                        required={true}
+                                        // error={error}
+                                        value={formValues.mobilePhone}
+                                        onChange={handleChange}
+                                        icon={
+                                            <svg
+                                                className="fill-current"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="22"
+                                                height="22"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="#1d2a39"
+                                                stroke-width="1.5"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="arcs">
+                                                <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
+                                                <line x1="12" y1="18" x2="12.01" y2="18" />
+                                            </svg>
+                                        }
+                                        placeholder="Supplier mobile phone"
+                                    />
                                 </div>
-                                <div className="flex flex-col gap-5.5 p-6.5">
-                                    <div>
-                                        <TextField
-                                            type="text"
-                                            name="name"
-                                            label="name"
-                                            required={true}
-                                            //   error={error}
-                                            icon={
-                                                <svg
-                                                    className="fill-current"
-                                                    width="22"
-                                                    height="22"
-                                                    viewBox="0 0 22 22"
-                                                    fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                >
-                                                    <path
-                                                        d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"
-                                                        fill=""
-                                                    />
-                                                    <circle cx="12" cy="7" r="4" />
-                                                </svg>
-                                            }
-                                            placeholder="Enter supplier name"
-                                        // onChange={(e) => setEmail(e.target.value)}
-                                        />
-                                    </div>
-                                    {/* <div>
-                                <label className="mb-3 block text-sm font-medium text-black dark:text-white">
-                                    Default Input
-                                </label>
-                                <input
-                                    type="text"
-                                    placeholder="Default Input"
-                                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                                />
+
                             </div>
-
-                            <div>
-                                <label className="mb-3 block text-sm font-medium text-black dark:text-white">
-                                    Active Input
-                                </label>
-                                <input
-                                    type="text"
-                                    placeholder="Active Input"
-                                    className="w-full rounded-lg border-[1.5px] border-primary bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white"
-                                />
-                            </div>
-
-                            <div>
-                                <label className="mb-3 block text-sm font-medium text-black dark:text-white">
-                                    Disabled label
-                                </label>
-                                <input
-                                    type="text"
-                                    placeholder="Disabled label"
-                                    disabled
-                                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary dark:disabled:bg-black"
-                                />
-                            </div> */}
-                                </div>
-                            </div>
-
-
-                            {error && (
-                                <div className="flex w-full text-red justify-center items-center">
-                                    {error}
-                                </div>
-                            )}
-
-                            <div className="mb-5">
-                                <input
-                                    type="submit"
-                                    value="Submit"
-                                    className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
-                                />
-                            </div>
-
-
                         </div>
-                    </div>
-                </form>
-            )}
-        />
-    );
-}
 
-export default CreateSupplierForm
+
+                        {error && (
+                            <div className="flex w-full text-red justify-center items-center">
+                                {error}
+                            </div>
+                        )}
+
+                        <div className="mb-5">
+                            <input
+                                type="submit"
+                                value="Submit"
+                                className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
+                            />
+                        </div>
+
+                        {showToast && (
+                            <div
+                                className="text-white  cursor-pointer"
+                                onClick={hideToast}
+                            >
+                                <ErrorAlerts type={toast.type} title={toast.title} message={toast.message} showToast={showToast} />
+
+                            </div>
+                        )}
+
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    );
+};
+
+export default CreateSupplierForm;

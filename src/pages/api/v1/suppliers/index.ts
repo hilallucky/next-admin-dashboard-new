@@ -15,6 +15,8 @@ export default async function handler(
       .status(200)
       .json(Helper.ResponseData(res.statusCode, 'OK', null, suppliers));
   } else if (req.method === 'POST') {
+    // console.log({ 'req.body': req.body });
+
     const {
       name,
       address,
@@ -25,6 +27,8 @@ export default async function handler(
       createdBy,
       updatedBy,
     } = req.body;
+
+    // const { name, address, phone } = req.body;
 
     const uid = uuid();
 
