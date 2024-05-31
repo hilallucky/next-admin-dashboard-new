@@ -40,7 +40,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
         };
         document.addEventListener("click", clickHandler);
         return () => document.removeEventListener("click", clickHandler);
-    });
+    }, []);
 
     // close if the esc key is pressed
     useEffect(() => {
@@ -50,7 +50,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
         };
         document.addEventListener("keydown", keyHandler);
         return () => document.removeEventListener("keydown", keyHandler);
-    });
+    }, []);
 
     useEffect(() => {
         localStorage.setItem("sidebar-expanded", sidebarExpanded.toString());

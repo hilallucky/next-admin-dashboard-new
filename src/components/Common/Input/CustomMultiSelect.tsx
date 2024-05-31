@@ -108,7 +108,7 @@ const CustomMultiSelect = <DataType,>({
         };
         document.addEventListener("click", clickHandler);
         return () => document.removeEventListener("click", clickHandler);
-    });
+    }, []);
 
     return (
         <div className='flex flex-col gap-5.5 p-6.5'>

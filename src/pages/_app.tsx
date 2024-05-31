@@ -24,7 +24,7 @@ import React, { useEffect, useState } from 'react';
 import Loader from '@components/Common/Loader';
 import type { AppProps } from 'next/app';
 
-export default function MyApp({
+export default function App({
     Component,
     pageProps: { session, ...pageProps }
 }: AppProps) {
