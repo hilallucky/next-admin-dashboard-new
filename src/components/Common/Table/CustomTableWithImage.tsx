@@ -1,30 +1,30 @@
-import Image from "next/image";
+import Image from 'next/image';
 
 interface TableProps<DataType extends { name: string }> {
-    id: string;
-    label: string;
-    items: Array<DataType>;
-    // labelExtractor: (item: DataType) => string;
-    // valueExtractor: (item: DataType) => string;
+  id: string;
+  label: string;
+  items: Array<DataType>;
+  // labelExtractor: (item: DataType) => string;
+  // valueExtractor: (item: DataType) => string;
 }
 
-const CustomTableWithImage = <DataType extends { name: string },>({
-    id,
-    label,
-    items,
-    // labelExtractor,
-    // valueExtractor,
-    ...props
+const CustomTableWithImage = <DataType extends { name: string }>({
+  id,
+  label,
+  items,
+  // labelExtractor,
+  // valueExtractor,
+  ...props
 }: TableProps<DataType>) => {
-    return (
-        <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-            <div className="px-4 py-6 md:px-6 xl:px-7.5">
-                <h4 className="text-xl font-semibold text-black dark:text-white">
-                    {label.toUpperCase()}
-                </h4>
-            </div>
+  return (
+    <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+      <div className="px-4 py-6 md:px-6 xl:px-7.5">
+        <h4 className="text-xl font-semibold text-black dark:text-white">
+          {label.toUpperCase()}
+        </h4>
+      </div>
 
-            {/* <div className="grid grid-cols-6 border-t bborderorder-stroke px-4 py-4.5 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5">
+      {/* <div className="grid grid-cols-6 border-t bborderorder-stroke px-4 py-4.5 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5">
                 {items.map((item, index) => {
                     // const itemLabel = labelExtractor(item);
                     // const itemValue = valueExtractor(item);
@@ -45,7 +45,7 @@ const CustomTableWithImage = <DataType extends { name: string },>({
 
             </div> */}
 
-            {/* {productData.map((product, key) => (
+      {/* {productData.map((product, key) => (
                 <div
                     className="grid grid-cols-6 border-t border-stroke px-4 py-4.5 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5"
                     key={key}
@@ -83,8 +83,8 @@ const CustomTableWithImage = <DataType extends { name: string },>({
                     </div>
                 </div>
             ))} */}
-        </div>
-    );
+    </div>
+  );
 };
 
 export default CustomTableWithImage;

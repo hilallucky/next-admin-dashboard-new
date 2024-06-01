@@ -11,9 +11,13 @@ interface SupplierContextProps {
   setSupplier: (supplier: Supplier) => void;
 }
 
-const SupplierContext = createContext<SupplierContextProps | undefined>(undefined);
+const SupplierContext = createContext<SupplierContextProps | undefined>(
+  undefined,
+);
 
-export const SupplierProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const SupplierProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const [supplier, setSupplier] = useState<Supplier | null>(null);
   return (
     <SupplierContext.Provider value={{ supplier, setSupplier }}>
@@ -29,7 +33,6 @@ export const useSupplier = () => {
   }
   return context;
 };
-
 
 // // context/SupplierContext.tsx
 // import React from 'react';

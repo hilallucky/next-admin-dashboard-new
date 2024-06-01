@@ -4,7 +4,7 @@ const ResponseData = (
   error: any | null,
   data: unknown,
 ): unknown => {
-  let messageValue: string | null = message,
+  const messageValue: string | null = message,
     dataValue: unknown = data;
 
   if (error || error instanceof Error) {

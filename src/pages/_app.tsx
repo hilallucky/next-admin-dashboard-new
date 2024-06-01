@@ -1,7 +1,7 @@
 // import "@/styles/globals.css";
 
-import "jsvectormap/dist/css/jsvectormap.css";
-import "flatpickr/dist/flatpickr.min.css";
+import 'jsvectormap/dist/css/jsvectormap.css';
+import 'flatpickr/dist/flatpickr.min.css';
 import '@css/satoshi.css';
 import '@css/style.css';
 // import { SessionProvider } from 'next-auth/react';
@@ -18,28 +18,30 @@ import '@css/style.css';
 //   );
 // }
 
-
 import { SessionProvider } from 'next-auth/react';
 import React, { useEffect, useState } from 'react';
 import Loader from '@components/Common/Loader';
 import type { AppProps } from 'next/app';
 
 export default function App({
-    Component,
-    pageProps: { session, ...pageProps }
+  Component,
+  pageProps: { session, ...pageProps },
 }: AppProps) {
-    const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(true);
 
-    useEffect(() => {
-        setTimeout(() => setLoading(false), 1000);
-    }, []);
+  useEffect(() => {
+    setTimeout(() => setLoading(false), 1000);
+  }, []);
 
-    return (
-        <>
-            {loading ? <Loader /> :
-                <SessionProvider session={session}>
-                    <Component {...pageProps} />
-                </SessionProvider>}
-        </>
-    );
+  return (
+    <>
+      {loading ? (
+        <Loader />
+      ) : (
+        <SessionProvider session={session}>
+          <Component {...pageProps} />
+        </SessionProvider>
+      )}
+    </>
+  );
 }

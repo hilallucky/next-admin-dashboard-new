@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from 'next/link';
 interface BreadcrumbProps {
   pageName: string;
   pageLink: string;
@@ -17,7 +17,7 @@ const Breadcrumb = ({ pageName, pageLink }: BreadcrumbProps) => {
               Dashboard /
             </Link>
           </li>
-          <li className="font-medium text-primary">{pageLink??pageName}</li>
+          <li className="font-medium text-primary">{pageLink ?? pageName}</li>
         </ol>
       </nav>
     </div>

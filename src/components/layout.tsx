@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
 // import "jsvectormap/dist/css/jsvectormap.css";
-import React, { useEffect, useState } from "react";
-import Loader from "@components/Common/Loader";
+import React, { useEffect, useState } from 'react';
+import Loader from '@components/Common/Loader';
 
 export default function RootLayout({
   children,

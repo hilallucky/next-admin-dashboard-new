@@ -15,7 +15,10 @@ const AddSupplier: React.FC = () => {
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Add New Supplier</h1>
-      <SupplierForm initialData={{ name, email, phone }} onFormSubmit={handleFormSubmit} />
+      <SupplierForm
+        initialData={{ name, email, phone }}
+        onFormSubmit={handleFormSubmit}
+      />
     </div>
   );
 };

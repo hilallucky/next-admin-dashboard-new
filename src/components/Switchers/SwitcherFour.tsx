@@ -1,31 +1,60 @@
-import { useState } from "react";
+import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useState } from 'react';
 
-const SwitcherFour = () => {
-  const [enabled, setEnabled] = useState<boolean>(false);
+interface Props<T> {
+  name: string;
+  defaultValue?: boolean;
+  label?: string | null;
+  error?: string | null;
+}
+
+const SwitcherFour = <T,>({
+  name,
+  defaultValue,
+  label,
+  error,
+  ...props
+}: Props<T>) => {
+  const [enabled, setEnabled] = useState<boolean>(defaultValue);
 
   return (
-    <div>
-      <label
-        htmlFor="toggle4"
-        className="flex cursor-pointer select-none items-center"
-      >
-        <div className="relative">
-          <input
-            type="checkbox"
-            id="toggle4"
-            className="sr-only"
-            onChange={() => {
-              setEnabled(!enabled);
-            }}
-          />
-          <div className="block h-8 w-14 rounded-full bg-black"></div>
-          <div
-            className={`absolute left-1 top-1 flex h-6 w-6 items-center justify-center rounded-full bg-white transition ${
-              enabled && "!right-1 !translate-x-full"
-            }`}
-          ></div>
-        </div>
-      </label>
+    <div
+      className={`pt-4 flex items-center mb-2.5 font-medium text-black dark:text-white ${error ? 'text-error' : ''}`}
+    >
+      <div className="mr-3">
+        <label>{label}</label>
+      </div>
+      <div>
+        <label htmlFor={name}>
+          <div className="relative cursor-pointer select-none">
+            <input
+              type="checkbox"
+              id={name}
+              name={name}
+              checked={!defaultValue && false}
+              className="sr-only "
+              onChange={() => {
+                setEnabled(!enabled);
+              }}
+              onClick={props?.onClick}
+            />
+            <div
+              className={`block h-7 w-18 rounded-full border-1 ${enabled ? 'bg-primary' : 'bg-stroke dark:bg-stroke'}`}
+            ></div>
+            <div
+              className={`absolute top-0.5 flex h-6 w-6 items-center justify-center rounded-full transition-transform ${
+                enabled ? 'right-6.5 transform translate-x-full' : 'left-1'
+              } ${enabled ? 'bg-green-500' : 'bg-red'}`}
+            >
+              <FontAwesomeIcon
+                icon={enabled ? faCheck : faTimes}
+                className="text-white"
+              />
+            </div>
+          </div>
+        </label>
+      </div>
     </div>
   );
 };
