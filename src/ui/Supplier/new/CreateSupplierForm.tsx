@@ -1,14 +1,19 @@
 import Breadcrumb from '@/components/Breadcrumbs/Breadcrumb';
 import CustomTextArea from '@/components/Common/Input/CustomTextArea';
 import TextField from '@/components/Input/Text/Text';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { CreateSupplierValidation } from './CreateSupplierValidation';
 import ErrorAlerts from '@/components/Alerts/ErrorAlerts';
 import SwitcherFour from '@/components/Switchers/SwitcherFour';
 import SupplierReview from './SupplierReview';
 import ResetDialog from '@/components/global/ResetDialog/ResetDialog';
+import Toggle from '@/pages/dashboard/supplier/add/Toggle';
+import SelectGroupTwo from '@/components/SelectGroup/SelectOption';
+import Select from '@/components/SelectGroup/SelectOption';
+import SelectOption from '@/components/SelectGroup/SelectOption';
+import { statuses } from '@/constants/common';
 
-const CreateSupplierForm = () => {
+const CreateSupplierForm = ({ previousFormValues }) => {
   const formRef = useRef<HTMLFormElement>(null);
 
   const [showToast, setShowToast] = useState(false);
@@ -28,16 +33,21 @@ const CreateSupplierForm = () => {
     officePhone: '',
     contactPerson: '',
     mobilePhone: '',
-    status: status,
+    status: [],
     createdBy: 1,
     updatedBy: 1,
+    statusx: 'Inactive',
   };
 
   const [formValues, setFormValues] = useState(initialFormValues);
 
+  const [statusData, setStatusData] = useState(statuses);
+
   const handleReset = () => {
     setStatus(1);
-    setFormValues(initialFormValues);
+    // setFormValues({ ...initialFormValues });
+    setFormValues({ ...initialFormValues, status: [] });
+    handleStatusChange();
     if (formRef.current) {
       formRef.current.reset();
     }
@@ -45,11 +55,16 @@ const CreateSupplierForm = () => {
   };
 
   const handleStatusChange = () => {
-    const newStatus = formValues.status === 1 ? 0 : 1;
-    setFormValues((prevValues) => ({
-      ...prevValues,
-      status: newStatus,
-    }));
+    setFormValues({
+      ...formValues,
+    });
+  };
+
+  const handleToggleChange = () => {
+    setFormValues({
+      ...formValues,
+      statusx: formValues.statusx === 'Active' ? 'Inactive' : 'Active',
+    });
   };
 
   const handleChange = (event: any) => {
@@ -237,19 +252,32 @@ const CreateSupplierForm = () => {
                     }
                     placeholder="Supplier mobile phone"
                   />
-
+                  {/* 
                   <SwitcherFour
                     name="status"
                     label="Satus"
-                    defaultValue={formValues.status === 1}
+                    defaultValue={status}
                     onClick={(event: React.ChangeEvent<HTMLInputElement>) => {
-                      setStatus(!formValues.status ? 1 : 0);
                       setFormValues({
                         ...formValues,
                         status: status,
                       });
                     }}
+                  /> */}
+
+                  <SelectOption
+                    name="status"
+                    value={formValues.status}
+                    label="Status"
+                    onChange={handleChange}
+                    options={statusData}
                   />
+                  {/* 
+                  <Toggle
+                    name="Status 2"
+                    value={formValues.statusx}
+                    onChange={handleToggleChange}
+                  /> */}
                 </div>
               </div>
             </div>
@@ -262,7 +290,6 @@ const CreateSupplierForm = () => {
 
             <div className="mb-5 flex gap-20 items-center justify-between">
               <input
-                fullWidth
                 value="Reset"
                 type="button"
                 className="w-[30%] cursor-pointer rounded-lg border border-red bg-red p-4 text-white transition hover:bg-opacity-90"
@@ -290,7 +317,7 @@ const CreateSupplierForm = () => {
           </div>
         </div>
 
-        <ResetDialog
+        {/* <ResetDialog
           header={'Reset New Data Supplier'}
           title={'You will be lost any supplier data, is ot okay?'}
           buttonCancel={'Close'}
@@ -298,7 +325,7 @@ const CreateSupplierForm = () => {
           isOpen={openResetDialog}
           onClose={() => setOpenResetDialog(false)}
           onConfirm={handleReset}
-        />
+        /> */}
       </form>
     </div>
   );

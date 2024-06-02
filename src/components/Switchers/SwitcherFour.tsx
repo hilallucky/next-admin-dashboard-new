@@ -1,6 +1,6 @@
 import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface Props<T> {
   name: string;
@@ -17,6 +17,12 @@ const SwitcherFour = <T,>({
   ...props
 }: Props<T>) => {
   const [enabled, setEnabled] = useState<boolean>(defaultValue);
+  const [isChangeTemp, setIsChangeTemp] = useState<boolean>(false);
+
+  // useEffect(() => {
+  //   setEnabled(defaultValue);
+  // }, [defaultValue]);
+  console.log({ enabled });
 
   return (
     <div

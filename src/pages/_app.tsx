@@ -22,6 +22,7 @@ import { SessionProvider } from 'next-auth/react';
 import React, { useEffect, useState } from 'react';
 import Loader from '@components/Common/Loader';
 import type { AppProps } from 'next/app';
+import { StateProvider } from '@/contexts/stateContext';
 
 export default function App({
   Component,
@@ -39,7 +40,9 @@ export default function App({
         <Loader />
       ) : (
         <SessionProvider session={session}>
-          <Component {...pageProps} />
+          <StateProvider>
+            <Component {...pageProps} />
+          </StateProvider>
         </SessionProvider>
       )}
     </>

@@ -376,6 +376,18 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                               Products Maintenance
                             </Link>
                           </li>
+
+                          <li>
+                            <Link
+                              href="/dashboard/supplier/new"
+                              className={`group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ${
+                                pathname === '/dashboard/supplier/new' &&
+                                'text-white'
+                              }`}
+                            >
+                              Add new supplier
+                            </Link>
+                          </li>
                         </ul>
                       </div>
                       {/* <!-- Dropdown Menu End --> */}

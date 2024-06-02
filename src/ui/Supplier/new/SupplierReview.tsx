@@ -1,3 +1,4 @@
+import { statuses } from '@/constants/common';
 import { useRouter } from 'next/router';
 import React, { Dispatch, SetStateAction } from 'react';
 
@@ -12,7 +13,7 @@ const SupplierReview: React.FC<SupplierReviewProps> = ({
 }) => {
   const router = useRouter();
 
-  const handleEdit = () => {
+  const handleEdit = (e: any) => {
     setShowReview(false);
   };
 
@@ -29,12 +30,10 @@ const SupplierReview: React.FC<SupplierReviewProps> = ({
       router.push('/dashboard/supplier/new2/status?status=success');
     } else {
       router.push('/dashboard/supplier/new2/status?status=error');
-      //   return <Status statusx="success" page="/dashboard/supplier/new;2" />;
     }
   };
   return (
     <div className="shadow-md rounded-lg p-4">
-      {/* {formValues} */}
       <table className="w-full">
         <thead>
           <tr>
@@ -43,12 +42,6 @@ const SupplierReview: React.FC<SupplierReviewProps> = ({
           </tr>
         </thead>
         <tbody>
-          {/* {formValues.map((key, value) => (
-            <tr>
-              <td className="px-4 py-2">{key}</td>
-              <td className="px-4 py-2">{value}</td>
-            </tr>
-          ))} */}
           <tr>
             <td className="px-4 py-2">Name</td>
             <td className="px-4 py-2">{formValues.name}</td>
@@ -71,9 +64,7 @@ const SupplierReview: React.FC<SupplierReviewProps> = ({
           </tr>
           <tr>
             <td className="px-4 py-2">Status</td>
-            <td className="px-4 py-2">
-              {formValues.status === 1 ? 'Active' : 'Inactive'}
-            </td>
+            <td className="px-4 py-2">{statuses[formValues.status].label}</td>
           </tr>
         </tbody>
       </table>

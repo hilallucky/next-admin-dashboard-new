@@ -39,6 +39,7 @@
         "react-apexcharts": "^1.4.1",
         "react-dom": "^18",
         "react-final-form": "^6.5.9",
+        "react-router-dom": "^6.23.1",
         "react-toastify": "^10.0.5",
         "uuidv4": "^6.2.13"
     },
