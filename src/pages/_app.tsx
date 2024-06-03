@@ -40,9 +40,9 @@ export default function App({
         <Loader />
       ) : (
         <SessionProvider session={session}>
-          <StateProvider>
-            <Component {...pageProps} />
-          </StateProvider>
+          {/* <StateProvider> */}
+          <Component {...pageProps} />
+          {/* </StateProvider> */}
         </SessionProvider>
       )}
     </>

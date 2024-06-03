@@ -136,10 +136,19 @@ import { ChangeEvent, useState } from 'react';
 // import Layout from '@/components/Layout';
 import StatusSelect from './StatusSelect';
 import DataTable from './DataTable';
+import Page2 from './page2';
+import DefaultLayout from '@/ui/Layouts/DefaultLayout';
+import TextField from '@/components/Input/Text/Text';
+import CustomTextArea from '@/components/Common/Input/CustomTextArea';
+// import SelectOption from './SelectOption';
+import { statuses } from '@/constants/common';
+import SelectOption from '@/components/SelectGroup/SelectOption';
 
 const Page1 = () => {
   //   const { state, dispatch } = useAppState();
   //   const [statusx, setStatusx] = useState(formValues.statusx);
+  const [statusData, setStatusData] = useState(statuses);
+  const [showPreview, setShowPreview] = useState(false);
   const { formValues, tableData, setFormValues, revertState, addToTable } =
     useAppState();
 
@@ -150,8 +159,21 @@ const Page1 = () => {
   };
 
   const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    setFormValues({ statusx: event.target.value });
+    const optionName = ['status', 'status2'];
+
+    // optionName.includes[event.target.name] &&
+    //   setFormValues({ [event.target.name]: event.target.value });
+    setFormValues({ status: event.target.value });
+    setFormValues({ status2: event.target.value });
   };
+
+  const handlePreview = () => {
+    setShowPreview(true);
+  };
+
+  if (showPreview) {
+    return <Page2 />;
+  }
 
   // Handler for form submission
   const handleSubmit = (event: React.FormEvent) => {
@@ -163,48 +185,158 @@ const Page1 = () => {
     <div>
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Name:</label>
-          <input
+          <TextField
+            type="text"
             name="name"
+            alias="Name"
+            label="Name"
+            required={true}
+            // error={error}
             value={formValues.name}
             onChange={handleInputChange}
+            icon={
+              <svg
+                className="fill-current"
+                width="22"
+                height="22"
+                viewBox="0 0 22 22"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" fill="" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+            }
+            placeholder="Supplier name"
           />
         </div>
         <div>
-          <label>Address:</label>
-          <input
+          <CustomTextArea
             name="address"
+            label="Supplier address"
+            alias="Supplier address"
+            placeholder="Supplier address"
+            required={true}
+            disabled={false}
+            // error={error}
             value={formValues.address}
             onChange={handleInputChange}
+            icon={
+              <svg
+                className="fill-current"
+                width="22"
+                height="22"
+                viewBox="0 0 22 22"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
+                  fill=""
+                />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+            }
+            status="default"
           />
         </div>
         <div>
-          <label>Office Phone:</label>
-          <input
+          <TextField
+            type="text"
             name="officePhone"
+            alias="Office Phone"
+            label="Office Phone"
+            required={true}
+            // error={error}
             value={formValues.officePhone}
             onChange={handleInputChange}
+            icon={
+              <svg
+                className="fill-current"
+                width="22"
+                height="22"
+                viewBox="0 0 22 22"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+                  fill=""
+                />
+              </svg>
+            }
+            placeholder="Supplier office phone"
           />
         </div>
         <div>
-          <label>Contact Person:</label>
-          <input
+          <TextField
+            type="text"
             name="contactPerson"
+            alias="Contact Person"
+            label="Contact Person"
+            required={true}
+            // error={error}
             value={formValues.contactPerson}
             onChange={handleInputChange}
+            icon={
+              <svg
+                className="fill-current"
+                width="22"
+                height="22"
+                viewBox="0 0 22 22"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" fill="" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+            }
+            placeholder="Supplier contact person"
           />
         </div>
         <div>
-          <label>Mobile Phone:</label>
-          <input
+          <TextField
+            type="text"
             name="mobilePhone"
+            alias="Mobile Phone"
+            label="Mobile Phone"
+            required={true}
+            // error={error}
             value={formValues.mobilePhone}
             onChange={handleInputChange}
+            icon={
+              <svg
+                className="fill-current"
+                xmlns="http://www.w3.org/2000/svg"
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#1d2a39"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="arcs"
+              >
+                <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
+                <line x1="12" y1="18" x2="12.01" y2="18" />
+              </svg>
+            }
+            placeholder="Supplier mobile phone"
           />
         </div>
-        <StatusSelect
-          status={formValues.statusx}
+        <SelectOption
+          name="status"
+          value={formValues.status}
+          label="Status"
           onChange={handleSelectChange}
+          options={statusData}
+        />
+        <StatusSelect
+          name="status2"
+          value={formValues.status2}
+          onChange={handleSelectChange}
+          options={statusData}
+          label="Status"
         />
         <div>
           <label>
@@ -219,7 +351,11 @@ const Page1 = () => {
         </div>
       </form>
       {/* <DataTable data={state.tableData} /> */}
-      <Link href="/dashboard/supplier/test/page2">Go to Page 2</Link>
+      {/* <Link href="/dashboard/supplier/test/page2">Go to Page 2</Link> */}
+
+      <button type="button" onClick={handlePreview}>
+        Preview
+      </button>
     </div>
   );
 };

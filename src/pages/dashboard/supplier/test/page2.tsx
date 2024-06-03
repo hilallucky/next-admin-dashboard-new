@@ -1,9 +1,22 @@
 import { useAppState } from '@/contexts/stateContext';
+import DefaultLayout from '@/ui/Layouts/DefaultLayout';
 import Link from 'next/link';
+import { useState } from 'react';
+import Page1 from './page1';
+import { statuses } from '@/constants/common';
 
 const Page2 = () => {
+  const [showPreview, setShowPreview] = useState(false);
   const { formValues, tableData } = useAppState();
 
+  const handleBack = () => {
+    setShowPreview(true);
+    // return <Page1 />;
+  };
+
+  if (showPreview) {
+    return <Page1 />;
+  }
   return (
     <div>
       <h1>Preview Page</h1>
@@ -14,7 +27,8 @@ const Page2 = () => {
         <p>Office Phone: {formValues.officePhone}</p>
         <p>Contact Person: {formValues.contactPerson}</p>
         <p>Mobile Phone: {formValues.mobilePhone}</p>
-        <p>Status: {formValues.statusx}</p>
+        <p>Status: {formValues.status}</p>
+        <p>Status 2: {statuses[formValues.status2].label}</p>
         <p>Agreed: {formValues.agreed ? 'Yes' : 'No'}</p>
       </div>
 
@@ -40,7 +54,8 @@ const Page2 = () => {
                 <td>{row.officePhone}</td>
                 <td>{row.contactPerson}</td>
                 <td>{row.mobilePhone}</td>
-                <td>{row.statusx}</td>
+                <td>{row.status}</td>
+                <td>{statuses[row.status2].label}</td>
                 <td>{row.agreed ? 'Yes' : 'No'}</td>
               </tr>
             ))}
@@ -48,7 +63,11 @@ const Page2 = () => {
         </table>
       </div>
 
-      <Link href="/dashboard/supplier/test/page1">Go to Page 1</Link>
+      {/* <Link href="/dashboard/supplier/test/page1">Go to Page 1</Link> */}
+
+      <button type="button" onClick={handleBack}>
+        Back
+      </button>
     </div>
   );
 };

@@ -1,9 +1,12 @@
+import DefaultLayout from '@/ui/Layouts/DefaultLayout';
 import FormPage from './FormPage';
 
 const index = () => {
   return (
     <div>
-      <FormPage />
+      <DefaultLayout>
+        <FormPage />
+      </DefaultLayout>
     </div>
   );
 };

@@ -1,11 +1,15 @@
 'use client';
 import React, { useState } from 'react';
 
+interface Option {
+  value: string;
+  label: string;
+}
 interface SelectOptionProps {
   name: string;
   label: string;
   value: string;
-  options: any[];
+  options: Option[];
   onChange: (e: any) => void;
 }
 
@@ -26,7 +30,7 @@ const SelectOption: React.FC<SelectOptionProps> = ({
 
   const handleChange = (e: any) => {
     onChange(e);
-    setSelectedOption(e.target.value);
+    // setSelectedOption(e.target.value);
     changeTextColor();
   };
 
@@ -44,7 +48,8 @@ const SelectOption: React.FC<SelectOptionProps> = ({
           id={name}
           name={name}
           value={selectedOption}
-          onChange={handleChange}
+          // onChange={handleChange}
+          onChange={onChange}
         >
           <option value="" disabled className="text-body dark:text-bodydark">
             Select {label}

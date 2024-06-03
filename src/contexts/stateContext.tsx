@@ -14,6 +14,7 @@ interface FormValues {
   contactPerson: string;
   mobilePhone: string;
   status: string[];
+  status2: string[];
   createdBy: number;
   updatedBy: number;
   statusx: string;
@@ -34,6 +35,7 @@ const initialFormValues: any = {
   contactPerson: '',
   mobilePhone: '',
   status: [],
+  status2: [],
   createdBy: 1,
   updatedBy: 1,
   statusx: 'Inactive',
