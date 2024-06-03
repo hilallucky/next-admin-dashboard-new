@@ -17,36 +17,44 @@ import SwitcherFour from '@/components/Switchers/SwitcherFour';
 import SwitcherOne from '@/components/Switchers/SwitcherOne';
 import SwitcherThree from '@/components/Switchers/SwitcherThree';
 import SwitcherTwo from '@/components/Switchers/SwitcherTwo';
-import React, { useState } from 'react'
-import { Form } from 'react-final-form';
+import React, { useContext, useState } from 'react'
+import { Form, useForm } from 'react-final-form';
 import { CreateSupplierValidation } from './CreateSupplierValidation';
 import ErrorAlerts from '@/components/Alerts/ErrorAlerts';
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import SelectOption from '@/components/SelectGroup/SelectOption';
+import { statuses } from '@/constants/common';
+import { FormContext } from '@/contexts/FormContext';
+import SupplierReview from './SupplierReview';
 
 const CreateSupplierForm = () => {
+    const { formValues, setFormValues, resetFormData } = useContext(FormContext);
     const [showToast, setShowToast] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
     const [toastType, setToastType] = useState('');
     const [toast, setToast] = useState({ type: '', title: '', message: '' });
-
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const [formValues, setFormValues] = useState({
-        name: '',
-        address: '',
-        officePhone: '',
-        contactPerson: '',
-        mobilePhone: '',
-        status: 0,
-        createdBy: 1,
-        updatedBy: 1,
-    });
+    const [statusData, setStatusData] = useState(statuses);
+    const [showReview, setShowReview] = useState(false);
+    // const [formValues, setFormValues] = useState(formData || {
+    //     name: '',
+    //     address: '',
+    //     officePhone: '',
+    //     contactPerson: '',
+    //     mobilePhone: '',
+    //     status: [],
+    //     createdBy: 1,
+    //     updatedBy: 1,
+    // });
 
 
     const handleChange = (event: any) => {
         const { attributes, name, value } = event.target;
-        setFormValues({ ...formValues, [name]: value });
+        setFormValues({
+            ...formValues, [name]: (name === 'status' ? Number(value) : value)
+        });
 
         if (value === '') {
             setError(`${attributes.alias.value} is required`); // Set the custom error message
@@ -59,29 +67,15 @@ const CreateSupplierForm = () => {
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-
-        try {
-            const response = await axios.post('/api/v1/suppliers', formValues);
-
-            if (response.status === 201) {
-                // setToastMessage('Supplier added successfully!');
-                // setToastType('success');
-                setToast({ type: 'success', title: 'Success', message: 'Supplier added successfully!' });
-                setShowToast(true);;
-            } else {
-                // setToastMessage('Error adding supplier.');
-                // setToastType('error');
-                setToast({ type: 'error', title: 'Error', message: 'Error adding supplier!' });
-                setShowToast(true);
-            }
-        } catch (error) {
-            // setToastMessage('Error adding supplier.');
-            // setToastType('error');
-            setToast({ type: 'error', title: 'Error', message: 'Error adding supplier!' });
-            setShowToast(true);
-        }
+        setShowReview(true);
     };
 
+    if (showReview) {
+        return (
+            // <SupplierReview formValues={formValues} setShowReview={setShowReview} />
+            <SupplierReview setShowReview={setShowReview} />
+        );
+    }
 
     const hideToast = () => {
         setShowToast(false);
@@ -244,6 +238,14 @@ const CreateSupplierForm = () => {
                                         }
                                         placeholder="Supplier mobile phone"
                                     />
+
+                                    <SelectOption
+                                        name="status"
+                                        value={formValues.status}
+                                        label="Status"
+                                        onChange={handleChange}
+                                        options={statusData}
+                                    />
                                 </div>
 
                             </div>
@@ -256,13 +258,30 @@ const CreateSupplierForm = () => {
                             </div>
                         )}
 
-                        <div className="mb-5">
+                        {/* <div className="mb-5">
                             <input
                                 type="submit"
                                 value="Submit"
                                 className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
                             />
+                        </div> */}
+
+                        <div className="mb-5 flex gap-20 items-center justify-between">
+                            <input
+                                value="Reset"
+                                type="button"
+                                className="w-[30%] cursor-pointer rounded-lg border border-red bg-red p-4 text-white transition hover:bg-opacity-90"
+                                onClick={() => setOpenResetDialog(true)}
+                                variant="outlined"
+                            />
+
+                            <input
+                                type="submit"
+                                value="Next"
+                                className="w-[30%] cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
+                            />
                         </div>
+
 
                         {showToast && (
                             <div
