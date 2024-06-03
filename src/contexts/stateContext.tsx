@@ -1,44 +1,94 @@
-import { createContext, useReducer, useContext, ReactNode } from 'react';
+import {
+  createContext,
+  useReducer,
+  useContext,
+  ReactNode,
+  ChangeEvent,
+} from 'react';
 
 // Define the shape of our state
-interface State {
-  state: boolean;
-  history: boolean[];
+interface FormValues {
+  name: string;
+  address: string;
+  officePhone: string;
+  contactPerson: string;
+  mobilePhone: string;
+  status: string[];
+  createdBy: number;
+  updatedBy: number;
+  statusx: string;
+  agreed: boolean;
 }
 
-// Define action types
-type Action = 
-  | { type: 'SET_STATE'; payload: boolean }
-  | { type: 'REVERT_STATE' };
+interface State {
+  formValues: FormValues;
+  tableData: FormValues[];
+  history: { formValues: FormValues; tableData: FormValues[] }[];
+}
+
+// Define initial form values
+const initialFormValues: FormValues = {
+  name: '',
+  address: '',
+  officePhone: '',
+  contactPerson: '',
+  mobilePhone: '',
+  status: [],
+  createdBy: 1,
+  updatedBy: 1,
+  statusx: 'Inactive',
+  agreed: false,
+};
 
 // Define the initial state
 const initialState: State = {
-  state: false,
-  history: []
+  formValues: initialFormValues,
+  tableData: [],
+  history: [],
 };
 
+// Define action types
+type Action =
+  | { type: 'SET_FORM_VALUES'; payload: Partial<FormValues> }
+  | { type: 'REVERT_STATE' }
+  | { type: 'ADD_TO_TABLE' };
+
 // Create context
-const StateContext = createContext<{
-  state: boolean;
-  setState: (newState: boolean) => void;
-  revertState: () => void;
-} | undefined>(undefined);
+const StateContext = createContext<
+  | {
+      formValues: FormValues;
+      tableData: FormValues[];
+      setFormValues: (newValues: Partial<FormValues>) => void;
+      revertState: () => void;
+      addToTable: () => void;
+    }
+  | undefined
+>(undefined);
 
 // Define reducer
 const stateReducer = (state: State, action: Action): State => {
   switch (action.type) {
-    case 'SET_STATE':
+    case 'SET_FORM_VALUES':
       return {
         ...state,
-        history: [...state.history, state.state],
-        state: action.payload
+        history: [
+          ...state.history,
+          { formValues: state.formValues, tableData: state.tableData },
+        ],
+        formValues: { ...state.formValues, ...action.payload },
       };
     case 'REVERT_STATE':
       const previousState = state.history.pop();
       return {
         ...state,
-        state: previousState !== undefined ? previousState : state.state,
-        history: [...state.history]
+        formValues: previousState ? previousState.formValues : state.formValues,
+        tableData: previousState ? previousState.tableData : state.tableData,
+        history: [...state.history],
+      };
+    case 'ADD_TO_TABLE':
+      return {
+        ...state,
+        tableData: [...state.tableData, state.formValues],
       };
     default:
       return state;
@@ -49,18 +99,30 @@ const stateReducer = (state: State, action: Action): State => {
 export const StateProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(stateReducer, initialState);
 
-  const setState = (newState: boolean) => {
-    dispatch({ type: 'SET_STATE', payload: newState });
+  const setFormValues = (newValues: Partial<FormValues>) => {
+    dispatch({ type: 'SET_FORM_VALUES', payload: newValues });
   };
 
   const revertState = () => {
     dispatch({ type: 'REVERT_STATE' });
   };
 
+  const addToTable = () => {
+    dispatch({ type: 'ADD_TO_TABLE' });
+  };
+
   return (
-<StateContext.Provider value={{ state: state.state, setState, revertState }}>
-  {children}
-</StateContext.Provider>
+    <StateContext.Provider
+      value={{
+        formValues: state.formValues,
+        tableData: state.tableData,
+        setFormValues,
+        revertState,
+        addToTable,
+      }}
+    >
+      {children}
+    </StateContext.Provider>
   );
 };
 
@@ -72,3 +134,76 @@ export const useAppState = () => {
   }
   return context;
 };
+
+// contexts/stateContext.tsx
+// import { createContext, useContext, ReactNode, useReducer } from 'react';
+
+// interface State {
+//   formValues: any;
+//   tableData: any[];
+// }
+
+// interface Action {
+//   type: string;
+//   payload?: any;
+// }
+
+// const initialFormValues = {
+//   name: '',
+//   address: '',
+//   officePhone: '',
+//   contactPerson: '',
+//   mobilePhone: '',
+//   status: [],
+//   createdBy: 1,
+//   updatedBy: 1,
+//   statusx: 'Inactive',
+//   agreed: false,
+// };
+
+// const initialState: State = {
+//   formValues: initialFormValues,
+//   tableData: [],
+// };
+
+// const StateContext = createContext<
+//   { state: State; dispatch: React.Dispatch<Action> } | undefined
+// >(undefined);
+
+// const stateReducer = (state: State, action: Action): State => {
+//   switch (action.type) {
+//     case 'SET_FORM_VALUES':
+//       return {
+//         ...state,
+//         formValues: { ...state.formValues, ...action.payload },
+//       };
+//     case 'REVERT_STATE':
+//       return initialState;
+//     case 'ADD_TO_TABLE':
+//       return {
+//         ...state,
+//         tableData: [...state.tableData, state.formValues],
+//       };
+//     default:
+//       return state;
+//   }
+// };
+
+// export const StateProvider = ({ children }: { children: ReactNode }) => {
+//   const [state, dispatch] = useReducer(stateReducer, initialState);
+
+//   return (
+//     <StateContext.Provider value={{ state, dispatch }}>
+//       {children}
+//     </StateContext.Provider>
+//   );
+// };
+
+// export const useAppState = () => {
+//   const context = useContext(StateContext);
+
+//   if (context === undefined) {
+//     throw new Error('useAppState must be used within a StateProvider');
+//   }
+//   return context;
+// };
