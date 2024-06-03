@@ -21,13 +21,13 @@ interface FormValues {
 }
 
 interface State {
-  formValues: FormValues;
-  tableData: FormValues[];
-  history: { formValues: FormValues; tableData: FormValues[] }[];
+  formValues: any;
+  tableData: any[];
+  history: { formValues: any; tableData: any[] }[];
 }
 
 // Define initial form values
-const initialFormValues: FormValues = {
+const initialFormValues: any = {
   name: '',
   address: '',
   officePhone: '',
@@ -49,16 +49,16 @@ const initialState: State = {
 
 // Define action types
 type Action =
-  | { type: 'SET_FORM_VALUES'; payload: Partial<FormValues> }
+  | { type: 'SET_FORM_VALUES'; payload: Partial<any> }
   | { type: 'REVERT_STATE' }
   | { type: 'ADD_TO_TABLE' };
 
 // Create context
 const StateContext = createContext<
   | {
-      formValues: FormValues;
-      tableData: FormValues[];
-      setFormValues: (newValues: Partial<FormValues>) => void;
+      formValues: any;
+      tableData: any[];
+      setFormValues: (newValues: Partial<any>) => void;
       revertState: () => void;
       addToTable: () => void;
     }
@@ -99,7 +99,7 @@ const stateReducer = (state: State, action: Action): State => {
 export const StateProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(stateReducer, initialState);
 
-  const setFormValues = (newValues: Partial<FormValues>) => {
+  const setFormValues = (newValues: Partial<any>) => {
     dispatch({ type: 'SET_FORM_VALUES', payload: newValues });
   };
 
