@@ -31,23 +31,23 @@ const SupplierReview = ({setShowReview}:SupplierReviewProps)=>{
             <CreateSupplierForm />
         );
     }
-    };
 
     const handleSave = async () => {
-        const response = await fetch('/api/v1/suppliers', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formValues),
-        });
-        if (response.ok) {
-            setShowReview(true);
-            router.push('/dashboard/supplier/new2/status?status=success');
-        } else {
-            router.push('/dashboard/supplier/new2/status?status=error');
-        }
+        // const response = await fetch('/api/v1/suppliers', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //     },
+        //     body: JSON.stringify(formValues),
+        // });
+        // if (response.ok) {
+        //     setShowReview(true);
+        //     router.push('/dashboard/supplier/new2/status?status=success');
+        // } else {
+        //     router.push('/dashboard/supplier/new2/status?status=error');
+        // }
     };
+
     return (
         <div className="shadow-md rounded-lg p-4">
             <table className="w-full">
