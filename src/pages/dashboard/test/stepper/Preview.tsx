@@ -1,20 +1,26 @@
 import { useContext } from 'react';
 import { FormContext } from './FormContext';
 
-const Preview = ({ prevStep }: { prevStep: () => void }) => {
+const Preview = ({ prevStep }: { prevStep: () => void, formData: any }) => {
   const { formData } = useContext(FormContext);
 
 
-  console.log(formData.hobbies);
-  
+  console.log(formData);
+
+  if (!formData) {
+    return null; // Return null if formData is not available
+}
+
   return (
     <div>
       <h2>Preview</h2>
       <div>
         <p>Name: {formData.name}</p>
-        <p>Email: {formData.email}</p>
+        <p>Address: {formData.address}</p>
+        <p>Sex: {formData.sex==="male"?"Male":"Female"}</p>
         <p>Favorite Color: {formData.favoriteColor}</p>
         <p>Hobbies: {formData.hobbies?.join(', ')}</p>
+        <p>Languages: {formData.languages?.join(', ')}</p>
         <p>Items:</p>
         <ul>
           <li>Apples: {formData.items?.apples}</li>

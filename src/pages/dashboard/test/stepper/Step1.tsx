@@ -88,70 +88,82 @@
 // export default Step1;
 
 
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { FormContext } from './FormContext';
 import Input from './components/Input';
 import SelectOption from './components/SelectOption';
+import MultiSelectOption from './components/MultiSelectOption';
 import Checkbox from './components/Checkbox';
 import Button from './components/Button';
 
 const Step1 = ({ nextStep }: { nextStep: () => void }) => {
-    const { formData, setFormData, resetFormData } = useContext(FormContext);
+    // const defaultFormData = {
+    //     name: '',
+    //     email: '',
+    //     favoriteColor: '',
+    //     hobbies: [],
+    //     items: {
+    //         apples: 0,
+    //         oranges: 0,
+    //         bananas: 0,
+    //     },
+    // };
 
-    const [name, setName] = useState(formData.name || '');
-    const [email, setEmail] = useState(formData.email || '');
-    const [favoriteColor, setFavoriteColor] = useState(formData.favoriteColor || '');
-    const [hobbies, setHobbies] = useState<string[]>(formData.hobbies || []);
-    const [items, setItems] = useState(formData.items || { apples: 0, oranges: 0, bananas: 0 });
+    const { formData, setFormData, resetFormData } = useContext(FormContext) || {};
+    const [showReview, setShowReview] = useState(false);
 
-    const handleInputChange = (e: any) => {
-        const { name, value, checked } = e.target;
-        console.log(e.target.value);
-        const componentTextArr = ['name', 'email', 'favoriteColor']
-        if (componentTextArr.includes(name)) {
-            setFormData({ ...formData, [name]: value });
-        } else {
-            if (name in items && name) {
-                setItems({ ...items, [name]: Number(value) });
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        const { name, value, type, checked } = e.target;
+
+        if (type === 'checkbox') {
+            if (name === 'hobbies') {
+                setFormData((prevData: any) => ({
+                    ...prevData,
+                    hobbies: checked
+                        ? [...prevData.hobbies || [], value]
+                        : (prevData.hobbies || []).filter((hobby: string) => hobby !== value),
+                }));
+            } else {
+                setFormData((prevData: any) => ({
+                    ...prevData,
+                    [name]: checked ? value : '',
+                }));
             }
-            setFormData({ ...formData, items});
-        }
-    };
+        } else if (formData?.items && name in formData.items) {
+            console.log(formData);
 
-    const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { value, checked } = e.target;
-        if (checked) {
-            setHobbies([...hobbies, value]);
+            setFormData((prevData: any) => ({
+                ...prevData,
+                items: { ...prevData.items, [name]: Number(value) },
+            }));
         } else {
-            setHobbies(hobbies.filter((hobby) => hobby !== value));
+            setFormData((prevData: any) => ({
+                ...prevData,
+                [name]: value,
+            }));
         }
     };
 
+    const handleMultiSelectChange = (name: string, selectedOptions: string[]) => {
+        setFormData((prevData: any) => ({
+            ...prevData,
+            [name]: selectedOptions,
+        }));
+    };
     const handleReset = () => {
         resetFormData();
-        setName('');
-        setEmail('');
-        setFavoriteColor('');
-        setHobbies([]);
-        setItems({ apples: 0, oranges: 0, bananas: 0 });
+        // setFormData(defaultFormData)
     };
 
     const handleNext = () => {
-        setFormData({
-            ...formData,
-        // //     name,
-        // //     email,
-        // //     favoriteColor,
-            hobbies,
-        // //     items,
-        });
+        setShowReview(true);
         nextStep();
     };
 
     return (
         <form>
-            <Input label="Name" name="name" value={formData.name} onChange={handleInputChange} />
-            <Input label="Email" name="email" value={formData.email} onChange={handleInputChange} />
+            <Input label="Name" name="name" value={formData.name || ''} onChange={handleInputChange} />
             <SelectOption
                 label="Favorite Color"
                 name="favoriteColor"
@@ -165,24 +177,55 @@ const Step1 = ({ nextStep }: { nextStep: () => void }) => {
                     label="Reading"
                     name="hobbies"
                     value="reading"
-                    checked={hobbies.includes('reading')}
-                    onChange={handleCheckboxChange}
+                    checked={(formData.hobbies || []).includes('reading')}
+                    onChange={handleInputChange}
                 />
                 <Checkbox
                     label="Traveling"
                     name="hobbies"
                     value="traveling"
-                    checked={hobbies.includes('traveling')}
-                    onChange={handleCheckboxChange}
+                    checked={(formData.hobbies || []).includes('traveling')}
+                    onChange={handleInputChange}
                 />
                 <Checkbox
                     label="Coding"
                     name="hobbies"
                     value="coding"
-                    checked={hobbies.includes('coding')}
-                    onChange={handleCheckboxChange}
+                    checked={(formData.hobbies || []).includes('coding')}
+                    onChange={handleInputChange}
                 />
             </div>
+            <div>
+                <label>Sex</label>
+                <Checkbox
+                    label="Male"
+                    name="sex"
+                    value="male"
+                    checked={formData.sex === 'male'}
+                    onChange={handleInputChange}
+                />
+                <Checkbox
+                    label="Female"
+                    name="sex"
+                    value="female"
+                    checked={formData.sex === 'female'}
+                    onChange={handleInputChange}
+                />
+            </div>
+            <SelectOption
+                label="Active Hand"
+                name="activeHand"
+                value={formData.activeHand || ''}
+                options={['left', 'right']}
+                onChange={handleInputChange}
+            />
+            <MultiSelectOption
+                label="Preferred Languages"
+                name="languages"
+                value={formData.languages || []}
+                options={['JavaScript', 'Python', 'Java', 'C++']}
+                onChange={handleMultiSelectChange}
+            />
             <div>
                 <label>Items Table</label>
                 <table>
@@ -199,7 +242,7 @@ const Step1 = ({ nextStep }: { nextStep: () => void }) => {
                                 <input
                                     type="number"
                                     name="apples"
-                                    value={items.apples}
+                                    value={formData.items?.apples || 0}
                                     onChange={handleInputChange}
                                 />
                             </td>
@@ -210,7 +253,7 @@ const Step1 = ({ nextStep }: { nextStep: () => void }) => {
                                 <input
                                     type="number"
                                     name="oranges"
-                                    value={items.oranges}
+                                    value={formData.items?.oranges || 0}
                                     onChange={handleInputChange}
                                 />
                             </td>
@@ -221,7 +264,7 @@ const Step1 = ({ nextStep }: { nextStep: () => void }) => {
                                 <input
                                     type="number"
                                     name="bananas"
-                                    value={items.bananas}
+                                    value={formData.items?.bananas || 0}
                                     onChange={handleInputChange}
                                 />
                             </td>

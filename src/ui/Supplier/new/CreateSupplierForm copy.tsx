@@ -1,54 +1,68 @@
 import Breadcrumb from '@/components/Breadcrumbs/Breadcrumb';
+import CheckboxFive from '@/components/Checkboxes/CheckboxFive';
+import CheckboxFour from '@/components/Checkboxes/CheckboxFour';
+import CheckboxOne from '@/components/Checkboxes/CheckboxOne';
+import CheckboxThree from '@/components/Checkboxes/CheckboxThree';
+import CheckboxTwo from '@/components/Checkboxes/CheckboxTwo';
+import CustomMultiSelect from '@/components/Common/Input/CustomMultiSelect';
+import CustomSelect from '@/components/Common/Input/CustomSelect';
+import CustomText from '@/components/Common/Input/CustomText';
 import CustomTextArea from '@/components/Common/Input/CustomTextArea';
+import DatePickerOne from '@/components/FormElements/DatePicker/DatePickerOne';
+import DatePickerTwo from '@/components/FormElements/DatePicker/DatePickerTwo';
+import MultiSelect from '@/components/FormElements/MultiSelect';
 import TextField from '@/components/Input/Text/Text';
+import SelectGroupTwo from '@/components/SelectGroup/SelectGroupTwo';
+import SwitcherFour from '@/components/Switchers/SwitcherFour';
+import SwitcherOne from '@/components/Switchers/SwitcherOne';
+import SwitcherThree from '@/components/Switchers/SwitcherThree';
+import SwitcherTwo from '@/components/Switchers/SwitcherTwo';
 import React, { useContext, useState } from 'react'
+import { Form, useForm } from 'react-final-form';
 import { CreateSupplierValidation } from './CreateSupplierValidation';
 import ErrorAlerts from '@/components/Alerts/ErrorAlerts';
+import axios from 'axios';
+import { useRouter } from 'next/router';
 import SelectOption from '@/components/SelectGroup/SelectOption';
 import { statuses } from '@/constants/common';
 import { FormContext } from '@/contexts/FormContext';
 import SupplierReview from './SupplierReview';
-import Button from '@/components/Common/Button/Button';
-import { SelectOption as SelectOption2 } from '@/pages/dashboard/test/stepper/components/SelectOption';
 
 const CreateSupplierForm = () => {
-    const { formValues, setFormValues, resetFormValues } = useContext(FormContext);
-    const [error, setError] = useState('');
+    const { formValues, setFormValues, resetFormData } = useContext(FormContext);
     const [showToast, setShowToast] = useState(false);
+    const [toastMessage, setToastMessage] = useState('');
+    const [toastType, setToastType] = useState('');
     const [toast, setToast] = useState({ type: '', title: '', message: '' });
+    const [error, setError] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [statusData, setStatusData] = useState(statuses);
     const [showReview, setShowReview] = useState(false);
+    // const [formValues, setFormValues] = useState(formData || {
+    //     name: '',
+    //     address: '',
+    //     officePhone: '',
+    //     contactPerson: '',
+    //     mobilePhone: '',
+    //     status: [],
+    //     createdBy: 1,
+    //     updatedBy: 1,
+    // });
+
 
     const handleChange = (event: any) => {
         const { attributes, name, value } = event.target;
-        // setFormValues({
-        //     ...formValues, [name]: (name === 'status' ? Number(value) : value)
-        // });
-
-        setFormValues((prevData: any) => ({
-            ...prevData, [name]: (name === 'status' ? Number(value) : value)
-        }));
+        setFormValues({
+            ...formValues, [name]: (name === 'status' ? Number(value) : value)
+        });
 
         if (value === '') {
-            setError(`${attributes.alias.value} is required`);
+            setError(`${attributes.alias.value} is required`); // Set the custom error message
         } else {
-            setError('');
+            setError(''); // Clear the error message if the field is not empty
         }
-    };
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-        const { name, value, type, checked } = e.target;
-        setFormValues((prevData: any) => ({
-            ...prevData,
-            [name]: value,
-        }));
-    };
-
-    const hideToast = () => {
-        setShowToast(false);
-    };
-
-    const handleReset = () => {
-        resetFormValues();
+        // if(name )
     };
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -58,27 +72,31 @@ const CreateSupplierForm = () => {
 
     if (showReview) {
         return (
-            <SupplierReview setShowReview={showReview} />
+            // <SupplierReview formValues={formValues} setShowReview={setShowReview} />
+            <SupplierReview setShowReview={setShowReview} />
         );
     }
 
+    const hideToast = () => {
+        setShowToast(false);
+    };
+
     return (
         <div>
-            <Breadcrumb pageName="Create Supplier" pageLink="CreateSupplierForm" />
 
+            <form onSubmit={handleSubmit}>
 
+                <Breadcrumb pageName="Create Supplier" pageLink="CreateSupplierForm" />
 
-            <div className="grid-cols-2 gap-9 sm:grid-cols-2">
-                <div className="flex flex-col gap-9">
-                    {/* <!-- Input Fields --> */}
-                    <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-                        <div className="border-b border-stroke px-6.5 py-4 dark:border-strokedark">
-                            <h3 className="font-medium text-black dark:text-white">
-                                Input Data Supplier
-                            </h3>
-                        </div>
-
-                        <form>
+                <div className="grid-cols-2 gap-9 sm:grid-cols-2">
+                    <div className="flex flex-col gap-9">
+                        {/* <!-- Input Fields --> */}
+                        <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+                            <div className="border-b border-stroke px-6.5 py-4 dark:border-strokedark">
+                                <h3 className="font-medium text-black dark:text-white">
+                                    Input Data Supplier
+                                </h3>
+                            </div>
                             <div className="flex flex-col gap-5.5 p-6.5">
                                 <div>
                                     <TextField
@@ -87,6 +105,7 @@ const CreateSupplierForm = () => {
                                         alias="Name"
                                         label="Name"
                                         required={true}
+                                        // error={error}
                                         value={formValues.name}
                                         onChange={handleChange}
                                         icon={
@@ -107,9 +126,7 @@ const CreateSupplierForm = () => {
                                         }
                                         placeholder="Supplier name"
                                     />
-                                </div>
 
-                                <div>
                                     <CustomTextArea
                                         name="address"
                                         label="Supplier address"
@@ -117,6 +134,7 @@ const CreateSupplierForm = () => {
                                         placeholder="Supplier address"
                                         required={true}
                                         disabled={false}
+                                        // error={error}
                                         value={formValues.address}
                                         onChange={handleChange}
                                         icon={
@@ -137,15 +155,14 @@ const CreateSupplierForm = () => {
                                         }
                                         status="default"
                                     />
-                                </div>
 
-                                <div>
                                     <TextField
                                         type="text"
                                         name="officePhone"
                                         alias="Office Phone"
                                         label="Office Phone"
                                         required={true}
+                                        // error={error}
                                         value={formValues.officePhone}
                                         onChange={handleChange}
                                         icon={
@@ -165,15 +182,14 @@ const CreateSupplierForm = () => {
                                         }
                                         placeholder="Supplier office phone"
                                     />
-                                </div>
 
-                                <div>
                                     <TextField
                                         type="text"
                                         name="contactPerson"
                                         alias="Contact Person"
                                         label="Contact Person"
                                         required={true}
+                                        // error={error}
                                         value={formValues.contactPerson}
                                         onChange={handleChange}
                                         icon={
@@ -194,15 +210,14 @@ const CreateSupplierForm = () => {
                                         }
                                         placeholder="Supplier contact person"
                                     />
-                                </div>
 
-                                <div>
                                     <TextField
                                         type="text"
                                         name="mobilePhone"
                                         alias="Mobile Phone"
                                         label="Mobile Phone"
                                         required={true}
+                                        // error={error}
                                         value={formValues.mobilePhone}
                                         onChange={handleChange}
                                         icon={
@@ -223,72 +238,66 @@ const CreateSupplierForm = () => {
                                         }
                                         placeholder="Supplier mobile phone"
                                     />
-                                </div>
 
-                                <div>
                                     <SelectOption
                                         name="status"
                                         value={formValues.status}
                                         label="Status"
                                         onChange={handleChange}
-                                        options={statuses}
-                                    />
-
-
-                                    <SelectOption2
-                                        label="Active Hand"
-                                        name="activeHand"
-                                        value={formValues.activeHand}
-                                        options={['left', 'right']}
-                                        onChange={handleInputChange}
+                                        options={statusData}
                                     />
                                 </div>
 
-                                <div>
-                                    {error && (
-                                        <div className="flex w-full text-red justify-center items-center">
-                                            {error}
-                                        </div>
-                                    )}
-                                </div>
-
-                                <div className="mb-5 flex gap-20 items-center justify-between">
-                                    <Button
-                                        label="Reset"
-                                        type='button'
-                                        onClick={handleReset}
-                                        className="w-[30%] cursor-pointer rounded-lg border border-red bg-red p-4 text-white transition hover:bg-opacity-90"
-                                    />
-
-                                    <Button
-                                        label="Next"
-                                        type='submit'
-                                        onClick={handleSubmit}
-                                        className="w-[30%] cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
-                                    />
-                                </div>
-
-                                <div>
-                                    {showToast && (
-                                        <div
-                                            className="text-white  cursor-pointer"
-                                            onClick={hideToast}
-                                        >
-                                            <ErrorAlerts type={toast.type} title={toast.title} message={toast.message} showToast={showToast} />
-
-                                        </div>
-                                    )}
-                                </div>
                             </div>
-                        </form>
+                        </div>
+
+
+                        {error && (
+                            <div className="flex w-full text-red justify-center items-center">
+                                {error}
+                            </div>
+                        )}
+
+                        {/* <div className="mb-5">
+                            <input
+                                type="submit"
+                                value="Submit"
+                                className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
+                            />
+                        </div> */}
+
+                        <div className="mb-5 flex gap-20 items-center justify-between">
+                            <input
+                                value="Reset"
+                                type="button"
+                                className="w-[30%] cursor-pointer rounded-lg border border-red bg-red p-4 text-white transition hover:bg-opacity-90"
+                                onClick={() => setOpenResetDialog(true)}
+                                variant="outlined"
+                            />
+
+                            <input
+                                type="submit"
+                                value="Next"
+                                className="w-[30%] cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
+                            />
+                        </div>
+
+
+                        {showToast && (
+                            <div
+                                className="text-white  cursor-pointer"
+                                onClick={hideToast}
+                            >
+                                <ErrorAlerts type={toast.type} title={toast.title} message={toast.message} showToast={showToast} />
+
+                            </div>
+                        )}
 
                     </div>
                 </div>
-            </div>
+            </form>
 
-
-
-        </div >
+        </div>
     );
 };
 

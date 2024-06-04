@@ -2,35 +2,21 @@ import { statuses } from '@/constants/common';
 import { FormContext } from '@/contexts/FormContext';
 import { useRouter } from 'next/router';
 import React, { Dispatch, SetStateAction, useContext } from 'react';
-import CreateSupplierForm from './CreateSupplierForm';
-
-// interface SupplierReviewProps {
-//     // formValues: any;
-//     setShowReview: Dispatch<SetStateAction<boolean>>;
-// }
-
-// const SupplierReview: React.FC<SupplierReviewProps> = ({
-//     // formValues,
-//     setShowReview,
-// }) => {
 
 interface SupplierReviewProps {
     // formValues: any;
-    setShowReview: boolean;
+    setShowReview: Dispatch<SetStateAction<boolean>>;
 }
 
-const SupplierReview = ({setShowReview}:SupplierReviewProps)=>{
-
+const SupplierReview: React.FC<SupplierReviewProps> = ({
+    // formValues,
+    setShowReview,
+}) => {
     const { formValues } = useContext(FormContext);
     const router = useRouter();
 
     const handleEdit = (e: any) => {
-        // setShowReview(false);
-
-        return (
-            <CreateSupplierForm />
-        );
-    }
+        setShowReview(false);
     };
 
     const handleSave = async () => {
