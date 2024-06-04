@@ -3,7 +3,7 @@
 // import { ChangeEvent } from 'react';
 
 // const Page1 = () => {
-//   const { formValues, tableData, setFormValues, revertState, addToTable } =
+//   const { state.formValues, tableData, setFormValues, revertState, addToTable } =
 //     useAppState();
 
 //   // Handlers for input changes
@@ -29,7 +29,7 @@
 //           <label>Name:</label>
 //           <input
 //             name="name"
-//             value={formValues.name}
+//             value={state.formValues.name}
 //             onChange={handleInputChange}
 //           />
 //         </div>
@@ -37,7 +37,7 @@
 //           <label>Address:</label>
 //           <input
 //             name="address"
-//             value={formValues.address}
+//             value={state.formValues.address}
 //             onChange={handleInputChange}
 //           />
 //         </div>
@@ -45,7 +45,7 @@
 //           <label>Office Phone:</label>
 //           <input
 //             name="officePhone"
-//             value={formValues.officePhone}
+//             value={state.formValues.officePhone}
 //             onChange={handleInputChange}
 //           />
 //         </div>
@@ -53,7 +53,7 @@
 //           <label>Contact Person:</label>
 //           <input
 //             name="contactPerson"
-//             value={formValues.contactPerson}
+//             value={state.formValues.contactPerson}
 //             onChange={handleInputChange}
 //           />
 //         </div>
@@ -61,7 +61,7 @@
 //           <label>Mobile Phone:</label>
 //           <input
 //             name="mobilePhone"
-//             value={formValues.mobilePhone}
+//             value={state.formValues.mobilePhone}
 //             onChange={handleInputChange}
 //           />
 //         </div>
@@ -69,7 +69,7 @@
 //           <label>Status:</label>
 //           <select
 //             id="statusSelect"
-//             value={formValues.statusx}
+//             value={state.formValues.statusx}
 //             onChange={handleSelectChange}
 //           >
 //             <option value="Inactive">Inactive</option>
@@ -84,7 +84,7 @@
 //             <input
 //               type="checkbox"
 //               name="agreed"
-//               checked={formValues.agreed}
+//               checked={state.formValues.agreed}
 //               onChange={handleInputChange}
 //             />
 //             Agree to Terms
@@ -132,7 +132,7 @@
 
 import { useAppState } from '@/contexts/stateContext';
 import Link from 'next/link';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 // import Layout from '@/components/Layout';
 import StatusSelect from './StatusSelect';
 import DataTable from './DataTable';
@@ -145,26 +145,27 @@ import { statuses } from '@/constants/common';
 import SelectOption from '@/components/SelectGroup/SelectOption';
 
 const Page1 = () => {
-  //   const { state, dispatch } = useAppState();
-  //   const [statusx, setStatusx] = useState(formValues.statusx);
+  const { state, dispatch } = useAppState();
+  const [statusx, setStatusx] = useState(state.formValues.statusx);
   const [statusData, setStatusData] = useState(statuses);
   const [showPreview, setShowPreview] = useState(false);
-  const { formValues, tableData, setFormValues, revertState, addToTable } =
-    useAppState();
+  // const { state.formValues, tableData, setFormValues, revertState, addToTable } =
+  //   useAppState();
 
   // Handlers for input changes
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = event.target;
-    setFormValues({ [name]: type === 'checkbox' ? checked : value });
+    dispatch({ type: 'SET_FORM_VALUES', payload: { [name]: value } });
   };
 
   const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    const optionName = ['status', 'status2'];
+    const optionName = ['status', 'status2', 'status3'];
 
-    // optionName.includes[event.target.name] &&
-    //   setFormValues({ [event.target.name]: event.target.value });
-    setFormValues({ status: event.target.value });
-    setFormValues({ status2: event.target.value });
+    optionName.includes[event.target.name] ??
+      dispatch({
+        type: 'SET_FORM_VALUES',
+        payload: { [event.target.name]: [event.target.value] },
+      });
   };
 
   const handlePreview = () => {
@@ -178,7 +179,11 @@ const Page1 = () => {
   // Handler for form submission
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    addToTable();
+    dispatch({ type: 'ADD_TO_TABLE' });
+  };
+
+  const resetForm = () => {
+    dispatch({ type: 'RESET_FORM_VALUES' });
   };
 
   return (
@@ -192,7 +197,7 @@ const Page1 = () => {
             label="Name"
             required={true}
             // error={error}
-            value={formValues.name}
+            value={state.formValues.name}
             onChange={handleInputChange}
             icon={
               <svg
@@ -219,7 +224,7 @@ const Page1 = () => {
             required={true}
             disabled={false}
             // error={error}
-            value={formValues.address}
+            value={state.formValues.address}
             onChange={handleInputChange}
             icon={
               <svg
@@ -248,7 +253,7 @@ const Page1 = () => {
             label="Office Phone"
             required={true}
             // error={error}
-            value={formValues.officePhone}
+            value={state.formValues.officePhone}
             onChange={handleInputChange}
             icon={
               <svg
@@ -276,7 +281,7 @@ const Page1 = () => {
             label="Contact Person"
             required={true}
             // error={error}
-            value={formValues.contactPerson}
+            value={state.formValues.contactPerson}
             onChange={handleInputChange}
             icon={
               <svg
@@ -302,7 +307,7 @@ const Page1 = () => {
             label="Mobile Phone"
             required={true}
             // error={error}
-            value={formValues.mobilePhone}
+            value={state.formValues.mobilePhone}
             onChange={handleInputChange}
             icon={
               <svg
@@ -326,24 +331,32 @@ const Page1 = () => {
         </div>
         <SelectOption
           name="status"
-          value={formValues.status}
+          value={state.formValues.status}
           label="Status"
           onChange={handleSelectChange}
           options={statusData}
         />
         <StatusSelect
           name="status2"
-          value={formValues.status2}
+          value={state.formValues.status2}
           onChange={handleSelectChange}
           options={statusData}
-          label="Status"
+          label="Status 2"
+        />
+
+        <StatusSelect
+          name="status3"
+          value={state.formValues.status3}
+          onChange={handleSelectChange}
+          options={statusData}
+          label="Status 3"
         />
         <div>
           <label>
             <input
               type="checkbox"
               name="agreed"
-              checked={formValues.agreed}
+              checked={state.formValues.agreed}
               onChange={handleInputChange}
             />
             Agree to Terms
@@ -352,6 +365,10 @@ const Page1 = () => {
       </form>
       {/* <DataTable data={state.tableData} /> */}
       {/* <Link href="/dashboard/supplier/test/page2">Go to Page 2</Link> */}
+
+      <button type="button" onClick={resetForm}>
+        Reset
+      </button>
 
       <button type="button" onClick={handlePreview}>
         Preview
