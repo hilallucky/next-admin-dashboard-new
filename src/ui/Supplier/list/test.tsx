@@ -112,10 +112,13 @@ const Test: React.FC = () => {
                             <TableCell>Los Angeles</TableCell>
                         </TableRow>
 
-                        {data &&
-                data.results.map((item: PromoCode) => {
-                    
-                })}
+                        {suppliers.map(supplier => (
+                            <TableRow key={supplier.id}>
+                                <TableCell>{supplier.name}</TableCell>
+                                <TableCell>{supplier.code}</TableCell>
+                                <TableCell>{supplier.address}</TableCell>
+                            </TableRow>
+                        ))}
                     </TableBody>
                 </Table>
             </TableContainer>
