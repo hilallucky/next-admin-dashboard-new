@@ -1,4 +1,4 @@
-import PreviewSupplier from '@/pages/dashboard/supplier/new2/preview-supplier';
+import PreviewSupplier from '@/pages/dashboard/supplier/new/backup/preview-supplier';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 

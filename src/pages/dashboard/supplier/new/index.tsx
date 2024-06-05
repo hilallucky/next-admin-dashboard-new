@@ -1,16 +1,17 @@
 import { FormProvider } from '@/contexts/FormContext'
 import DefaultLayout from '@/ui/Layouts/DefaultLayout'
-import CreateSupplierForm from '@/ui/Supplier/new/CreateSupplierForm'
+import StepperSupplierForm from '@/ui/Supplier/new/StepperSupplierForm';
 import React from 'react'
 
 const defaultFormValues = {
     name: '',
+    email: '',
     address: '',
     officePhone: '',
     contactPerson: '',
     mobilePhone: '',
     status: [],
-    activeHand: '',
+    activeHand: [],
     createdBy: null,
     updatedBy: null,
 };
@@ -19,7 +20,7 @@ const CreateForm = () => {
     return (
         <FormProvider defaultFormValues={defaultFormValues}>
             <DefaultLayout>
-                <CreateSupplierForm />
+                <StepperSupplierForm />
             </DefaultLayout>
         </FormProvider>
     )

@@ -19,14 +19,14 @@ import SwitcherThree from '@/components/Switchers/SwitcherThree';
 import SwitcherTwo from '@/components/Switchers/SwitcherTwo';
 import React, { useContext, useState } from 'react'
 import { Form, useForm } from 'react-final-form';
-import { CreateSupplierValidation } from './CreateSupplierValidation';
+import { CreateSupplierValidation } from '../CreateSupplierValidation';
 import ErrorAlerts from '@/components/Alerts/ErrorAlerts';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import SelectOption from '@/components/SelectGroup/SelectOption';
 import { statuses } from '@/constants/common';
 import { FormContext } from '@/contexts/FormContext';
-import SupplierReview from './SupplierReview';
+import SupplierReview from '../SupplierReview';
 
 const CreateSupplierForm = () => {
     const { formValues, setFormValues, resetFormData } = useContext(FormContext);

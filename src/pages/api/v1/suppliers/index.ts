@@ -19,6 +19,7 @@ export default async function handler(
 
     const {
       name,
+      email,
       address,
       officePhone,
       contactPerson,
@@ -36,6 +37,7 @@ export default async function handler(
       data: {
         code: uid,
         name,
+        email,
         address,
         officePhone,
         contactPerson,

@@ -96,7 +96,7 @@ import MultiSelectOption from './components/MultiSelectOption';
 import Checkbox from './components/Checkbox';
 import Button from './components/Button';
 
-const Step1 = ({ nextStep }: { nextStep: () => void }) => {
+const Step1 = ({ nextStep }: { nextStep?: () => void }) => {
     // const defaultFormData = {
     //     name: '',
     //     email: '',

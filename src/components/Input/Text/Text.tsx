@@ -1,6 +1,7 @@
 'use client'
 
 import React, { SVGProps } from 'react';
+import { useFormContext } from 'react-hook-form';
 
 interface Props<T> {
     type: string;
@@ -20,6 +21,8 @@ const TextField = <T,>({
     icon,
     ...props
 }: Props<T>) => {
+    const { register, formState: { errors } } = useFormContext();
+
     return (
         <div className=''>
             <label
@@ -41,6 +44,7 @@ const TextField = <T,>({
                 {icon && <span className="absolute right-4 top-4">{icon}</span>}
 
                 <span className="text-sm text-red-500 ">{error}</span>
+                {errors[name] && <span>{errors[name].message}</span>}
             </div>
         </div>
     );

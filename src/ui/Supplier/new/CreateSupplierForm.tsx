@@ -4,25 +4,21 @@ import TextField from '@/components/Input/Text/Text';
 import React, { useContext, useState } from 'react'
 import { CreateSupplierValidation } from './CreateSupplierValidation';
 import ErrorAlerts from '@/components/Alerts/ErrorAlerts';
-import SelectOption from '@/components/SelectGroup/SelectOption';
 import { statuses } from '@/constants/common';
 import { FormContext } from '@/contexts/FormContext';
-import SupplierReview from './SupplierReview';
 import Button from '@/components/Common/Button/Button';
-import { SelectOption as SelectOption2 } from '@/pages/dashboard/test/stepper/components/SelectOption';
+import SelectOption from '@/components/SelectGroup/SelectOption';
 
-const CreateSupplierForm = () => {
-    const { formValues, setFormValues, resetFormValues } = useContext(FormContext);
+const CreateSupplierForm = ({ nextStep }: { nextStep?: () => void }) => {
+    const { formValues, setFormValues, resetFormValues, methods } = useContext(FormContext);
+    const { handleSubmit } = methods;
+
     const [error, setError] = useState('');
     const [showToast, setShowToast] = useState(false);
     const [toast, setToast] = useState({ type: '', title: '', message: '' });
-    const [showReview, setShowReview] = useState(false);
 
     const handleChange = (event: any) => {
         const { attributes, name, value } = event.target;
-        // setFormValues({
-        //     ...formValues, [name]: (name === 'status' ? Number(value) : value)
-        // });
 
         setFormValues((prevData: any) => ({
             ...prevData, [name]: (name === 'status' ? Number(value) : value)
@@ -35,8 +31,8 @@ const CreateSupplierForm = () => {
         }
     };
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-        const { name, value, type, checked } = e.target;
+    const handleInputChange = (e: any) => {
+        const { name, value } = e.target;
         setFormValues((prevData: any) => ({
             ...prevData,
             [name]: value,
@@ -51,22 +47,18 @@ const CreateSupplierForm = () => {
         resetFormValues();
     };
 
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        setShowReview(true);
-    };
+    // const handleSubmit = () => {
+    //     nextStep();
+    // };
 
-    if (showReview) {
-        return (
-            <SupplierReview setShowReview={showReview} />
-        );
-    }
+    const onSubmit = (data: any) => {
+        console.log(data);
+        nextStep();
+    };
 
     return (
         <div>
             <Breadcrumb pageName="Create Supplier" pageLink="CreateSupplierForm" />
-
-
 
             <div className="grid-cols-2 gap-9 sm:grid-cols-2">
                 <div className="flex flex-col gap-9">
@@ -78,7 +70,8 @@ const CreateSupplierForm = () => {
                             </h3>
                         </div>
 
-                        <form>
+                        {/* <form> */}
+                        <form onSubmit={handleSubmit(onSubmit)}>
                             <div className="flex flex-col gap-5.5 p-6.5">
                                 <div>
                                     <TextField
@@ -106,6 +99,35 @@ const CreateSupplierForm = () => {
                                             </svg>
                                         }
                                         placeholder="Supplier name"
+                                    />
+                                </div>
+
+                                <div>
+                                    <TextField
+                                        type="text"
+                                        name="email"
+                                        alias="Email"
+                                        label="Email"
+                                        required={true}
+                                        value={formValues.email}
+                                        onChange={handleChange}
+                                        icon={
+                                            <svg
+                                                className="fill-current"
+                                                width="22"
+                                                height="22"
+                                                viewBox="0 0 22 22"
+                                                fill="none"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                                <path
+                                                    d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"
+                                                    fill=""
+                                                />
+                                                <circle cx="12" cy="7" r="4" />
+                                            </svg>
+                                        }
+                                        placeholder="email@domain.com"
                                     />
                                 </div>
 
@@ -232,15 +254,7 @@ const CreateSupplierForm = () => {
                                         label="Status"
                                         onChange={handleChange}
                                         options={statuses}
-                                    />
-
-
-                                    <SelectOption2
-                                        label="Active Hand"
-                                        name="activeHand"
-                                        value={formValues.activeHand}
-                                        options={['left', 'right']}
-                                        onChange={handleInputChange}
+                                        required={true}
                                     />
                                 </div>
 

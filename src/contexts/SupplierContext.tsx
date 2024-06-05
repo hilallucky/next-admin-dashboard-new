@@ -1,42 +1,15 @@
-import React, { createContext, useState, useContext, ReactNode } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 
-interface Supplier {
-  name: string;
-  email: string;
-  phone: string;
-}
+import {
+  SupplierFilterType,
+} from '../interfaces';
 
-interface SupplierContextProps {
-  supplier: Supplier | null;
-  setSupplier: (supplier: Supplier) => void;
-}
-
-const SupplierContext = createContext<SupplierContextProps | undefined>(undefined);
-
-export const SupplierProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [supplier, setSupplier] = useState<Supplier | null>(null);
-  return (
-    <SupplierContext.Provider value={{ supplier, setSupplier }}>
-      {children}
-    </SupplierContext.Provider>
-  );
+type SupplierListContext = {
+  isFilterOpen: boolean;
+  setFilterOpen: Dispatch<SetStateAction<boolean>>;
+  setDataFilter: Dispatch<SetStateAction<SupplierFilterType>>;
+  dataFilter: SupplierFilterType;
 };
-
-export const useSupplier = () => {
-  const context = useContext(SupplierContext);
-  if (!context) {
-    throw new Error('useSupplier must be used within a SupplierProvider');
-  }
-  return context;
-};
-
-
-// // context/SupplierContext.tsx
-// import React from 'react';
-
-// const SupplierContext = React.createContext({
-//   supplier: {},
-//   setSupplier: () => {},
-// });
-
-// export default SupplierContext;
+export const SupplierListContext = React.createContext<SupplierListContext>(
+  {} as SupplierListContext,
+);

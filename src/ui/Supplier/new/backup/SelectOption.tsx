@@ -1,27 +1,20 @@
-'use client';
 import React, { useState } from 'react';
-import { useFormContext } from 'react-hook-form';
 
-interface SelectOptionProps {
-    name: string;
-    label: string;
+interface Option {
     value: string;
-    options: any[];
-    required?: boolean;
-    onChange: (e: any) => void;
+    label: string;
 }
 
-const SelectOption: React.FC<SelectOptionProps> = ({
-    name,
-    label,
-    value,
-    options,
-    required = false,
-    onChange,
-    ...props
-}) => {
-    const { register, formState: { errors } } = useFormContext();
+interface Props {
+    label: string;
+    name: string;
+    value: string;
+    options: Option[];
+    onChange: (e: any) => void;
+}  
 
+
+const SelectOption2 = ({ label, name, value, options, onChange, multiple = false, ...props }: Props) => {
     const [selectedOption, setSelectedOption] = useState<string>('');
     const [isOptionSelected, setIsOptionSelected] = useState<boolean>(false);
 
@@ -36,19 +29,18 @@ const SelectOption: React.FC<SelectOptionProps> = ({
     };
 
     return (
+
         <div className="pt-4">
-            <label className="mt mb-3 block text-md font-medium text-black dark:text-white">
-                Select Country
+            <label htmlFor={name} className="mt mb-3 block text-md font-medium text-black dark:text-white">
+                Select {label}
             </label>
 
             <div className="relative z-20 bg-white dark:bg-form-input">
                 <select
-                    className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-6.5 py-3 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark  ${isOptionSelected ? 'text-black dark:text-white' : ''
-                        }`}
                     id={name}
                     name={name}
                     value={value}
-                    required={required ? `${label} is required` : false}
+                    className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-6.5 py-3 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark`}
                     onChange={handleChange}
                 >
                     <option value="" disabled className="text-body dark:text-bodydark">
@@ -84,9 +76,8 @@ const SelectOption: React.FC<SelectOptionProps> = ({
                     </svg>
                 </span>
             </div>
-            {errors[name] && <span>{errors[name].message}</span>}
         </div>
     );
 };
 
-export default SelectOption;
+export default SelectOption2;

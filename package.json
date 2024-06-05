@@ -12,9 +12,10 @@
         "prisma:cat": "cd prisma/schemas && cat *.prisma >> ../schema.prisma",
         "prisma:format": "prisma format",
         "prisma:reset": "prisma migrate reset",
+        "prisma:merge": "node ./prisma/merge-schemas.js",
         "prisma:generate": "prisma generate",
-        "prisma:migrate": "prisma migrate dev --name ${npm_config_name}",
-        "prisma:merge-schemas": "node prisma/merge-schemas.js",
+        "prisma:migrate:dev": "prisma migrate dev --name ${npm_config_name}",
+        "prisma:migrate:createonly": "prisma migrate dev --name ${npm_config_name} --create-only",
         "test:param": "echo \"The value of --foo is '${npm_config_foo}'\""
     },
     "prisma": {
@@ -38,6 +39,8 @@
         "react-dom": "^18",
         "react-final-form": "^6.5.9",
         "react-hook-form": "^7.51.5",
+        "react-router": "^6.23.1",
+        "react-router-dom": "^6.23.1",
         "react-toastify": "^10.0.5",
         "uuidv4": "^6.2.13"
     },

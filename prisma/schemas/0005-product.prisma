@@ -15,6 +15,7 @@ model Product {
 
     supplier     Supplier              @relation(fields: [supplierId], references: [id])
     orderDetails PurchaseOrderDetail[]
+    productAliases ProductAlias[]
 
     createdProductByUser User? @relation("ProductCreatedBy", fields: [createdBy], references: [id])
     updatedProductByUser User? @relation("ProductUpdatedBy", fields: [updatedBy], references: [id])

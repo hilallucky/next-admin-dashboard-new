@@ -2047,12 +2047,12 @@ export namespace Prisma {
 
   export type ProductCountOutputType = {
     orderDetails: number
-    ProductAlias: number
+    productAliases: number
   }
 
   export type ProductCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     orderDetails?: boolean | ProductCountOutputTypeCountOrderDetailsArgs
-    ProductAlias?: boolean | ProductCountOutputTypeCountProductAliasArgs
+    productAliases?: boolean | ProductCountOutputTypeCountProductAliasesArgs
   }
 
   // Custom InputTypes
@@ -2076,7 +2076,7 @@ export namespace Prisma {
   /**
    * ProductCountOutputType without action
    */
-  export type ProductCountOutputTypeCountProductAliasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ProductCountOutputTypeCountProductAliasesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ProductAliasWhereInput
   }
 
@@ -8477,6 +8477,7 @@ export namespace Prisma {
     uid: string | null
     code: string | null
     name: string | null
+    email: string | null
     address: string | null
     officePhone: string | null
     contactPerson: string | null
@@ -8495,6 +8496,7 @@ export namespace Prisma {
     uid: string | null
     code: string | null
     name: string | null
+    email: string | null
     address: string | null
     officePhone: string | null
     contactPerson: string | null
@@ -8513,6 +8515,7 @@ export namespace Prisma {
     uid: number
     code: number
     name: number
+    email: number
     address: number
     officePhone: number
     contactPerson: number
@@ -8549,6 +8552,7 @@ export namespace Prisma {
     uid?: true
     code?: true
     name?: true
+    email?: true
     address?: true
     officePhone?: true
     contactPerson?: true
@@ -8567,6 +8571,7 @@ export namespace Prisma {
     uid?: true
     code?: true
     name?: true
+    email?: true
     address?: true
     officePhone?: true
     contactPerson?: true
@@ -8585,6 +8590,7 @@ export namespace Prisma {
     uid?: true
     code?: true
     name?: true
+    email?: true
     address?: true
     officePhone?: true
     contactPerson?: true
@@ -8690,6 +8696,7 @@ export namespace Prisma {
     uid: string
     code: string
     name: string
+    email: string | null
     address: string
     officePhone: string
     contactPerson: string
@@ -8727,6 +8734,7 @@ export namespace Prisma {
     uid?: boolean
     code?: boolean
     name?: boolean
+    email?: boolean
     address?: boolean
     officePhone?: boolean
     contactPerson?: boolean
@@ -8752,6 +8760,7 @@ export namespace Prisma {
     uid?: boolean
     code?: boolean
     name?: boolean
+    email?: boolean
     address?: boolean
     officePhone?: boolean
     contactPerson?: boolean
@@ -8792,6 +8801,7 @@ export namespace Prisma {
       uid: string
       code: string
       name: string
+      email: string | null
       address: string
       officePhone: string
       contactPerson: string
@@ -9212,6 +9222,7 @@ export namespace Prisma {
     readonly uid: FieldRef<"Supplier", 'String'>
     readonly code: FieldRef<"Supplier", 'String'>
     readonly name: FieldRef<"Supplier", 'String'>
+    readonly email: FieldRef<"Supplier", 'String'>
     readonly address: FieldRef<"Supplier", 'String'>
     readonly officePhone: FieldRef<"Supplier", 'String'>
     readonly contactPerson: FieldRef<"Supplier", 'String'>
@@ -9929,10 +9940,10 @@ export namespace Prisma {
     deletedAt?: boolean
     supplier?: boolean | SupplierDefaultArgs<ExtArgs>
     orderDetails?: boolean | Product$orderDetailsArgs<ExtArgs>
+    productAliases?: boolean | Product$productAliasesArgs<ExtArgs>
     createdProductByUser?: boolean | Product$createdProductByUserArgs<ExtArgs>
     updatedProductByUser?: boolean | Product$updatedProductByUserArgs<ExtArgs>
     deletedProductByUser?: boolean | Product$deletedProductByUserArgs<ExtArgs>
-    ProductAlias?: boolean | Product$ProductAliasArgs<ExtArgs>
     _count?: boolean | ProductCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["product"]>
 
@@ -9956,10 +9967,10 @@ export namespace Prisma {
   export type ProductInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     supplier?: boolean | SupplierDefaultArgs<ExtArgs>
     orderDetails?: boolean | Product$orderDetailsArgs<ExtArgs>
+    productAliases?: boolean | Product$productAliasesArgs<ExtArgs>
     createdProductByUser?: boolean | Product$createdProductByUserArgs<ExtArgs>
     updatedProductByUser?: boolean | Product$updatedProductByUserArgs<ExtArgs>
     deletedProductByUser?: boolean | Product$deletedProductByUserArgs<ExtArgs>
-    ProductAlias?: boolean | Product$ProductAliasArgs<ExtArgs>
     _count?: boolean | ProductCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -9969,10 +9980,10 @@ export namespace Prisma {
     objects: {
       supplier: Prisma.$SupplierPayload<ExtArgs>
       orderDetails: Prisma.$PurchaseOrderDetailPayload<ExtArgs>[]
+      productAliases: Prisma.$ProductAliasPayload<ExtArgs>[]
       createdProductByUser: Prisma.$UserPayload<ExtArgs> | null
       updatedProductByUser: Prisma.$UserPayload<ExtArgs> | null
       deletedProductByUser: Prisma.$UserPayload<ExtArgs> | null
-      ProductAlias: Prisma.$ProductAliasPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -10357,13 +10368,13 @@ export namespace Prisma {
 
     orderDetails<T extends Product$orderDetailsArgs<ExtArgs> = {}>(args?: Subset<T, Product$orderDetailsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PurchaseOrderDetailPayload<ExtArgs>, T, 'findMany'> | Null>;
 
+    productAliases<T extends Product$productAliasesArgs<ExtArgs> = {}>(args?: Subset<T, Product$productAliasesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductAliasPayload<ExtArgs>, T, 'findMany'> | Null>;
+
     createdProductByUser<T extends Product$createdProductByUserArgs<ExtArgs> = {}>(args?: Subset<T, Product$createdProductByUserArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'findUniqueOrThrow'> | null, null, ExtArgs>;
 
     updatedProductByUser<T extends Product$updatedProductByUserArgs<ExtArgs> = {}>(args?: Subset<T, Product$updatedProductByUserArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'findUniqueOrThrow'> | null, null, ExtArgs>;
 
     deletedProductByUser<T extends Product$deletedProductByUserArgs<ExtArgs> = {}>(args?: Subset<T, Product$deletedProductByUserArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'findUniqueOrThrow'> | null, null, ExtArgs>;
-
-    ProductAlias<T extends Product$ProductAliasArgs<ExtArgs> = {}>(args?: Subset<T, Product$ProductAliasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductAliasPayload<ExtArgs>, T, 'findMany'> | Null>;
 
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -10725,6 +10736,26 @@ export namespace Prisma {
   }
 
   /**
+   * Product.productAliases
+   */
+  export type Product$productAliasesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProductAlias
+     */
+    select?: ProductAliasSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductAliasInclude<ExtArgs> | null
+    where?: ProductAliasWhereInput
+    orderBy?: ProductAliasOrderByWithRelationInput | ProductAliasOrderByWithRelationInput[]
+    cursor?: ProductAliasWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ProductAliasScalarFieldEnum | ProductAliasScalarFieldEnum[]
+  }
+
+  /**
    * Product.createdProductByUser
    */
   export type Product$createdProductByUserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10767,26 +10798,6 @@ export namespace Prisma {
      */
     include?: UserInclude<ExtArgs> | null
     where?: UserWhereInput
-  }
-
-  /**
-   * Product.ProductAlias
-   */
-  export type Product$ProductAliasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ProductAlias
-     */
-    select?: ProductAliasSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProductAliasInclude<ExtArgs> | null
-    where?: ProductAliasWhereInput
-    orderBy?: ProductAliasOrderByWithRelationInput | ProductAliasOrderByWithRelationInput[]
-    cursor?: ProductAliasWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ProductAliasScalarFieldEnum | ProductAliasScalarFieldEnum[]
   }
 
   /**
@@ -14366,6 +14377,7 @@ export namespace Prisma {
     uid: 'uid',
     code: 'code',
     name: 'name',
+    email: 'email',
     address: 'address',
     officePhone: 'officePhone',
     contactPerson: 'contactPerson',
@@ -15162,6 +15174,7 @@ export namespace Prisma {
     uid?: StringFilter<"Supplier"> | string
     code?: StringFilter<"Supplier"> | string
     name?: StringFilter<"Supplier"> | string
+    email?: StringNullableFilter<"Supplier"> | string | null
     address?: StringFilter<"Supplier"> | string
     officePhone?: StringFilter<"Supplier"> | string
     contactPerson?: StringFilter<"Supplier"> | string
@@ -15186,6 +15199,7 @@ export namespace Prisma {
     uid?: SortOrder
     code?: SortOrder
     name?: SortOrder
+    email?: SortOrderInput | SortOrder
     address?: SortOrder
     officePhone?: SortOrder
     contactPerson?: SortOrder
@@ -15213,6 +15227,7 @@ export namespace Prisma {
     OR?: SupplierWhereInput[]
     NOT?: SupplierWhereInput | SupplierWhereInput[]
     name?: StringFilter<"Supplier"> | string
+    email?: StringNullableFilter<"Supplier"> | string | null
     address?: StringFilter<"Supplier"> | string
     officePhone?: StringFilter<"Supplier"> | string
     contactPerson?: StringFilter<"Supplier"> | string
@@ -15237,6 +15252,7 @@ export namespace Prisma {
     uid?: SortOrder
     code?: SortOrder
     name?: SortOrder
+    email?: SortOrderInput | SortOrder
     address?: SortOrder
     officePhone?: SortOrder
     contactPerson?: SortOrder
@@ -15263,6 +15279,7 @@ export namespace Prisma {
     uid?: StringWithAggregatesFilter<"Supplier"> | string
     code?: StringWithAggregatesFilter<"Supplier"> | string
     name?: StringWithAggregatesFilter<"Supplier"> | string
+    email?: StringNullableWithAggregatesFilter<"Supplier"> | string | null
     address?: StringWithAggregatesFilter<"Supplier"> | string
     officePhone?: StringWithAggregatesFilter<"Supplier"> | string
     contactPerson?: StringWithAggregatesFilter<"Supplier"> | string
@@ -15295,10 +15312,10 @@ export namespace Prisma {
     deletedAt?: DateTimeNullableFilter<"Product"> | Date | string | null
     supplier?: XOR<SupplierRelationFilter, SupplierWhereInput>
     orderDetails?: PurchaseOrderDetailListRelationFilter
+    productAliases?: ProductAliasListRelationFilter
     createdProductByUser?: XOR<UserNullableRelationFilter, UserWhereInput> | null
     updatedProductByUser?: XOR<UserNullableRelationFilter, UserWhereInput> | null
     deletedProductByUser?: XOR<UserNullableRelationFilter, UserWhereInput> | null
-    ProductAlias?: ProductAliasListRelationFilter
   }
 
   export type ProductOrderByWithRelationInput = {
@@ -15317,10 +15334,10 @@ export namespace Prisma {
     deletedAt?: SortOrderInput | SortOrder
     supplier?: SupplierOrderByWithRelationInput
     orderDetails?: PurchaseOrderDetailOrderByRelationAggregateInput
+    productAliases?: ProductAliasOrderByRelationAggregateInput
     createdProductByUser?: UserOrderByWithRelationInput
     updatedProductByUser?: UserOrderByWithRelationInput
     deletedProductByUser?: UserOrderByWithRelationInput
-    ProductAlias?: ProductAliasOrderByRelationAggregateInput
   }
 
   export type ProductWhereUniqueInput = Prisma.AtLeast<{
@@ -15342,10 +15359,10 @@ export namespace Prisma {
     deletedAt?: DateTimeNullableFilter<"Product"> | Date | string | null
     supplier?: XOR<SupplierRelationFilter, SupplierWhereInput>
     orderDetails?: PurchaseOrderDetailListRelationFilter
+    productAliases?: ProductAliasListRelationFilter
     createdProductByUser?: XOR<UserNullableRelationFilter, UserWhereInput> | null
     updatedProductByUser?: XOR<UserNullableRelationFilter, UserWhereInput> | null
     deletedProductByUser?: XOR<UserNullableRelationFilter, UserWhereInput> | null
-    ProductAlias?: ProductAliasListRelationFilter
   }, "id" | "uid" | "code">
 
   export type ProductOrderByWithAggregationInput = {
@@ -16426,6 +16443,7 @@ export namespace Prisma {
     uid?: string
     code: string
     name: string
+    email?: string | null
     address: string
     officePhone: string
     contactPerson: string
@@ -16447,6 +16465,7 @@ export namespace Prisma {
     uid?: string
     code: string
     name: string
+    email?: string | null
     address: string
     officePhone: string
     contactPerson: string
@@ -16467,6 +16486,7 @@ export namespace Prisma {
     uid?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     officePhone?: StringFieldUpdateOperationsInput | string
     contactPerson?: StringFieldUpdateOperationsInput | string
@@ -16488,6 +16508,7 @@ export namespace Prisma {
     uid?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     officePhone?: StringFieldUpdateOperationsInput | string
     contactPerson?: StringFieldUpdateOperationsInput | string
@@ -16509,6 +16530,7 @@ export namespace Prisma {
     uid?: string
     code: string
     name: string
+    email?: string | null
     address: string
     officePhone: string
     contactPerson: string
@@ -16526,6 +16548,7 @@ export namespace Prisma {
     uid?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     officePhone?: StringFieldUpdateOperationsInput | string
     contactPerson?: StringFieldUpdateOperationsInput | string
@@ -16541,6 +16564,7 @@ export namespace Prisma {
     uid?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     officePhone?: StringFieldUpdateOperationsInput | string
     contactPerson?: StringFieldUpdateOperationsInput | string
@@ -16565,10 +16589,10 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     supplier: SupplierCreateNestedOneWithoutProductsInput
     orderDetails?: PurchaseOrderDetailCreateNestedManyWithoutProductInput
+    productAliases?: ProductAliasCreateNestedManyWithoutProductInput
     createdProductByUser?: UserCreateNestedOneWithoutCreatedProductByUserInput
     updatedProductByUser?: UserCreateNestedOneWithoutUpdatedProductByUserInput
     deletedProductByUser?: UserCreateNestedOneWithoutDeletedProductByUserInput
-    ProductAlias?: ProductAliasCreateNestedManyWithoutProductInput
   }
 
   export type ProductUncheckedCreateInput = {
@@ -16586,7 +16610,7 @@ export namespace Prisma {
     deletedBy?: number | null
     deletedAt?: Date | string | null
     orderDetails?: PurchaseOrderDetailUncheckedCreateNestedManyWithoutProductInput
-    ProductAlias?: ProductAliasUncheckedCreateNestedManyWithoutProductInput
+    productAliases?: ProductAliasUncheckedCreateNestedManyWithoutProductInput
   }
 
   export type ProductUpdateInput = {
@@ -16600,10 +16624,10 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     supplier?: SupplierUpdateOneRequiredWithoutProductsNestedInput
     orderDetails?: PurchaseOrderDetailUpdateManyWithoutProductNestedInput
+    productAliases?: ProductAliasUpdateManyWithoutProductNestedInput
     createdProductByUser?: UserUpdateOneWithoutCreatedProductByUserNestedInput
     updatedProductByUser?: UserUpdateOneWithoutUpdatedProductByUserNestedInput
     deletedProductByUser?: UserUpdateOneWithoutDeletedProductByUserNestedInput
-    ProductAlias?: ProductAliasUpdateManyWithoutProductNestedInput
   }
 
   export type ProductUncheckedUpdateInput = {
@@ -16621,7 +16645,7 @@ export namespace Prisma {
     deletedBy?: NullableIntFieldUpdateOperationsInput | number | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     orderDetails?: PurchaseOrderDetailUncheckedUpdateManyWithoutProductNestedInput
-    ProductAlias?: ProductAliasUncheckedUpdateManyWithoutProductNestedInput
+    productAliases?: ProductAliasUncheckedUpdateManyWithoutProductNestedInput
   }
 
   export type ProductCreateManyInput = {
@@ -16676,7 +16700,7 @@ export namespace Prisma {
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
     supplier: SupplierCreateNestedOneWithoutProductAliasesInput
-    product: ProductCreateNestedOneWithoutProductAliasInput
+    product: ProductCreateNestedOneWithoutProductAliasesInput
     createdProductAliasByUser?: UserCreateNestedOneWithoutCreatedProductAliasByUserInput
     updatedProductAliasByUser?: UserCreateNestedOneWithoutUpdatedProductAliasByUserInput
     deletedProductAliasByUser?: UserCreateNestedOneWithoutDeletedProductAliasByUserInput
@@ -16707,7 +16731,7 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     supplier?: SupplierUpdateOneRequiredWithoutProductAliasesNestedInput
-    product?: ProductUpdateOneRequiredWithoutProductAliasNestedInput
+    product?: ProductUpdateOneRequiredWithoutProductAliasesNestedInput
     createdProductAliasByUser?: UserUpdateOneWithoutCreatedProductAliasByUserNestedInput
     updatedProductAliasByUser?: UserUpdateOneWithoutUpdatedProductAliasByUserNestedInput
     deletedProductAliasByUser?: UserUpdateOneWithoutDeletedProductAliasByUserNestedInput
@@ -17650,6 +17674,7 @@ export namespace Prisma {
     uid?: SortOrder
     code?: SortOrder
     name?: SortOrder
+    email?: SortOrder
     address?: SortOrder
     officePhone?: SortOrder
     contactPerson?: SortOrder
@@ -17676,6 +17701,7 @@ export namespace Prisma {
     uid?: SortOrder
     code?: SortOrder
     name?: SortOrder
+    email?: SortOrder
     address?: SortOrder
     officePhone?: SortOrder
     contactPerson?: SortOrder
@@ -17694,6 +17720,7 @@ export namespace Prisma {
     uid?: SortOrder
     code?: SortOrder
     name?: SortOrder
+    email?: SortOrder
     address?: SortOrder
     officePhone?: SortOrder
     contactPerson?: SortOrder
@@ -19899,6 +19926,13 @@ export namespace Prisma {
     connect?: PurchaseOrderDetailWhereUniqueInput | PurchaseOrderDetailWhereUniqueInput[]
   }
 
+  export type ProductAliasCreateNestedManyWithoutProductInput = {
+    create?: XOR<ProductAliasCreateWithoutProductInput, ProductAliasUncheckedCreateWithoutProductInput> | ProductAliasCreateWithoutProductInput[] | ProductAliasUncheckedCreateWithoutProductInput[]
+    connectOrCreate?: ProductAliasCreateOrConnectWithoutProductInput | ProductAliasCreateOrConnectWithoutProductInput[]
+    createMany?: ProductAliasCreateManyProductInputEnvelope
+    connect?: ProductAliasWhereUniqueInput | ProductAliasWhereUniqueInput[]
+  }
+
   export type UserCreateNestedOneWithoutCreatedProductByUserInput = {
     create?: XOR<UserCreateWithoutCreatedProductByUserInput, UserUncheckedCreateWithoutCreatedProductByUserInput>
     connectOrCreate?: UserCreateOrConnectWithoutCreatedProductByUserInput
@@ -19915,13 +19949,6 @@ export namespace Prisma {
     create?: XOR<UserCreateWithoutDeletedProductByUserInput, UserUncheckedCreateWithoutDeletedProductByUserInput>
     connectOrCreate?: UserCreateOrConnectWithoutDeletedProductByUserInput
     connect?: UserWhereUniqueInput
-  }
-
-  export type ProductAliasCreateNestedManyWithoutProductInput = {
-    create?: XOR<ProductAliasCreateWithoutProductInput, ProductAliasUncheckedCreateWithoutProductInput> | ProductAliasCreateWithoutProductInput[] | ProductAliasUncheckedCreateWithoutProductInput[]
-    connectOrCreate?: ProductAliasCreateOrConnectWithoutProductInput | ProductAliasCreateOrConnectWithoutProductInput[]
-    createMany?: ProductAliasCreateManyProductInputEnvelope
-    connect?: ProductAliasWhereUniqueInput | ProductAliasWhereUniqueInput[]
   }
 
   export type PurchaseOrderDetailUncheckedCreateNestedManyWithoutProductInput = {
@@ -19960,6 +19987,20 @@ export namespace Prisma {
     deleteMany?: PurchaseOrderDetailScalarWhereInput | PurchaseOrderDetailScalarWhereInput[]
   }
 
+  export type ProductAliasUpdateManyWithoutProductNestedInput = {
+    create?: XOR<ProductAliasCreateWithoutProductInput, ProductAliasUncheckedCreateWithoutProductInput> | ProductAliasCreateWithoutProductInput[] | ProductAliasUncheckedCreateWithoutProductInput[]
+    connectOrCreate?: ProductAliasCreateOrConnectWithoutProductInput | ProductAliasCreateOrConnectWithoutProductInput[]
+    upsert?: ProductAliasUpsertWithWhereUniqueWithoutProductInput | ProductAliasUpsertWithWhereUniqueWithoutProductInput[]
+    createMany?: ProductAliasCreateManyProductInputEnvelope
+    set?: ProductAliasWhereUniqueInput | ProductAliasWhereUniqueInput[]
+    disconnect?: ProductAliasWhereUniqueInput | ProductAliasWhereUniqueInput[]
+    delete?: ProductAliasWhereUniqueInput | ProductAliasWhereUniqueInput[]
+    connect?: ProductAliasWhereUniqueInput | ProductAliasWhereUniqueInput[]
+    update?: ProductAliasUpdateWithWhereUniqueWithoutProductInput | ProductAliasUpdateWithWhereUniqueWithoutProductInput[]
+    updateMany?: ProductAliasUpdateManyWithWhereWithoutProductInput | ProductAliasUpdateManyWithWhereWithoutProductInput[]
+    deleteMany?: ProductAliasScalarWhereInput | ProductAliasScalarWhereInput[]
+  }
+
   export type UserUpdateOneWithoutCreatedProductByUserNestedInput = {
     create?: XOR<UserCreateWithoutCreatedProductByUserInput, UserUncheckedCreateWithoutCreatedProductByUserInput>
     connectOrCreate?: UserCreateOrConnectWithoutCreatedProductByUserInput
@@ -19988,20 +20029,6 @@ export namespace Prisma {
     delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutDeletedProductByUserInput, UserUpdateWithoutDeletedProductByUserInput>, UserUncheckedUpdateWithoutDeletedProductByUserInput>
-  }
-
-  export type ProductAliasUpdateManyWithoutProductNestedInput = {
-    create?: XOR<ProductAliasCreateWithoutProductInput, ProductAliasUncheckedCreateWithoutProductInput> | ProductAliasCreateWithoutProductInput[] | ProductAliasUncheckedCreateWithoutProductInput[]
-    connectOrCreate?: ProductAliasCreateOrConnectWithoutProductInput | ProductAliasCreateOrConnectWithoutProductInput[]
-    upsert?: ProductAliasUpsertWithWhereUniqueWithoutProductInput | ProductAliasUpsertWithWhereUniqueWithoutProductInput[]
-    createMany?: ProductAliasCreateManyProductInputEnvelope
-    set?: ProductAliasWhereUniqueInput | ProductAliasWhereUniqueInput[]
-    disconnect?: ProductAliasWhereUniqueInput | ProductAliasWhereUniqueInput[]
-    delete?: ProductAliasWhereUniqueInput | ProductAliasWhereUniqueInput[]
-    connect?: ProductAliasWhereUniqueInput | ProductAliasWhereUniqueInput[]
-    update?: ProductAliasUpdateWithWhereUniqueWithoutProductInput | ProductAliasUpdateWithWhereUniqueWithoutProductInput[]
-    updateMany?: ProductAliasUpdateManyWithWhereWithoutProductInput | ProductAliasUpdateManyWithWhereWithoutProductInput[]
-    deleteMany?: ProductAliasScalarWhereInput | ProductAliasScalarWhereInput[]
   }
 
   export type PurchaseOrderDetailUncheckedUpdateManyWithoutProductNestedInput = {
@@ -20038,9 +20065,9 @@ export namespace Prisma {
     connect?: SupplierWhereUniqueInput
   }
 
-  export type ProductCreateNestedOneWithoutProductAliasInput = {
-    create?: XOR<ProductCreateWithoutProductAliasInput, ProductUncheckedCreateWithoutProductAliasInput>
-    connectOrCreate?: ProductCreateOrConnectWithoutProductAliasInput
+  export type ProductCreateNestedOneWithoutProductAliasesInput = {
+    create?: XOR<ProductCreateWithoutProductAliasesInput, ProductUncheckedCreateWithoutProductAliasesInput>
+    connectOrCreate?: ProductCreateOrConnectWithoutProductAliasesInput
     connect?: ProductWhereUniqueInput
   }
 
@@ -20070,12 +20097,12 @@ export namespace Prisma {
     update?: XOR<XOR<SupplierUpdateToOneWithWhereWithoutProductAliasesInput, SupplierUpdateWithoutProductAliasesInput>, SupplierUncheckedUpdateWithoutProductAliasesInput>
   }
 
-  export type ProductUpdateOneRequiredWithoutProductAliasNestedInput = {
-    create?: XOR<ProductCreateWithoutProductAliasInput, ProductUncheckedCreateWithoutProductAliasInput>
-    connectOrCreate?: ProductCreateOrConnectWithoutProductAliasInput
-    upsert?: ProductUpsertWithoutProductAliasInput
+  export type ProductUpdateOneRequiredWithoutProductAliasesNestedInput = {
+    create?: XOR<ProductCreateWithoutProductAliasesInput, ProductUncheckedCreateWithoutProductAliasesInput>
+    connectOrCreate?: ProductCreateOrConnectWithoutProductAliasesInput
+    upsert?: ProductUpsertWithoutProductAliasesInput
     connect?: ProductWhereUniqueInput
-    update?: XOR<XOR<ProductUpdateToOneWithWhereWithoutProductAliasInput, ProductUpdateWithoutProductAliasInput>, ProductUncheckedUpdateWithoutProductAliasInput>
+    update?: XOR<XOR<ProductUpdateToOneWithWhereWithoutProductAliasesInput, ProductUpdateWithoutProductAliasesInput>, ProductUncheckedUpdateWithoutProductAliasesInput>
   }
 
   export type UserUpdateOneWithoutCreatedProductAliasByUserNestedInput = {
@@ -21091,6 +21118,7 @@ export namespace Prisma {
     uid?: string
     code: string
     name: string
+    email?: string | null
     address: string
     officePhone: string
     contactPerson: string
@@ -21111,6 +21139,7 @@ export namespace Prisma {
     uid?: string
     code: string
     name: string
+    email?: string | null
     address: string
     officePhone: string
     contactPerson: string
@@ -21140,6 +21169,7 @@ export namespace Prisma {
     uid?: string
     code: string
     name: string
+    email?: string | null
     address: string
     officePhone: string
     contactPerson: string
@@ -21160,6 +21190,7 @@ export namespace Prisma {
     uid?: string
     code: string
     name: string
+    email?: string | null
     address: string
     officePhone: string
     contactPerson: string
@@ -21189,6 +21220,7 @@ export namespace Prisma {
     uid?: string
     code: string
     name: string
+    email?: string | null
     address: string
     officePhone: string
     contactPerson: string
@@ -21209,6 +21241,7 @@ export namespace Prisma {
     uid?: string
     code: string
     name: string
+    email?: string | null
     address: string
     officePhone: string
     contactPerson: string
@@ -21245,9 +21278,9 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     supplier: SupplierCreateNestedOneWithoutProductsInput
     orderDetails?: PurchaseOrderDetailCreateNestedManyWithoutProductInput
+    productAliases?: ProductAliasCreateNestedManyWithoutProductInput
     updatedProductByUser?: UserCreateNestedOneWithoutUpdatedProductByUserInput
     deletedProductByUser?: UserCreateNestedOneWithoutDeletedProductByUserInput
-    ProductAlias?: ProductAliasCreateNestedManyWithoutProductInput
   }
 
   export type ProductUncheckedCreateWithoutCreatedProductByUserInput = {
@@ -21264,7 +21297,7 @@ export namespace Prisma {
     deletedBy?: number | null
     deletedAt?: Date | string | null
     orderDetails?: PurchaseOrderDetailUncheckedCreateNestedManyWithoutProductInput
-    ProductAlias?: ProductAliasUncheckedCreateNestedManyWithoutProductInput
+    productAliases?: ProductAliasUncheckedCreateNestedManyWithoutProductInput
   }
 
   export type ProductCreateOrConnectWithoutCreatedProductByUserInput = {
@@ -21288,9 +21321,9 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     supplier: SupplierCreateNestedOneWithoutProductsInput
     orderDetails?: PurchaseOrderDetailCreateNestedManyWithoutProductInput
+    productAliases?: ProductAliasCreateNestedManyWithoutProductInput
     createdProductByUser?: UserCreateNestedOneWithoutCreatedProductByUserInput
     deletedProductByUser?: UserCreateNestedOneWithoutDeletedProductByUserInput
-    ProductAlias?: ProductAliasCreateNestedManyWithoutProductInput
   }
 
   export type ProductUncheckedCreateWithoutUpdatedProductByUserInput = {
@@ -21307,7 +21340,7 @@ export namespace Prisma {
     deletedBy?: number | null
     deletedAt?: Date | string | null
     orderDetails?: PurchaseOrderDetailUncheckedCreateNestedManyWithoutProductInput
-    ProductAlias?: ProductAliasUncheckedCreateNestedManyWithoutProductInput
+    productAliases?: ProductAliasUncheckedCreateNestedManyWithoutProductInput
   }
 
   export type ProductCreateOrConnectWithoutUpdatedProductByUserInput = {
@@ -21331,9 +21364,9 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     supplier: SupplierCreateNestedOneWithoutProductsInput
     orderDetails?: PurchaseOrderDetailCreateNestedManyWithoutProductInput
+    productAliases?: ProductAliasCreateNestedManyWithoutProductInput
     createdProductByUser?: UserCreateNestedOneWithoutCreatedProductByUserInput
     updatedProductByUser?: UserCreateNestedOneWithoutUpdatedProductByUserInput
-    ProductAlias?: ProductAliasCreateNestedManyWithoutProductInput
   }
 
   export type ProductUncheckedCreateWithoutDeletedProductByUserInput = {
@@ -21350,7 +21383,7 @@ export namespace Prisma {
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
     orderDetails?: PurchaseOrderDetailUncheckedCreateNestedManyWithoutProductInput
-    ProductAlias?: ProductAliasUncheckedCreateNestedManyWithoutProductInput
+    productAliases?: ProductAliasUncheckedCreateNestedManyWithoutProductInput
   }
 
   export type ProductCreateOrConnectWithoutDeletedProductByUserInput = {
@@ -21372,7 +21405,7 @@ export namespace Prisma {
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
     supplier: SupplierCreateNestedOneWithoutProductAliasesInput
-    product: ProductCreateNestedOneWithoutProductAliasInput
+    product: ProductCreateNestedOneWithoutProductAliasesInput
     updatedProductAliasByUser?: UserCreateNestedOneWithoutUpdatedProductAliasByUserInput
     deletedProductAliasByUser?: UserCreateNestedOneWithoutDeletedProductAliasByUserInput
   }
@@ -21411,7 +21444,7 @@ export namespace Prisma {
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
     supplier: SupplierCreateNestedOneWithoutProductAliasesInput
-    product: ProductCreateNestedOneWithoutProductAliasInput
+    product: ProductCreateNestedOneWithoutProductAliasesInput
     createdProductAliasByUser?: UserCreateNestedOneWithoutCreatedProductAliasByUserInput
     deletedProductAliasByUser?: UserCreateNestedOneWithoutDeletedProductAliasByUserInput
   }
@@ -21450,7 +21483,7 @@ export namespace Prisma {
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
     supplier: SupplierCreateNestedOneWithoutProductAliasesInput
-    product: ProductCreateNestedOneWithoutProductAliasInput
+    product: ProductCreateNestedOneWithoutProductAliasesInput
     createdProductAliasByUser?: UserCreateNestedOneWithoutCreatedProductAliasByUserInput
     updatedProductAliasByUser?: UserCreateNestedOneWithoutUpdatedProductAliasByUserInput
   }
@@ -22101,6 +22134,7 @@ export namespace Prisma {
     uid?: StringFilter<"Supplier"> | string
     code?: StringFilter<"Supplier"> | string
     name?: StringFilter<"Supplier"> | string
+    email?: StringNullableFilter<"Supplier"> | string | null
     address?: StringFilter<"Supplier"> | string
     officePhone?: StringFilter<"Supplier"> | string
     contactPerson?: StringFilter<"Supplier"> | string
@@ -25420,10 +25454,10 @@ export namespace Prisma {
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
     orderDetails?: PurchaseOrderDetailCreateNestedManyWithoutProductInput
+    productAliases?: ProductAliasCreateNestedManyWithoutProductInput
     createdProductByUser?: UserCreateNestedOneWithoutCreatedProductByUserInput
     updatedProductByUser?: UserCreateNestedOneWithoutUpdatedProductByUserInput
     deletedProductByUser?: UserCreateNestedOneWithoutDeletedProductByUserInput
-    ProductAlias?: ProductAliasCreateNestedManyWithoutProductInput
   }
 
   export type ProductUncheckedCreateWithoutSupplierInput = {
@@ -25440,7 +25474,7 @@ export namespace Prisma {
     deletedBy?: number | null
     deletedAt?: Date | string | null
     orderDetails?: PurchaseOrderDetailUncheckedCreateNestedManyWithoutProductInput
-    ProductAlias?: ProductAliasUncheckedCreateNestedManyWithoutProductInput
+    productAliases?: ProductAliasUncheckedCreateNestedManyWithoutProductInput
   }
 
   export type ProductCreateOrConnectWithoutSupplierInput = {
@@ -25461,7 +25495,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
-    product: ProductCreateNestedOneWithoutProductAliasInput
+    product: ProductCreateNestedOneWithoutProductAliasesInput
     createdProductAliasByUser?: UserCreateNestedOneWithoutCreatedProductAliasByUserInput
     updatedProductAliasByUser?: UserCreateNestedOneWithoutUpdatedProductAliasByUserInput
     deletedProductAliasByUser?: UserCreateNestedOneWithoutDeletedProductAliasByUserInput
@@ -26175,6 +26209,7 @@ export namespace Prisma {
     uid?: string
     code: string
     name: string
+    email?: string | null
     address: string
     officePhone: string
     contactPerson: string
@@ -26195,6 +26230,7 @@ export namespace Prisma {
     uid?: string
     code: string
     name: string
+    email?: string | null
     address: string
     officePhone: string
     contactPerson: string
@@ -26253,6 +26289,45 @@ export namespace Prisma {
 
   export type PurchaseOrderDetailCreateManyProductInputEnvelope = {
     data: PurchaseOrderDetailCreateManyProductInput | PurchaseOrderDetailCreateManyProductInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ProductAliasCreateWithoutProductInput = {
+    uid?: string
+    code: string
+    name: string
+    status?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    supplier: SupplierCreateNestedOneWithoutProductAliasesInput
+    createdProductAliasByUser?: UserCreateNestedOneWithoutCreatedProductAliasByUserInput
+    updatedProductAliasByUser?: UserCreateNestedOneWithoutUpdatedProductAliasByUserInput
+    deletedProductAliasByUser?: UserCreateNestedOneWithoutDeletedProductAliasByUserInput
+  }
+
+  export type ProductAliasUncheckedCreateWithoutProductInput = {
+    id?: number
+    uid?: string
+    code: string
+    name: string
+    supplierId: number
+    status?: number
+    createdBy?: number | null
+    createdAt?: Date | string
+    updatedBy?: number | null
+    updatedAt?: Date | string | null
+    deletedBy?: number | null
+    deletedAt?: Date | string | null
+  }
+
+  export type ProductAliasCreateOrConnectWithoutProductInput = {
+    where: ProductAliasWhereUniqueInput
+    create: XOR<ProductAliasCreateWithoutProductInput, ProductAliasUncheckedCreateWithoutProductInput>
+  }
+
+  export type ProductAliasCreateManyProductInputEnvelope = {
+    data: ProductAliasCreateManyProductInput | ProductAliasCreateManyProductInput[]
     skipDuplicates?: boolean
   }
 
@@ -26538,45 +26613,6 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutDeletedProductByUserInput, UserUncheckedCreateWithoutDeletedProductByUserInput>
   }
 
-  export type ProductAliasCreateWithoutProductInput = {
-    uid?: string
-    code: string
-    name: string
-    status?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string | null
-    deletedAt?: Date | string | null
-    supplier: SupplierCreateNestedOneWithoutProductAliasesInput
-    createdProductAliasByUser?: UserCreateNestedOneWithoutCreatedProductAliasByUserInput
-    updatedProductAliasByUser?: UserCreateNestedOneWithoutUpdatedProductAliasByUserInput
-    deletedProductAliasByUser?: UserCreateNestedOneWithoutDeletedProductAliasByUserInput
-  }
-
-  export type ProductAliasUncheckedCreateWithoutProductInput = {
-    id?: number
-    uid?: string
-    code: string
-    name: string
-    supplierId: number
-    status?: number
-    createdBy?: number | null
-    createdAt?: Date | string
-    updatedBy?: number | null
-    updatedAt?: Date | string | null
-    deletedBy?: number | null
-    deletedAt?: Date | string | null
-  }
-
-  export type ProductAliasCreateOrConnectWithoutProductInput = {
-    where: ProductAliasWhereUniqueInput
-    create: XOR<ProductAliasCreateWithoutProductInput, ProductAliasUncheckedCreateWithoutProductInput>
-  }
-
-  export type ProductAliasCreateManyProductInputEnvelope = {
-    data: ProductAliasCreateManyProductInput | ProductAliasCreateManyProductInput[]
-    skipDuplicates?: boolean
-  }
-
   export type SupplierUpsertWithoutProductsInput = {
     update: XOR<SupplierUpdateWithoutProductsInput, SupplierUncheckedUpdateWithoutProductsInput>
     create: XOR<SupplierCreateWithoutProductsInput, SupplierUncheckedCreateWithoutProductsInput>
@@ -26592,6 +26628,7 @@ export namespace Prisma {
     uid?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     officePhone?: StringFieldUpdateOperationsInput | string
     contactPerson?: StringFieldUpdateOperationsInput | string
@@ -26612,6 +26649,7 @@ export namespace Prisma {
     uid?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     officePhone?: StringFieldUpdateOperationsInput | string
     contactPerson?: StringFieldUpdateOperationsInput | string
@@ -26641,6 +26679,22 @@ export namespace Prisma {
   export type PurchaseOrderDetailUpdateManyWithWhereWithoutProductInput = {
     where: PurchaseOrderDetailScalarWhereInput
     data: XOR<PurchaseOrderDetailUpdateManyMutationInput, PurchaseOrderDetailUncheckedUpdateManyWithoutProductInput>
+  }
+
+  export type ProductAliasUpsertWithWhereUniqueWithoutProductInput = {
+    where: ProductAliasWhereUniqueInput
+    update: XOR<ProductAliasUpdateWithoutProductInput, ProductAliasUncheckedUpdateWithoutProductInput>
+    create: XOR<ProductAliasCreateWithoutProductInput, ProductAliasUncheckedCreateWithoutProductInput>
+  }
+
+  export type ProductAliasUpdateWithWhereUniqueWithoutProductInput = {
+    where: ProductAliasWhereUniqueInput
+    data: XOR<ProductAliasUpdateWithoutProductInput, ProductAliasUncheckedUpdateWithoutProductInput>
+  }
+
+  export type ProductAliasUpdateManyWithWhereWithoutProductInput = {
+    where: ProductAliasScalarWhereInput
+    data: XOR<ProductAliasUpdateManyMutationInput, ProductAliasUncheckedUpdateManyWithoutProductInput>
   }
 
   export type UserUpsertWithoutCreatedProductByUserInput = {
@@ -26943,26 +26997,11 @@ export namespace Prisma {
     deletedPurchaseOrderDetailByUser?: PurchaseOrderDetailUncheckedUpdateManyWithoutDeletedPurchaseOrderDetailByUserNestedInput
   }
 
-  export type ProductAliasUpsertWithWhereUniqueWithoutProductInput = {
-    where: ProductAliasWhereUniqueInput
-    update: XOR<ProductAliasUpdateWithoutProductInput, ProductAliasUncheckedUpdateWithoutProductInput>
-    create: XOR<ProductAliasCreateWithoutProductInput, ProductAliasUncheckedCreateWithoutProductInput>
-  }
-
-  export type ProductAliasUpdateWithWhereUniqueWithoutProductInput = {
-    where: ProductAliasWhereUniqueInput
-    data: XOR<ProductAliasUpdateWithoutProductInput, ProductAliasUncheckedUpdateWithoutProductInput>
-  }
-
-  export type ProductAliasUpdateManyWithWhereWithoutProductInput = {
-    where: ProductAliasScalarWhereInput
-    data: XOR<ProductAliasUpdateManyMutationInput, ProductAliasUncheckedUpdateManyWithoutProductInput>
-  }
-
   export type SupplierCreateWithoutProductAliasesInput = {
     uid?: string
     code: string
     name: string
+    email?: string | null
     address: string
     officePhone: string
     contactPerson: string
@@ -26983,6 +27022,7 @@ export namespace Prisma {
     uid?: string
     code: string
     name: string
+    email?: string | null
     address: string
     officePhone: string
     contactPerson: string
@@ -27003,7 +27043,7 @@ export namespace Prisma {
     create: XOR<SupplierCreateWithoutProductAliasesInput, SupplierUncheckedCreateWithoutProductAliasesInput>
   }
 
-  export type ProductCreateWithoutProductAliasInput = {
+  export type ProductCreateWithoutProductAliasesInput = {
     uid?: string
     code: string
     name: string
@@ -27019,7 +27059,7 @@ export namespace Prisma {
     deletedProductByUser?: UserCreateNestedOneWithoutDeletedProductByUserInput
   }
 
-  export type ProductUncheckedCreateWithoutProductAliasInput = {
+  export type ProductUncheckedCreateWithoutProductAliasesInput = {
     id?: number
     uid?: string
     code: string
@@ -27036,9 +27076,9 @@ export namespace Prisma {
     orderDetails?: PurchaseOrderDetailUncheckedCreateNestedManyWithoutProductInput
   }
 
-  export type ProductCreateOrConnectWithoutProductAliasInput = {
+  export type ProductCreateOrConnectWithoutProductAliasesInput = {
     where: ProductWhereUniqueInput
-    create: XOR<ProductCreateWithoutProductAliasInput, ProductUncheckedCreateWithoutProductAliasInput>
+    create: XOR<ProductCreateWithoutProductAliasesInput, ProductUncheckedCreateWithoutProductAliasesInput>
   }
 
   export type UserCreateWithoutCreatedProductAliasByUserInput = {
@@ -27338,6 +27378,7 @@ export namespace Prisma {
     uid?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     officePhone?: StringFieldUpdateOperationsInput | string
     contactPerson?: StringFieldUpdateOperationsInput | string
@@ -27358,6 +27399,7 @@ export namespace Prisma {
     uid?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     officePhone?: StringFieldUpdateOperationsInput | string
     contactPerson?: StringFieldUpdateOperationsInput | string
@@ -27373,18 +27415,18 @@ export namespace Prisma {
     purchaseOrders?: PurchaseOrderUncheckedUpdateManyWithoutSupplierNestedInput
   }
 
-  export type ProductUpsertWithoutProductAliasInput = {
-    update: XOR<ProductUpdateWithoutProductAliasInput, ProductUncheckedUpdateWithoutProductAliasInput>
-    create: XOR<ProductCreateWithoutProductAliasInput, ProductUncheckedCreateWithoutProductAliasInput>
+  export type ProductUpsertWithoutProductAliasesInput = {
+    update: XOR<ProductUpdateWithoutProductAliasesInput, ProductUncheckedUpdateWithoutProductAliasesInput>
+    create: XOR<ProductCreateWithoutProductAliasesInput, ProductUncheckedCreateWithoutProductAliasesInput>
     where?: ProductWhereInput
   }
 
-  export type ProductUpdateToOneWithWhereWithoutProductAliasInput = {
+  export type ProductUpdateToOneWithWhereWithoutProductAliasesInput = {
     where?: ProductWhereInput
-    data: XOR<ProductUpdateWithoutProductAliasInput, ProductUncheckedUpdateWithoutProductAliasInput>
+    data: XOR<ProductUpdateWithoutProductAliasesInput, ProductUncheckedUpdateWithoutProductAliasesInput>
   }
 
-  export type ProductUpdateWithoutProductAliasInput = {
+  export type ProductUpdateWithoutProductAliasesInput = {
     uid?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -27400,7 +27442,7 @@ export namespace Prisma {
     deletedProductByUser?: UserUpdateOneWithoutDeletedProductByUserNestedInput
   }
 
-  export type ProductUncheckedUpdateWithoutProductAliasInput = {
+  export type ProductUncheckedUpdateWithoutProductAliasesInput = {
     id?: IntFieldUpdateOperationsInput | number
     uid?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
@@ -27721,6 +27763,7 @@ export namespace Prisma {
     uid?: string
     code: string
     name: string
+    email?: string | null
     address: string
     officePhone: string
     contactPerson: string
@@ -27741,6 +27784,7 @@ export namespace Prisma {
     uid?: string
     code: string
     name: string
+    email?: string | null
     address: string
     officePhone: string
     contactPerson: string
@@ -28099,6 +28143,7 @@ export namespace Prisma {
     uid?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     officePhone?: StringFieldUpdateOperationsInput | string
     contactPerson?: StringFieldUpdateOperationsInput | string
@@ -28119,6 +28164,7 @@ export namespace Prisma {
     uid?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     officePhone?: StringFieldUpdateOperationsInput | string
     contactPerson?: StringFieldUpdateOperationsInput | string
@@ -28504,10 +28550,10 @@ export namespace Prisma {
     updatedAt?: Date | string | null
     deletedAt?: Date | string | null
     supplier: SupplierCreateNestedOneWithoutProductsInput
+    productAliases?: ProductAliasCreateNestedManyWithoutProductInput
     createdProductByUser?: UserCreateNestedOneWithoutCreatedProductByUserInput
     updatedProductByUser?: UserCreateNestedOneWithoutUpdatedProductByUserInput
     deletedProductByUser?: UserCreateNestedOneWithoutDeletedProductByUserInput
-    ProductAlias?: ProductAliasCreateNestedManyWithoutProductInput
   }
 
   export type ProductUncheckedCreateWithoutOrderDetailsInput = {
@@ -28524,7 +28570,7 @@ export namespace Prisma {
     updatedAt?: Date | string | null
     deletedBy?: number | null
     deletedAt?: Date | string | null
-    ProductAlias?: ProductAliasUncheckedCreateNestedManyWithoutProductInput
+    productAliases?: ProductAliasUncheckedCreateNestedManyWithoutProductInput
   }
 
   export type ProductCreateOrConnectWithoutOrderDetailsInput = {
@@ -28885,10 +28931,10 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     supplier?: SupplierUpdateOneRequiredWithoutProductsNestedInput
+    productAliases?: ProductAliasUpdateManyWithoutProductNestedInput
     createdProductByUser?: UserUpdateOneWithoutCreatedProductByUserNestedInput
     updatedProductByUser?: UserUpdateOneWithoutUpdatedProductByUserNestedInput
     deletedProductByUser?: UserUpdateOneWithoutDeletedProductByUserNestedInput
-    ProductAlias?: ProductAliasUpdateManyWithoutProductNestedInput
   }
 
   export type ProductUncheckedUpdateWithoutOrderDetailsInput = {
@@ -28905,7 +28951,7 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedBy?: NullableIntFieldUpdateOperationsInput | number | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    ProductAlias?: ProductAliasUncheckedUpdateManyWithoutProductNestedInput
+    productAliases?: ProductAliasUncheckedUpdateManyWithoutProductNestedInput
   }
 
   export type UserUpsertWithoutCreatedPurchaseOrderDetailByUserInput = {
@@ -29396,6 +29442,7 @@ export namespace Prisma {
     uid?: string
     code: string
     name: string
+    email?: string | null
     address: string
     officePhone: string
     contactPerson: string
@@ -29413,6 +29460,7 @@ export namespace Prisma {
     uid?: string
     code: string
     name: string
+    email?: string | null
     address: string
     officePhone: string
     contactPerson: string
@@ -29430,6 +29478,7 @@ export namespace Prisma {
     uid?: string
     code: string
     name: string
+    email?: string | null
     address: string
     officePhone: string
     contactPerson: string
@@ -30253,6 +30302,7 @@ export namespace Prisma {
     uid?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     officePhone?: StringFieldUpdateOperationsInput | string
     contactPerson?: StringFieldUpdateOperationsInput | string
@@ -30273,6 +30323,7 @@ export namespace Prisma {
     uid?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     officePhone?: StringFieldUpdateOperationsInput | string
     contactPerson?: StringFieldUpdateOperationsInput | string
@@ -30293,6 +30344,7 @@ export namespace Prisma {
     uid?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     officePhone?: StringFieldUpdateOperationsInput | string
     contactPerson?: StringFieldUpdateOperationsInput | string
@@ -30309,6 +30361,7 @@ export namespace Prisma {
     uid?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     officePhone?: StringFieldUpdateOperationsInput | string
     contactPerson?: StringFieldUpdateOperationsInput | string
@@ -30329,6 +30382,7 @@ export namespace Prisma {
     uid?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     officePhone?: StringFieldUpdateOperationsInput | string
     contactPerson?: StringFieldUpdateOperationsInput | string
@@ -30349,6 +30403,7 @@ export namespace Prisma {
     uid?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     officePhone?: StringFieldUpdateOperationsInput | string
     contactPerson?: StringFieldUpdateOperationsInput | string
@@ -30365,6 +30420,7 @@ export namespace Prisma {
     uid?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     officePhone?: StringFieldUpdateOperationsInput | string
     contactPerson?: StringFieldUpdateOperationsInput | string
@@ -30385,6 +30441,7 @@ export namespace Prisma {
     uid?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     officePhone?: StringFieldUpdateOperationsInput | string
     contactPerson?: StringFieldUpdateOperationsInput | string
@@ -30405,6 +30462,7 @@ export namespace Prisma {
     uid?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     officePhone?: StringFieldUpdateOperationsInput | string
     contactPerson?: StringFieldUpdateOperationsInput | string
@@ -30428,9 +30486,9 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     supplier?: SupplierUpdateOneRequiredWithoutProductsNestedInput
     orderDetails?: PurchaseOrderDetailUpdateManyWithoutProductNestedInput
+    productAliases?: ProductAliasUpdateManyWithoutProductNestedInput
     updatedProductByUser?: UserUpdateOneWithoutUpdatedProductByUserNestedInput
     deletedProductByUser?: UserUpdateOneWithoutDeletedProductByUserNestedInput
-    ProductAlias?: ProductAliasUpdateManyWithoutProductNestedInput
   }
 
   export type ProductUncheckedUpdateWithoutCreatedProductByUserInput = {
@@ -30447,7 +30505,7 @@ export namespace Prisma {
     deletedBy?: NullableIntFieldUpdateOperationsInput | number | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     orderDetails?: PurchaseOrderDetailUncheckedUpdateManyWithoutProductNestedInput
-    ProductAlias?: ProductAliasUncheckedUpdateManyWithoutProductNestedInput
+    productAliases?: ProductAliasUncheckedUpdateManyWithoutProductNestedInput
   }
 
   export type ProductUncheckedUpdateManyWithoutCreatedProductByUserInput = {
@@ -30476,9 +30534,9 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     supplier?: SupplierUpdateOneRequiredWithoutProductsNestedInput
     orderDetails?: PurchaseOrderDetailUpdateManyWithoutProductNestedInput
+    productAliases?: ProductAliasUpdateManyWithoutProductNestedInput
     createdProductByUser?: UserUpdateOneWithoutCreatedProductByUserNestedInput
     deletedProductByUser?: UserUpdateOneWithoutDeletedProductByUserNestedInput
-    ProductAlias?: ProductAliasUpdateManyWithoutProductNestedInput
   }
 
   export type ProductUncheckedUpdateWithoutUpdatedProductByUserInput = {
@@ -30495,7 +30553,7 @@ export namespace Prisma {
     deletedBy?: NullableIntFieldUpdateOperationsInput | number | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     orderDetails?: PurchaseOrderDetailUncheckedUpdateManyWithoutProductNestedInput
-    ProductAlias?: ProductAliasUncheckedUpdateManyWithoutProductNestedInput
+    productAliases?: ProductAliasUncheckedUpdateManyWithoutProductNestedInput
   }
 
   export type ProductUncheckedUpdateManyWithoutUpdatedProductByUserInput = {
@@ -30524,9 +30582,9 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     supplier?: SupplierUpdateOneRequiredWithoutProductsNestedInput
     orderDetails?: PurchaseOrderDetailUpdateManyWithoutProductNestedInput
+    productAliases?: ProductAliasUpdateManyWithoutProductNestedInput
     createdProductByUser?: UserUpdateOneWithoutCreatedProductByUserNestedInput
     updatedProductByUser?: UserUpdateOneWithoutUpdatedProductByUserNestedInput
-    ProductAlias?: ProductAliasUpdateManyWithoutProductNestedInput
   }
 
   export type ProductUncheckedUpdateWithoutDeletedProductByUserInput = {
@@ -30543,7 +30601,7 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     orderDetails?: PurchaseOrderDetailUncheckedUpdateManyWithoutProductNestedInput
-    ProductAlias?: ProductAliasUncheckedUpdateManyWithoutProductNestedInput
+    productAliases?: ProductAliasUncheckedUpdateManyWithoutProductNestedInput
   }
 
   export type ProductUncheckedUpdateManyWithoutDeletedProductByUserInput = {
@@ -30570,7 +30628,7 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     supplier?: SupplierUpdateOneRequiredWithoutProductAliasesNestedInput
-    product?: ProductUpdateOneRequiredWithoutProductAliasNestedInput
+    product?: ProductUpdateOneRequiredWithoutProductAliasesNestedInput
     updatedProductAliasByUser?: UserUpdateOneWithoutUpdatedProductAliasByUserNestedInput
     deletedProductAliasByUser?: UserUpdateOneWithoutDeletedProductAliasByUserNestedInput
   }
@@ -30614,7 +30672,7 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     supplier?: SupplierUpdateOneRequiredWithoutProductAliasesNestedInput
-    product?: ProductUpdateOneRequiredWithoutProductAliasNestedInput
+    product?: ProductUpdateOneRequiredWithoutProductAliasesNestedInput
     createdProductAliasByUser?: UserUpdateOneWithoutCreatedProductAliasByUserNestedInput
     deletedProductAliasByUser?: UserUpdateOneWithoutDeletedProductAliasByUserNestedInput
   }
@@ -30658,7 +30716,7 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     supplier?: SupplierUpdateOneRequiredWithoutProductAliasesNestedInput
-    product?: ProductUpdateOneRequiredWithoutProductAliasNestedInput
+    product?: ProductUpdateOneRequiredWithoutProductAliasesNestedInput
     createdProductAliasByUser?: UserUpdateOneWithoutCreatedProductAliasByUserNestedInput
     updatedProductAliasByUser?: UserUpdateOneWithoutUpdatedProductAliasByUserNestedInput
   }
@@ -31484,10 +31542,10 @@ export namespace Prisma {
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     orderDetails?: PurchaseOrderDetailUpdateManyWithoutProductNestedInput
+    productAliases?: ProductAliasUpdateManyWithoutProductNestedInput
     createdProductByUser?: UserUpdateOneWithoutCreatedProductByUserNestedInput
     updatedProductByUser?: UserUpdateOneWithoutUpdatedProductByUserNestedInput
     deletedProductByUser?: UserUpdateOneWithoutDeletedProductByUserNestedInput
-    ProductAlias?: ProductAliasUpdateManyWithoutProductNestedInput
   }
 
   export type ProductUncheckedUpdateWithoutSupplierInput = {
@@ -31504,7 +31562,7 @@ export namespace Prisma {
     deletedBy?: NullableIntFieldUpdateOperationsInput | number | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     orderDetails?: PurchaseOrderDetailUncheckedUpdateManyWithoutProductNestedInput
-    ProductAlias?: ProductAliasUncheckedUpdateManyWithoutProductNestedInput
+    productAliases?: ProductAliasUncheckedUpdateManyWithoutProductNestedInput
   }
 
   export type ProductUncheckedUpdateManyWithoutSupplierInput = {
@@ -31530,7 +31588,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    product?: ProductUpdateOneRequiredWithoutProductAliasNestedInput
+    product?: ProductUpdateOneRequiredWithoutProductAliasesNestedInput
     createdProductAliasByUser?: UserUpdateOneWithoutCreatedProductAliasByUserNestedInput
     updatedProductAliasByUser?: UserUpdateOneWithoutUpdatedProductAliasByUserNestedInput
     deletedProductAliasByUser?: UserUpdateOneWithoutDeletedProductAliasByUserNestedInput

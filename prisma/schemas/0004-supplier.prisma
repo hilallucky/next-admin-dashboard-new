@@ -3,6 +3,7 @@ model Supplier {
     uid           String    @unique @default(cuid())
     code          String    @unique
     name          String
+    email         String?
     address       String
     officePhone   String
     contactPerson String

@@ -1,7 +1,13 @@
 import fs from "fs"
 import path from "path"
+import { fileURLToPath } from 'url';
 
-const schemaDir = path.join(__dirname, 'schema');
+const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
+const __dirname = path.dirname(__filename); // get the name of the directory
+
+// console.log(__dirname);
+
+const schemaDir = path.join(__dirname, 'schemas');
 const schemaFiles = fs
   .readdirSync(schemaDir)
   .filter((file) => file.endsWith('.prisma'));

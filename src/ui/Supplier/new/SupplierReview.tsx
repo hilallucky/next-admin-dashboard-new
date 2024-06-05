@@ -2,50 +2,28 @@ import { statuses } from '@/constants/common';
 import { FormContext } from '@/contexts/FormContext';
 import { useRouter } from 'next/router';
 import React, { Dispatch, SetStateAction, useContext } from 'react';
-import CreateSupplierForm from './CreateSupplierForm';
-
-// interface SupplierReviewProps {
-//     // formValues: any;
-//     setShowReview: Dispatch<SetStateAction<boolean>>;
-// }
-
-// const SupplierReview: React.FC<SupplierReviewProps> = ({
-//     // formValues,
-//     setShowReview,
-// }) => {
 
 interface SupplierReviewProps {
-    // formValues: any;
-    setShowReview: boolean;
+    prevStep: () => void;
 }
 
-const SupplierReview = ({setShowReview}:SupplierReviewProps)=>{
-
+const SupplierReview: React.FC<SupplierReviewProps> = ({ prevStep }) => {
     const { formValues } = useContext(FormContext);
     const router = useRouter();
 
-    const handleEdit = (e: any) => {
-        // setShowReview(false);
-
-        return (
-            <CreateSupplierForm />
-        );
-    }
-
     const handleSave = async () => {
-        // const response = await fetch('/api/v1/suppliers', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify(formValues),
-        // });
-        // if (response.ok) {
-        //     setShowReview(true);
-        //     router.push('/dashboard/supplier/new2/status?status=success');
-        // } else {
-        //     router.push('/dashboard/supplier/new2/status?status=error');
-        // }
+        const response = await fetch('/api/v1/suppliers', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formValues),
+        });
+        if (response.ok) {
+            router.push('/dashboard/supplier/new2/status?status=success');
+        } else {
+            router.push('/dashboard/supplier/new2/status?status=error');
+        }
     };
 
     return (
@@ -61,6 +39,10 @@ const SupplierReview = ({setShowReview}:SupplierReviewProps)=>{
                     <tr>
                         <td className="px-4 py-2">Name</td>
                         <td className="px-4 py-2">{formValues.name}</td>
+                    </tr>
+                    <tr>
+                        <td className="px-4 py-2">Email</td>
+                        <td className="px-4 py-2">{formValues.email}</td>
                     </tr>
                     <tr>
                         <td className="px-4 py-2">Address</td>
@@ -86,7 +68,7 @@ const SupplierReview = ({setShowReview}:SupplierReviewProps)=>{
             </table>
             <div className="space-x-4 mt-4">
                 <button
-                    onClick={handleEdit}
+                    onClick={prevStep}
                     className="px-4 py-2 bg-slate-500 text-white rounded-md shadow-sm"
                 >
                     Edit

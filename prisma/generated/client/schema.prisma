@@ -176,6 +176,7 @@ model Supplier {
   uid           String    @unique @default(cuid())
   code          String    @unique
   name          String
+  email         String?
   address       String
   officePhone   String
   contactPerson String
@@ -214,13 +215,13 @@ model Product {
   deletedBy  Int?
   deletedAt  DateTime?
 
-  supplier     Supplier              @relation(fields: [supplierId], references: [id])
-  orderDetails PurchaseOrderDetail[]
+  supplier       Supplier              @relation(fields: [supplierId], references: [id])
+  orderDetails   PurchaseOrderDetail[]
+  productAliases ProductAlias[]
 
-  createdProductByUser User?          @relation("ProductCreatedBy", fields: [createdBy], references: [id])
-  updatedProductByUser User?          @relation("ProductUpdatedBy", fields: [updatedBy], references: [id])
-  deletedProductByUser User?          @relation("ProductDeletedBy", fields: [deletedBy], references: [id])
-  ProductAlias         ProductAlias[]
+  createdProductByUser User? @relation("ProductCreatedBy", fields: [createdBy], references: [id])
+  updatedProductByUser User? @relation("ProductUpdatedBy", fields: [updatedBy], references: [id])
+  deletedProductByUser User? @relation("ProductDeletedBy", fields: [deletedBy], references: [id])
 
   @@map("products")
 }
