@@ -292,7 +292,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/media/hilal/data-400GB/My-Projects/Samples/next-admin-dashboard-new/prisma/generated/client",
+      "value": "F:\\Hilal's Folder\\Projects\\Development\\Applications\\next-admin-dashboard-new\\prisma\\generated\\client",
       "fromEnvVar": null
     },
     "config": {
@@ -301,7 +301,7 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "debian-openssl-3.0.x",
+        "value": "windows",
         "native": true
       }
     ],
