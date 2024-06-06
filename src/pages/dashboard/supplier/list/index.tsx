@@ -6,21 +6,15 @@ import Text from '@/components/Input/Text/Text';
 import { SupplierListContext } from '@/contexts/SupplierContext';
 import { SupplierFilterType } from '@/interfaces';
 import DefaultLayout from '@/ui/Layouts/DefaultLayout';
-import Test from '@/ui/Supplier/list/test';
+import Test from '@/ui/Supplier/list/test/test';
 import { useRouter } from 'next/router';
 import { useRef, useState } from 'react';
 
 const createLabel = (key: any, value: any) => {
   if (value) {
     if (key == 'name') return `Name : ${value}`;
-    if (key == 'products') return `Products : ${value}`;
-    if (key == 'applicablePages') return `ApplicablePages : ${value}`;
-    if (key == 'includeActive') return 'Active';
-    if (key == 'includeOngoing') return 'Ongoing';
-    if (key == 'includeBaseline') return 'BaseLine';
-    if (key == 'includeInactive') return 'Inactive';
-    if (key == 'includeNonOngoing') return 'Non-Ongoing';
-    if (key == 'includeNonBaseLine') return 'Non-BaseLine';
+    if (key == 'email') return `Email : ${value}`;
+    if (key == 'address') return `Address : ${value}`;
     return `${key} : ${value}`;
   }
   return `${key} :(empty)`;

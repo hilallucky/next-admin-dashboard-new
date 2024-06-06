@@ -9,6 +9,9 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
+// github.com/mfikricom/crud-search-pagination/blob/main/lib/actions.ts
+https: const ITEMS_PER_PAGE = 5;
+
   if (req.method === 'GET') {
     const suppliers = await prisma.supplier.findMany();
     res
