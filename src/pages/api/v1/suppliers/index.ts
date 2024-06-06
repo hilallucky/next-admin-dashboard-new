@@ -5,13 +5,40 @@ import Helper from '@/helpers/BaseResponseHelper';
 
 const prisma = new PrismaClient();
 
+const ITEMS_PER_PAGE = 5;
+
+export const getSuppliers = async (query: string, currentPage: number) => {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+  try {
+    const contacts = await prisma.supplier.findMany({
+      skip: offset,
+      take: ITEMS_PER_PAGE,
+      where: {
+        OR: [
+          {
+            name: {
+              contains: query,
+            },
+          },
+          {
+            email: {
+              contains: query,
+              mode: 'insensitive',
+            },
+          },
+        ],
+      },
+    });
+    return contacts;
+  } catch (error) {
+    throw new Error('Failed to fetch contact data');
+  }
+};
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-// github.com/mfikricom/crud-search-pagination/blob/main/lib/actions.ts
-https: const ITEMS_PER_PAGE = 5;
-
   if (req.method === 'GET') {
     const suppliers = await prisma.supplier.findMany();
     res
