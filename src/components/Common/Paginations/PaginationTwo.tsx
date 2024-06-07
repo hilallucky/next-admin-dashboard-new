@@ -67,7 +67,7 @@ const PaginationTwo: React.FC = () => {
             </li>
             <li>
               <Link
-                className="flex items-center justify-center border border-stroke border-l-transparent px-4 py-[5px] font-medium hover:border-primary hover:bg-gray hover:text-primary dark:border-strokedark dark:hover:border-primary dark:hover:bg-graydark"
+                className="flex items-center justify-center borde;r border-stroke border-l-transparent px-4 py-[5px] font-medium hover:border-primary hover:bg-gray hover:text-primary dark:border-strokedark dark:hover:border-primary dark:hover:bg-graydark"
                 href="#"
               >
                 5

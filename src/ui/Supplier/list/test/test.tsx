@@ -28,10 +28,13 @@ import PaginationOne from '@/components/Common/Paginations/PaginationOne';
 
 const Test: React.FC = () => {
     const [progress, setProgress] = useState(50);
+    const [isError, setIsErrorPage] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
     const { query } = router;
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [totalRecords, setTotalRecords] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(30);
     const { dataFilter, setDataFilter } = useContext(SupplierListContext);
 
@@ -47,6 +50,7 @@ const Test: React.FC = () => {
     };
 
     const handlePageChange = (newPage: number) => {
+        console.log({ newPage });
         setPage(newPage);
     };
 
@@ -57,35 +61,33 @@ const Test: React.FC = () => {
         };
 
         fetchSupplierData();
-    }, [query]);
+    }, [page]);
 
     // useImperativeHandle(ref, () => ({
     //     refresh() {
     //         mutate();
     //     },
     // }));
-
-    // if (isError)
-    //     return <Box sx={{ width: '100%', mt: 2 }}>Internal Server Error</Box>;
-    // if (isLoading)
-    //     return (
-    //         <Box sx={{ width: '100%' }}>
-    //             <LinearProgress />
-    //         </Box>
-    //     );
+;
+    if (isError)
+        return <>Internal Server Error</>;
+    if (isLoading)
+        return <>Loading...</>;
 
     const getSupplier = async () => {
         setLoading(true);
         try {
-            const response = await fetch('/api/v1/suppliers');
+            const response = await fetch(`/api/v1/suppliers?page=${page}`);
             const data = await response.json();
-            const totalDataCount = data.data.length;
+            setSuppliers(data?.data.suppliers);
+            const totalDataCount = data?.data.totalRecords;
             const pageSize = 10;
             const totalPages = Math.ceil(totalDataCount / pageSize);
             setTotalPages(totalPages);
-            setSuppliers(data?.data);
-        } catch (error) {
+            setTotalRecords(totalDataCount)
+        } catch (error: any) {
             console.error('Error fetching data:', error);
+            setIsErrorPage(error)
         } finally {
             setLoading(false);
         }
@@ -121,7 +123,7 @@ const Test: React.FC = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {suppliers.map((supplier, index) => (
+                        {suppliers?.map((supplier, index) => (
                             <TableRow key={supplier.id}>
                                 <TableCell className="text-right">{index + 1}</TableCell>
                                 <TableCell>{supplier.name}</TableCell>
@@ -135,13 +137,19 @@ const Test: React.FC = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <TablePagination
+            {/* <TablePagination
                 count={suppliers.length}
                 rowsPerPage={10}
                 page={page}
                 onPageChange={handlePageChange}
+            /> */}
+            <PaginationOne
+                totalRecords={totalRecords}
+                page={page}
+                totalPages={totalPages}
+                setPage={setPage}
+            // onPageChange={handlePageChange}
             />
-            <PaginationOne totalPages={totalPages} />
         </div>
     );
 };

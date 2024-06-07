@@ -2,48 +2,53 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { PrismaClient } from '@prisma_/generated/client';
 import { uuid } from 'uuidv4';
 import Helper from '@/helpers/BaseResponseHelper';
+import { FieldRef } from '@prisma_/generated/client/runtime/library';
 
 const prisma = new PrismaClient();
 
 const ITEMS_PER_PAGE = 5;
-
-export const getSuppliers = async (query: string, currentPage: number) => {
-  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
-  try {
-    const contacts = await prisma.supplier.findMany({
-      skip: offset,
-      take: ITEMS_PER_PAGE,
-      where: {
-        OR: [
-          {
-            name: {
-              contains: query,
-            },
-          },
-          {
-            email: {
-              contains: query,
-              mode: 'insensitive',
-            },
-          },
-        ],
-      },
-    });
-    return contacts;
-  } catch (error) {
-    throw new Error('Failed to fetch contact data');
-  }
-};
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
   if (req.method === 'GET') {
-    const suppliers = await prisma.supplier.findMany();
-    res
-      .status(200)
-      .json(Helper.ResponseData(res.statusCode, 'OK', null, suppliers));
+    const { page = 1, limit = 10, name, email, address } = req.query;
+
+    const pageNumber = parseInt(page as string);
+    const pageSize = parseInt(limit as string);
+
+    const filterableFields = { name, email, address };
+    const filter = Object.fromEntries(
+      Object.entries(filterableFields)
+        .filter(([_, value]) => typeof value === 'string')
+        .map(([key, value]) => [key, { contains: value }]),
+    );
+
+    const suppliers = await prisma.supplier.findMany({
+      skip: (pageNumber - 1) * pageSize,
+      take: pageSize || ITEMS_PER_PAGE,
+      where: Object.keys(filter).length ? filter : undefined,
+    });
+
+    const totalRecords = await prisma.supplier.count({
+      where: Object.keys(filter).length ? filter : undefined,
+    });
+
+    const totalPages = Math.ceil(totalRecords / pageSize);
+
+    const totalCurrentRecords = suppliers?.length || 0;
+
+    res.status(200).json(
+      Helper.ResponseData(res.statusCode, 'OK', null, {
+        suppliers,
+        totalRecords,
+        totalCurrentRecords,
+        totalPages,
+        currentPage: suppliers?.length ? pageNumber : 0,
+        pageSize,
+      }),
+    );
   } else if (req.method === 'POST') {
     // console.log({ 'req.body': req.body });
 

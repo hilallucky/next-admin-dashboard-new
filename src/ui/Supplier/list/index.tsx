@@ -1,140 +1,146 @@
-import { useCallback, useEffect, useState } from 'react';
-import axios from 'axios';
-import TableContainer from './test/components/TableContainer';
-import Table from './test/components/Table';
-import TableHeader from './test/components/TableHeader';
-import TableRow from './test/components/TableRow';
-import TableCell from './test/components/TableCell';
-import TextFilter from './test/components/TextFilter';
-import SelectFilter from './test/components/SelectFilter';
-import Pagination from './test/components/Paginations/Pagination';
+import React, {
+    useContext,
+    useEffect,
+    useImperativeHandle,
+    useRef,
+    useState,
+} from 'react';
+import Box from '@components/Common/Box/Box';
+import Button from '@components/Common/Button/MyButton';
+import Chip from '@components/Common/Chip/Chip';
+import LinearProgress from '@components/Common/LinearProgress/LinearProgress';
+import Stack from '@components/Common/Stack/Stack';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TablePagination,
+    TableRow,
+} from '@components/Tables';
+import Typography from '@components/Common/Typography/Typography';
+import { useRouter } from 'next/router';
+import { SupplierListContext } from '@/contexts/SupplierContext';
 import { Supplier } from '@/interfaces';
-import { debounce } from './test/utils/debounce';
+import MyButton from '@components/Common/Button/MyButton';
+import PaginationOne from '@/components/Common/Paginations/PaginationOne';
 
-const Home = () => {
+const Test: React.FC = () => {
+    const [progress, setProgress] = useState(50);
+    const [isError, setIsErrorPage] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const router = useRouter();
+    const { query } = router;
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const [totalRecords, setTotalRecords] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(30);
+    const { dataFilter, setDataFilter } = useContext(SupplierListContext);
+
     const [suppliers, setSuppliers] = useState<Supplier[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [filters, setFilters] = useState({
-        name: '',
-        email: '',
-    });
+    const [loading, setLoading] = useState<boolean>(false);
+
+    const tableRef = useRef<{ refresh: () => void }>(null);
+
+    const handleClickRefresh = () => {
+        if (tableRef.current) {
+            tableRef.current.refresh();
+        }
+    };
 
     useEffect(() => {
         const fetchSupplierData = async () => {
             setLoading(true);
-            try {
-                const response = await fetch('/api/v1/suppliers');
-                const data = await response.json();
-                setSuppliers(data?.data);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            } finally {
-                setLoading(false);
-            }
+            getSupplier()
         };
 
         fetchSupplierData();
-    }, []);
+    }, [page]);
 
-    const handlePageChange = (page: number) => {
-        setCurrentPage(page);
+    // useImperativeHandle(ref, () => ({
+    //     refresh() {
+    //         mutate();
+    //     },
+    // }));
+    ;
+    if (isError)
+        return <>Internal Server Error</>;
+    if (isLoading)
+        return <>Loading...</>;
+
+    const getSupplier = async () => {
+        setLoading(true);
+        try {
+            const response = await fetch(`/api/v1/suppliers?page=${page}`);
+            const data = await response.json();
+            setSuppliers(data?.data.suppliers);
+            const totalDataCount = data?.data.totalRecords;
+            const pageSize = 10;
+            const totalPages = Math.ceil(totalDataCount / pageSize);
+            setTotalPages(totalPages);
+            setTotalRecords(totalDataCount)
+        } catch (error: any) {
+            console.error('Error fetching data:', error);
+            setIsErrorPage(error)
+        } finally {
+            setLoading(false);
+        }
     };
-
-    const handleFilterChange = (e: any) => {
-        const { name, value } = e.target;
-        setCurrentPage(1);
-
-        setFilters((prevFilters) => ({
-            ...prevFilters,
-            [name]: value
-        }));
-        // debouncedFilterChange(e);
-    };
-
-    const debouncedFilterChange = useCallback(debounce((e: any) => {
-        const { name, value } = e.target;
-
-        console.log(name);
-        console.log(value);
-        setFilters((prevFilters) => ({
-            ...prevFilters,
-            [name]: value,
-        }));
-    }, 300), []);
-
-
-    const filteredSuppliers = suppliers.filter(supplier =>
-        (filters.name === '' || supplier.name.toLowerCase().includes(filters.name.toLowerCase())) &&
-        (filters.email === '' || supplier.email?.toLowerCase().includes(filters.email.toLowerCase())) 
-    );
-
-
-    const pageSize = 10;
-    const totalPages = Math.ceil(filteredSuppliers.length / pageSize);
-    const paginatedSuppliers = filteredSuppliers.slice((currentPage - 1) * pageSize, currentPage * pageSize);
-
-    if (loading) {
-        return <p>Loading...</p>;
-    }
 
     return (
-        <div>
-            {suppliers.length}**
-            {filteredSuppliers.length}**
-            {paginatedSuppliers.length}
-            <div>
-                <TextFilter
-                    // className="name-filter"
-                    value={filters.name}
-                    onChange={handleFilterChange}
-                    name="name"
-                />
-                <TextFilter
-                    // className="email-filter"
-                    value={filters.email}
-                    onChange={handleFilterChange}
-                    name="email"
-                />
-            </div>
+        <div className="p-4">
+            <MyButton onClick={getSupplier}>Get Suppliers</MyButton>
+            <MyButton onClick={handleClickRefresh}>Refresh</MyButton>
 
-            <TableContainer className="table-container">
-                <Table className="table">
-                    <TableHeader className="table-header">
-                        <TableRow className="table-row">
-                            <TableCell className="table-cell">No</TableCell>
-                            <TableCell className="table-cell">ID</TableCell>
-                            <TableCell className="table-cell">UID</TableCell>
-                            <TableCell className="table-cell">Code</TableCell>
-                            <TableCell className="table-cell">Name</TableCell>
-                            <TableCell className="table-cell">Email</TableCell>
+            <Typography variant="h1">Welcome to My App</Typography>
+            <Box className="mt-4">
+                <Typography variant="body1">This is a box.</Typography>
+            </Box>
+            <Stack direction="row" spacing={4} className="mt-4">
+                <Button onClick={() => setProgress(progress + 10)}>
+                    Increase Progress
+                </Button>
+                <Chip label="New" />
+            </Stack>
+            <LinearProgress progress={progress} className="mt-4" />
+            <TableContainer className="mt-4">
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>No</TableCell>
+                            <TableCell>Name</TableCell>
+                            <TableCell>Address</TableCell>
+                            <TableCell>Phone</TableCell>
+                            <TableCell>Email</TableCell>
+                            <TableCell>PIC</TableCell>
+                            <TableCell>Mobile</TableCell>
                         </TableRow>
-                    </TableHeader>
-                    <tbody>
-                        {paginatedSuppliers.map((supplier, index) => (
-                            <TableRow key={supplier.id} className="table-row">
-                                <TableCell className="table-cell">{(currentPage - 1) * pageSize + index + 1}</TableCell>
-                                <TableCell className="table-cell">{supplier.id}</TableCell>
-                                <TableCell className="table-cell">{supplier.uid}</TableCell>
-                                <TableCell className="table-cell">{supplier.code}</TableCell>
-                                <TableCell className="table-cell">{supplier.name}</TableCell>
-                                <TableCell className="table-cell">{supplier.email}</TableCell>
+                    </TableHead>
+                    <TableBody>
+                        {suppliers?.map((supplier, index) => (
+                            <TableRow key={supplier.id}>
+                                <TableCell className="text-right">{index + 1}</TableCell>
+                                <TableCell>{supplier.name}</TableCell>
+                                <TableCell>{supplier.address}</TableCell>
+                                <TableCell>{supplier.officePhone}</TableCell>
+                                <TableCell>{supplier.email}</TableCell>
+                                <TableCell>{supplier.contactPerson}</TableCell>
+                                <TableCell>{supplier.mobilePhone}</TableCell>
                             </TableRow>
                         ))}
-                    </tbody>
+                    </TableBody>
                 </Table>
             </TableContainer>
-
-            <Pagination
-                className="pagination"
-                currentPage={currentPage}
+            
+            <PaginationOne
+                totalRecords={totalRecords}
+                page={page}
                 totalPages={totalPages}
-                onPageChange={handlePageChange}
-                totalRecords={filteredSuppliers.length}
-                pageSize={pageSize}
+                setPage={setPage}
             />
         </div>
     );
 };
 
-export default Home;
+export default Test;
