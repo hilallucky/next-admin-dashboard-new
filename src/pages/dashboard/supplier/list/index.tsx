@@ -6,7 +6,7 @@ import Text from '@/components/Input/Text/Text';
 import { SupplierListContext } from '@/contexts/SupplierContext';
 import { SupplierFilterType } from '@/interfaces';
 import DefaultLayout from '@/ui/Layouts/DefaultLayout';
-import Test from '@/ui/Supplier/list/test/test';
+import SupplierList from '@/ui/Supplier/list';
 import { useRouter } from 'next/router';
 import { useRef, useState } from 'react';
 
@@ -20,7 +20,7 @@ const createLabel = (key: any, value: any) => {
   return `${key} :(empty)`;
 };
 
-const SupplierList = () => {
+const SupplierDataList = () => {
   const [isFilterOpen, setFilterOpen] = useState(false);
   const router = useRouter();
   const [dataFilter, setDataFilter] = useState<SupplierFilterType>({});
@@ -51,37 +51,10 @@ const SupplierList = () => {
         value={{ isFilterOpen, setFilterOpen, dataFilter, setDataFilter }}
       >
         <Typography variant="h6">Supplier List</Typography>
-
-        {Object.keys(dataFilter).map((key) => {
-          return 'helloooo';
-        })}
-        <Box className="mt-1">
-          <Stack direction="row" spacing={1} className="flex-wrap">
-            {Object.keys(dataFilter).map((key) => {
-              return (
-                key !== 'page' &&
-                key !== 'limit' &&
-                dataFilter[key] && (
-                  //   <Text
-                  //     key={key}
-                  //     label={createLabel(key, dataFilter[key])}
-                  //     onDelete={() => deleteFilterItem(key)}
-                  //   />
-                  <Chip
-                    key={key}
-                    className="mb-1"
-                    label={createLabel(key, dataFilter[key])}
-                    onDelete={() => deleteFilterItem(key)}
-                  />
-                )
-              );
-            })}
-          </Stack>
-        </Box>
-        <Test />
+        <SupplierList />
       </SupplierListContext.Provider>
     </DefaultLayout>
   );
 };
 
-export default SupplierList;
+export default SupplierDataList;

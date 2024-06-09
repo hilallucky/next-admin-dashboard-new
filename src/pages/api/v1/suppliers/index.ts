@@ -50,8 +50,6 @@ export default async function handler(
       }),
     );
   } else if (req.method === 'POST') {
-    // console.log({ 'req.body': req.body });
-
     const {
       name,
       email,

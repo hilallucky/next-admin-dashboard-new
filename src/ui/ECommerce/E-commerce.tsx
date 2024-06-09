@@ -7,7 +7,10 @@ import ChartTwo from '@/components/Charts/ChartTwo';
 import NewChartOne from '@/components/Charts/NewChartOne';
 import ChatCard from '@/components/Chat/ChatCard';
 import MapOne from '@/components/Maps/MapOne';
+import TableFour from '@/components/Tables/TableFour';
 import TableOne from '@/components/Tables/TableOne';
+import TableThree from '@/components/Tables/TableThree';
+import TableTwo from '@/components/Tables/TableTwo';
 import React from 'react';
 
 const ECommerce: React.FC = () => {
@@ -108,6 +111,9 @@ const ECommerce: React.FC = () => {
         {/* <NewChartOne /> */}
         <div className="col-span-12 xl:col-span-8">
           <TableOne />
+          <TableTwo />
+          <TableThree />
+          <TableFour />
         </div>
         <ChatCard />
       </div>
