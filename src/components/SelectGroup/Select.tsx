@@ -2,29 +2,22 @@
 import React, { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-interface SelectOptionProps {
+interface SelectProps {
   name: string;
   label: string;
   value?: string;
   options: any[];
-  required?: boolean;
   onChange?: (e: any) => void;
 }
 
-const SelectOption: React.FC<SelectOptionProps> = ({
+const Select: React.FC<SelectProps> = ({
   name,
   label,
   value,
   options,
-  required = false,
   onChange,
   ...props
 }) => {
-  const {
-    register,
-    formState: { errors },
-  } = useFormContext();
-
   const [selectedOption, setSelectedOption] = useState<string>('');
   const [isOptionSelected, setIsOptionSelected] = useState<boolean>(false);
 
@@ -52,7 +45,6 @@ const SelectOption: React.FC<SelectOptionProps> = ({
           id={name}
           name={name}
           value={value}
-          required={required ? `${label} is required` : false}
           onChange={handleChange}
         >
           <option value="" disabled className="text-body dark:text-bodydark">
@@ -88,9 +80,8 @@ const SelectOption: React.FC<SelectOptionProps> = ({
           </svg>
         </span>
       </div>
-      {errors[name] && <span>{errors[name].message}</span>}
     </div>
   );
 };
 
-export default SelectOption;
+export default Select;

@@ -13,17 +13,24 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   if (req.method === 'GET') {
-    const { page = 1, limit = 10, name, email, address } = req.query;
+    const { page = 1, limit = 10, name, email, address, status } = req.query;
 
     const pageNumber = parseInt(page as string);
     const pageSize = parseInt(limit as string);
 
-    const filterableFields = { name, email, address };
+    const filterableFields = { name, email, address, status };
     const filter = Object.fromEntries(
       Object.entries(filterableFields)
         .filter(([_, value]) => typeof value === 'string')
-        .map(([key, value]) => [key, { contains: value }]),
+        .map(([key, value]) => {
+          if (key === 'status' && typeof value === 'string') {
+            return [key, { equals: parseInt(value, 10) }];
+          }
+          return [key, { contains: value }];
+        }),
     );
+
+    console.log({ filter: filter });
 
     const suppliers = await prisma.supplier.findMany({
       skip: (pageNumber - 1) * pageSize,

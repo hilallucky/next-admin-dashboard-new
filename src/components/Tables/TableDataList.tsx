@@ -50,7 +50,7 @@ const TableDataList = ({
                 key={key}
                 className="border-b border-[#eee] dark:border-strokedark"
               >
-                <td>
+                <td key={`${data}--${key}`}>
                   <p className="text-black text-center dark:text-white">
                     {newIndex + key}
                   </p>

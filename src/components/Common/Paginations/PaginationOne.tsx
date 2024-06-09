@@ -102,9 +102,9 @@ const PaginationOne: React.FC<PaginationOneProps> = ({
           <div>
             <p className="text-sm text-gray-700">
               Showing
-              <span className="font-medium px-1">1</span>
+              <span className="font-medium px-1">{totalRecords ? 1 : 0}</span>
               to
-              <span className="font-medium px-1">10</span>
+              <span className="font-medium px-1">{rowsPerPage}</span>
               of
               <span className="font-medium px-1">{totalRecords}</span>
               results
@@ -147,7 +147,7 @@ const PaginationOne: React.FC<PaginationOneProps> = ({
                 {generatePaginationLinks()}
                 <li
                   onClick={handleNextPage}
-                  className={`${page === totalPages ? `hidden` : ''}`}
+                  className={`${page === totalPages || totalRecords < 1 ? `hidden` : ''}`}
                 >
                   <Link
                     href="#"
