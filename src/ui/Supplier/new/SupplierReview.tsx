@@ -20,7 +20,7 @@ const SupplierReview: React.FC<SupplierReviewProps> = ({ prevStep }) => {
             body: JSON.stringify(formValues),
         });
         if (response.ok) {
-            router.push('/dashboard/supplier/new2/status?status=success');
+            router.push('/dashboard/supplier/list');
         } else {
             router.push('/dashboard/supplier/new2/status?status=error');
         }

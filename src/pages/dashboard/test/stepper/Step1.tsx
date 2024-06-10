@@ -131,7 +131,7 @@ const Step1 = ({ nextStep }: { nextStep?: () => void }) => {
                 }));
             }
         } else if (formData?.items && name in formData.items) {
-            console.log(formData);
+            // console.log(formData);
 
             setFormData((prevData: any) => ({
                 ...prevData,

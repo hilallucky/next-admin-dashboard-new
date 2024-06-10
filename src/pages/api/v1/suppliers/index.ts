@@ -30,8 +30,6 @@ export default async function handler(
         }),
     );
 
-    console.log({ filter: filter });
-
     const suppliers = await prisma.supplier.findMany({
       skip: (pageNumber - 1) * pageSize,
       take: pageSize || ITEMS_PER_PAGE,
