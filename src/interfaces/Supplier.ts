@@ -16,7 +16,7 @@ export interface Supplier {
   address: string;
   officePhone: string;
   contactPerson: string;
-  mobilePhone: number;
+  mobilePhone: string;
   status: number;
   createdBy: string;
   createdAt: string;

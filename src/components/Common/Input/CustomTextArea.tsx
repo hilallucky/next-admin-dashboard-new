@@ -46,18 +46,20 @@ const CustomTextArea = ({
                     <label htmlFor={name} className="mb-3 block text-sm font-medium text-black dark:text-white">
                         {label}
                     </label>
-                    <textarea
-                        name={name}
-                        rows={6}
-                        required={required}
-                        placeholder={placeholder}
-                        disabled={disabled}
-                        // value={data || ''}
-                        className={textareaClassName}
-                        {...props}
-                    ></textarea>
-                    {icon && <span className="absolute right-4 top-4">{icon}</span>}
-                    {error && <p className="mt-1 text-xs text-red-500">{error}</p>}
+                    <div className="relative">
+                        <textarea
+                            name={name}
+                            rows={6}
+                            required={required}
+                            placeholder={placeholder}
+                            disabled={disabled}
+                            // value={data || ''}
+                            className={`${textareaClassName}`}
+                            {...props}
+                        ></textarea>
+                        {icon && <span className="absolute right-4 top-4">{icon}</span>}
+                        {error && <p className="mt-1 text-xs text-red-500">{error}</p>}
+                    </div>
                 </div>
             </div>
         </div >

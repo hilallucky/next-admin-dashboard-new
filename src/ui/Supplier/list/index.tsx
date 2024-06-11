@@ -41,7 +41,6 @@ const SupplierList: React.FC = () => {
     const [isFilterVisible, setIsFilterVisible] = useState(false);
 
     const [suppliers, setSuppliers] = useState<Supplier[]>([]);
-    const [loading, setLoading] = useState<boolean>(false);
 
     const tableRef = useRef<{ refresh: () => void }>(null);
     
@@ -50,8 +49,8 @@ const SupplierList: React.FC = () => {
 
     useEffect(() => {
         const fetchSupplierData = async () => {
-            setLoading(true);
-            getSupplier(newFilter);
+            setIsLoading(true);
+            getSuppliers(newFilter);
         };
 
         fetchSupplierData();
@@ -60,13 +59,13 @@ const SupplierList: React.FC = () => {
     if (isError) return <>Internal Server Error</>;
     if (isLoading) return <>Loading...</>;
 
-    const getSupplier = async (filter: {
+    const getSuppliers = async (filter: {
         name?: string;
         email?: string;
         address?: string;
         status?: string;
     }) => {
-        setLoading(true);
+        setIsLoading(true);
 
         try {
             let params = new URLSearchParams();
@@ -102,7 +101,7 @@ const SupplierList: React.FC = () => {
             console.error('Error fetching data:', error);
             setIsErrorPage(error);
         } finally {
-            setLoading(false);
+            setIsLoading(false);
         }
     };
 

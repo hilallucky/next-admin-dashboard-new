@@ -7,7 +7,10 @@ interface SelectProps {
     name: string;
     label: string;
     value?: string;
+    defaultValue?: string | "1";
     options: any[];
+    selectValue?:number
+    disabled?: boolean;
     onChange?: (e: any) => void;
 }
 
@@ -15,7 +18,10 @@ const Select: React.FC<SelectProps> = ({
     name,
     label,
     value,
+    defaultValue,
     options,
+    selectValue,
+    disabled,
     onChange,
     ...props
 }) => {
@@ -48,7 +54,7 @@ const Select: React.FC<SelectProps> = ({
                     name={name}
                     value={value}
                     onChange={handleChange}
-                    defaultValue={''}
+                    defaultValue={defaultValue}
                 >
                     <option value="" disabled className="text-body dark:text-bodydark">
                         Select {label}
@@ -58,6 +64,9 @@ const Select: React.FC<SelectProps> = ({
                             key={index}
                             value={item.value || item}
                             className="text-body dark:text-bodydark"
+                            disabled={disabled}
+                            // selected={(selectValue ? index === selectValue : undefined)}
+                            {...props}
                         >
                             {item.label || item}
                         </option>
