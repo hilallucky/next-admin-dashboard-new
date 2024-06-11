@@ -110,9 +110,9 @@ const ModalOne: React.FC<Props> = ({ id, modalOpen, setModalOpen }: Props) => {
 
     return (
 
-        // isLoading ? (
-        //     <p>Loading...</p>
-        // ) : (
+        isLoading ? (
+            <p>Loading...</p>
+        ) : (
         <div>
             <div
                 className={`fixed left-0 top-0 z-999999 flex h-full w-full items-center justify-center bg-black/90 px-4 py-5 ${modalOpen ? 'block' : 'hidden'
@@ -126,14 +126,12 @@ const ModalOne: React.FC<Props> = ({ id, modalOpen, setModalOpen }: Props) => {
                         <MyButton onClick={() => setModalOpen(false)} className="bg-transparent hover:bg-transparent hover:text-primary">
                             <AiOutlineClose size={20} />
                         </MyButton>
-                        {/* <AiOutlineClose size={20} /> */}
                     </div>
 
                     <h3 className="pb-2 text-xl font-bold text-black dark:text-white sm:text-2xl">
                         Supplier Detail
                     </h3>
                     <form
-                        // onSubmit={handleSubmit}
                         className="mb-4 p-4 border border-stroke outline-none  border-form-strokedark dark:border-form-strokedark dark:bg-form-input dark:text-white rounded"
                     >
                     <div>
@@ -223,7 +221,6 @@ const ModalOne: React.FC<Props> = ({ id, modalOpen, setModalOpen }: Props) => {
                                 placeholder="Supplier mobile phone"
                             />
                         </div>
-
                         <div>
                             <Select
                                 name="status"
@@ -251,7 +248,7 @@ const ModalOne: React.FC<Props> = ({ id, modalOpen, setModalOpen }: Props) => {
                 </div>
             </div>
         </div>
-        // )
+        )
     );
 };
 
