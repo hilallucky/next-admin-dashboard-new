@@ -228,6 +228,7 @@ const ModalOne: React.FC<Props> = ({ id, modalOpen, setModalOpen }: Props) => {
                                 options={statuses}
                                 disabled
                                 selectValue={supplier?.status}
+                                // defaultValue={Number(supplier?.status)}
                             />
                         </div>
 
