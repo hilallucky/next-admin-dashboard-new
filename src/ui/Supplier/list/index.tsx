@@ -1,88 +1,42 @@
 'use client';
 
 import React, {
-    useContext,
+    useCallback,
     useEffect,
-    useImperativeHandle,
     useRef,
     useState,
 } from 'react';
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TablePagination,
-    TableRow,
-} from '@components/Tables';
-import { useRouter } from 'next/router';
-import { SupplierListContext } from '@/contexts/SupplierContext';
 import { Supplier } from '@/interfaces';
 import MyButton from '@components/Common/Button/MyButton';
 import PaginationOne from '@/components/Common/Paginations/PaginationOne';
 import TableDataList from '@/components/Tables/TableDataList';
-import { statuses } from '@/constants/common';
 import SupplierFilterForm from './SupplierFilterForm';
-import Component1 from '../Component1';
 import { AiOutlineArrowDown, AiOutlineArrowRight, AiOutlineFilter } from 'react-icons/ai';
 
 const SupplierList: React.FC = () => {
     const [isError, setIsErrorPage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const router = useRouter();
-    const { query } = router;
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [totalRecords, setTotalRecords] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
-    const { dataFilter, setDataFilter } = useContext(SupplierListContext);
     const [newFilter, setNewFilter] = useState<any>({});
     const [isFilterVisible, setIsFilterVisible] = useState(false);
 
     const [suppliers, setSuppliers] = useState<Supplier[]>([]);
 
     const tableRef = useRef<{ refresh: () => void }>(null);
-    
-    const handleSubmit = (e: any) => {
-    };
 
-    useEffect(() => {
-        const fetchSupplierData = async () => {
-            setIsLoading(true);
-            getSuppliers(newFilter);
-        };
-
-        fetchSupplierData();
-    }, [page, rowsPerPage, newFilter]);
-
-    if (isError) return <>Internal Server Error</>;
-    if (isLoading) return <>Loading...</>;
-
-    const getSuppliers = async (filter: {
-        name?: string;
-        email?: string;
-        address?: string;
-        status?: string;
-    }) => {
+    const getSuppliers = useCallback(async (filter: { [key: string]: string | undefined }) => {
         setIsLoading(true);
 
         try {
             let params = new URLSearchParams();
-            if (Object.keys(filter).length > 0) {
-                if (filter.name) {
-                    params.append('name', filter.name);
+            Object.keys(filter).forEach((key) => {
+                if (filter[key]) {
+                    params.append(key, filter[key]!);
                 }
-                if (filter.email) {
-                    params.append('email', filter.email);
-                }
-                if (filter.address) {
-                    params.append('address', filter.address);
-                }
-                if (filter.status) {
-                    params.append('status', filter.status);
-                }
-            }
+            });
 
             const response = await fetch(
                 `/api/v1/suppliers?page=${page}&limit=${rowsPerPage}${params.toString() ? '&' + params.toString() : ''}`,
@@ -103,6 +57,19 @@ const SupplierList: React.FC = () => {
         } finally {
             setIsLoading(false);
         }
+    }, [page, rowsPerPage]);
+
+    useEffect(() => {
+        const fetchSupplierData = async () => {
+            setIsLoading(true);
+            await getSuppliers(newFilter);
+        };
+
+        fetchSupplierData();
+    }, [page, rowsPerPage, newFilter, getSuppliers]);
+
+    const handleFilterSubmit = (filter: any) => {
+        setNewFilter(filter);
     };
 
     return (
@@ -121,51 +88,54 @@ const SupplierList: React.FC = () => {
             {
                 isFilterVisible && (
                     <SupplierFilterForm
-                        onSubmit={()=>{}}
+                        onSubmit={() => { }}
                         setNewFilter={setNewFilter}
                     />
                 )
             }
 
-            {isLoading ? (
-                <p>Loading...</p>
+            {isError ? (
+                <p>Internal Server Error</p>
             ) : (
-                <div>
-                    <TableDataList
-                        datas={suppliers}
-                        label={'Supplier List'}
-                        headers={[
-                            'Name',
-                            'Address',
-                            'Office Phone',
-                            'Email',
-                            'PIC',
-                            'Mobile Phone',
-                            'Status',
-                        ]}
-                        columns={[
-                            'name',
-                            'address',
-                            'officePhone',
-                            'email',
-                            'contacPerson',
-                            'mobilePhone',
-                            'status',
-                        ]}
-                        page={page}
-                        sizePerPages={rowsPerPage}
-                    />
+                (isLoading ? (
+                    <p>Loading...</p>
+                ) : (
+                    <div>
+                        <TableDataList
+                            datas={suppliers}
+                            label={'Supplier List'}
+                            headers={[
+                                'Name',
+                                'Address',
+                                'Office Phone',
+                                'Email',
+                                'PIC',
+                                'Mobile Phone',
+                                'Status',
+                            ]}
+                            columns={[
+                                'name',
+                                'address',
+                                'officePhone',
+                                'email',
+                                'contacPerson',
+                                'mobilePhone',
+                                'status',
+                            ]}
+                            page={page}
+                            sizePerPages={rowsPerPage}
+                        />
 
-                    <PaginationOne
-                        totalRecords={totalRecords}
-                        page={page}
-                        totalPages={totalPages}
-                        setPage={setPage}
-                        setRowsPerPage={setRowsPerPage}
-                        rowsPerPage={suppliers.length}
-                    />
-                </div>
-            )}
+                        <PaginationOne
+                            totalRecords={totalRecords}
+                            page={page}
+                            totalPages={totalPages}
+                            setPage={setPage}
+                            setRowsPerPage={setRowsPerPage}
+                            rowsPerPage={suppliers.length}
+                        />
+                    </div>
+                )))}
         </div>
     );
 };

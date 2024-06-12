@@ -3,8 +3,8 @@ import CustomTextArea from '@/components/Common/Input/CustomTextArea';
 import TextField from '@/components/Input/TextField/TextField';
 import Select from '@/components/SelectGroup/Select';
 import { statuses } from '@/constants/common';
-import React, { useState } from 'react';
-import { AiFillIdcard, AiOutlineFilter, AiOutlineHome, AiOutlineMail, AiOutlineMobile, AiOutlinePhone } from "react-icons/ai";
+import React, { useRef, useState } from 'react';
+import { AiFillIdcard, AiOutlineClear, AiOutlineFilter, AiOutlineHome, AiOutlineMail, AiOutlineMobile, AiOutlinePhone } from "react-icons/ai";
 
 interface Props {
     label?: string;
@@ -18,6 +18,7 @@ const SupplierFilterForm: React.FC<Props> = ({
     onSubmit,
 }) => {
     const [filter, setFilter] = useState<any>({});
+    const formRef = useRef<HTMLFormElement>(null);
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
@@ -34,12 +35,21 @@ const SupplierFilterForm: React.FC<Props> = ({
         onSubmit(filter);
     };
 
+    const handleClearFilter = (e: any) => {
+        if (formRef.current) {
+            formRef.current.reset();
+            if (setNewFilter) setNewFilter({});
+            onSubmit(setNewFilter);
+        }
+    };
+
     return (
         <div>
 
             <form
+                ref={formRef}
                 onSubmit={handleSubmit}
-                className="mb-4 p-4 border border-form-strokedark rounded"
+                className="mb-4 p-4 border border-slate-400 border-form-strokedark rounded"
             >
                 <div>
                     <TextField
@@ -111,21 +121,37 @@ const SupplierFilterForm: React.FC<Props> = ({
                         name="status"
                         label="Status"
                         options={statuses}
+                        disabled={false}
+                        defaultValue={''}
                     />
                 </div>
 
-                <div className='py-4'>
-                    <MyButton
-                    >
-                        <div className='flex items-center justify-between'>
-                            <span><AiOutlineFilter /> </span>
-                            <span className='px-4'>Apply Filter</span>
-                        </div>
-                    </MyButton>
+                <div className='flex items-center py-4 gap-5'>
+                    <div>
+                        <MyButton
+                        >
+                            <div className='flex items-center justify-between'>
+                                <span><AiOutlineFilter /> </span>
+                                <span className='px-4'>Apply Filter</span>
+                            </div>
+                        </MyButton>
+                    </div>
+                    <div >
+                        <MyButton
+                            type='button'
+                            className='bg-red'
+                            onClick={handleClearFilter}
+                        >
+                            <div className='flex items-center justify-between'>
+                                <span><AiOutlineClear /> </span>
+                                <span className='px-4'>Clear Filter</span>
+                            </div>
+                        </MyButton>
+                    </div>
                 </div>
             </form>
         </div>
     );
 };
 
-export default SupplierFilterForm;
+export default React.memo(SupplierFilterForm);

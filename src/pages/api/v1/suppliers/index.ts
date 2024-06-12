@@ -13,12 +13,12 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   if (req.method === 'GET') {
-    const { page = 1, limit = 10, name, email, address, status } = req.query;
+    const { page = 1, limit = 10, ...query } = req.query;
 
     const pageNumber = parseInt(page as string);
     const pageSize = parseInt(limit as string);
 
-    const filterableFields = { name, email, address, status };
+    const filterableFields = { ...query };
     const filter = Object.fromEntries(
       Object.entries(filterableFields)
         .filter(([_, value]) => typeof value === 'string')

@@ -109,10 +109,6 @@ const ModalOne: React.FC<Props> = ({ id, modalOpen, setModalOpen }: Props) => {
 
 
     return (
-
-        isLoading ? (
-            <p>Loading...</p>
-        ) : (
         <div>
             <div
                 className={`fixed left-0 top-0 z-999999 flex h-full w-full items-center justify-center bg-black/90 px-4 py-5 ${modalOpen ? 'block' : 'hidden'
@@ -134,18 +130,18 @@ const ModalOne: React.FC<Props> = ({ id, modalOpen, setModalOpen }: Props) => {
                     <form
                         className="mb-4 p-4 border border-stroke outline-none  border-form-strokedark dark:border-form-strokedark dark:bg-form-input dark:text-white rounded"
                     >
-                    <div>
-                        <TextField
-                            type="text"
-                            name="code"
-                            value={supplier?.code}
-                            label="Supplier Code"
-                            required={false}
-                            disabled
-                            icon={<AiOutlineQrcode size={20} />}
-                            placeholder="Supplier name"
-                        />
-                    </div>
+                        <div>
+                            <TextField
+                                type="text"
+                                name="code"
+                                value={supplier?.code}
+                                label="Supplier Code"
+                                required={false}
+                                disabled
+                                icon={<AiOutlineQrcode size={20} />}
+                                placeholder="Supplier name"
+                            />
+                        </div>
                         <div>
                             <TextField
                                 type="text"
@@ -228,7 +224,7 @@ const ModalOne: React.FC<Props> = ({ id, modalOpen, setModalOpen }: Props) => {
                                 options={statuses}
                                 disabled
                                 selectValue={supplier?.status}
-                                // defaultValue={Number(supplier?.status)}
+                            // defaultValue={Number(supplier?.status)}
                             />
                         </div>
 
@@ -249,7 +245,6 @@ const ModalOne: React.FC<Props> = ({ id, modalOpen, setModalOpen }: Props) => {
                 </div>
             </div>
         </div>
-        )
     );
 };
 

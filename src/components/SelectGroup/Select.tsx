@@ -46,7 +46,7 @@ const Select: React.FC<SelectProps> = ({
                 Select {label}
             </label>
 
-            <div className="relative z-20 bg-white dark:bg-form-input">
+            <div className="relative z-20 bg-white dark:bg-form-input ">
                 <select
                     className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-6.5 py-3 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark  ${isOptionSelected ? 'text-black dark:text-white' : ''
                         }`}
@@ -55,6 +55,7 @@ const Select: React.FC<SelectProps> = ({
                     value={value}
                     onChange={handleChange}
                     defaultValue={defaultValue}
+                    disabled={disabled}
                 >
                     <option value="" disabled className="text-body dark:text-bodydark">
                         Select {label}
