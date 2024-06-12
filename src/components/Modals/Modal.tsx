@@ -6,7 +6,7 @@ import Select from '../SelectGroup/Select';
 import MyButton from '../Common/Button/MyButton';
 import { statuses } from '@/constants/common';
 import { Supplier } from '@/interfaces';
-import DateToLocal from '@/utilities/FormatDate';
+import DateToLocal from '@/utils/FormatDate';
 
 type Props = {
     id?: string | number | null;

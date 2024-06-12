@@ -13,6 +13,7 @@ import TableDataList from '@/components/Tables/TableDataList';
 import SupplierFilterForm from './SupplierFilterForm';
 import { AiOutlineArrowDown, AiOutlineArrowRight, AiOutlineFilter } from 'react-icons/ai';
 import getSupplierListFetcher from '@/fetchers/Suppliers';
+import useSWR from 'swr';
 
 const SupplierList: React.FC = () => {
     const [isError, setIsErrorPage] = useState('');
@@ -39,7 +40,8 @@ const SupplierList: React.FC = () => {
                 }
             });
 
-            const data = await getSupplierListFetcher({ page, rowsPerPage, params, setIsLoading, setIsErrorPage })
+            const {data, isLoading, error, mutate} = useSWR(await getSupplierListFetcher({ page, rowsPerPage, params, setIsLoading, setIsErrorPage }))
+            console.log({data});
 
             setSuppliers(data?.data.suppliers);
             setTotalPages(data?.data.totalPages);
@@ -90,7 +92,7 @@ const SupplierList: React.FC = () => {
             {isError ? (
                 <p>Internal Server Error</p>
             ) : (
-                (isLoading ? (
+                (isLoading && !suppliers ? (
                     <p>Loading...</p>
                 ) : (
                     <div>
