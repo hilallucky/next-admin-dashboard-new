@@ -3,6 +3,7 @@ import React, { SVGProps } from 'react';
 interface Props<T> {
   type: string;
   name: string;
+  value?: string | undefined; 
   label?: string | null;
   placeholder?: string;
   error?: string | null;
@@ -14,6 +15,7 @@ interface Props<T> {
 const TextField = <T,>({
   type,
   name,
+  value,
   label,
   placeholder,
   error,
@@ -34,6 +36,7 @@ const TextField = <T,>({
         <input
           type={type}
           name={name}
+          value={value}
           placeholder={placeholder}
           required={required}
           disabled={disabled}

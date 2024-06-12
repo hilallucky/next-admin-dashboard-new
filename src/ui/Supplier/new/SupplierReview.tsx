@@ -1,7 +1,9 @@
+import MyButton from '@/components/Common/Button/MyButton';
 import { statuses } from '@/constants/common';
 import { FormContext } from '@/contexts/FormContext';
 import { useRouter } from 'next/router';
-import React, { Dispatch, SetStateAction, useContext } from 'react';
+import React, { Dispatch, SetStateAction, useContext, useState } from 'react';
+import { AiOutlineLeft, AiOutlineSave } from 'react-icons/ai';
 
 interface SupplierReviewProps {
     prevStep: () => void;
@@ -10,8 +12,14 @@ interface SupplierReviewProps {
 const SupplierReview: React.FC<SupplierReviewProps> = ({ prevStep }) => {
     const { formValues } = useContext(FormContext);
     const router = useRouter();
+    const [isError, setIsErrorPage] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleSave = async () => {
+        setIsLoading(true);
+
+        if (isLoading) return <p>Loading...</p>
+
         const response = await fetch('/api/v1/suppliers', {
             method: 'POST',
             headers: {
@@ -24,6 +32,7 @@ const SupplierReview: React.FC<SupplierReviewProps> = ({ prevStep }) => {
         } else {
             router.push('/dashboard/supplier/new2/status?status=error');
         }
+        setIsLoading(false);
     };
 
     return (
@@ -31,8 +40,8 @@ const SupplierReview: React.FC<SupplierReviewProps> = ({ prevStep }) => {
             <table className="w-full">
                 <thead>
                     <tr>
-                        <th className="px-4 py-2 bg-gray-200">Field</th>
-                        <th className="px-4 py-2 bg-gray-200">Value</th>
+                        <th className="px-4 py-2 bg-gray-200 text-left">Field</th>
+                        <th className="px-4 py-2 bg-gray-200 text-left">Value</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -66,19 +75,30 @@ const SupplierReview: React.FC<SupplierReviewProps> = ({ prevStep }) => {
                     </tr>
                 </tbody>
             </table>
-            <div className="space-x-4 mt-4">
-                <button
-                    onClick={prevStep}
-                    className="px-4 py-2 bg-slate-500 text-white rounded-md shadow-sm"
-                >
-                    Edit
-                </button>
-                <button
-                    onClick={handleSave}
-                    className="px-4 py-2 bg-green-500 text-white rounded-md shadow-sm"
-                >
-                    Save
-                </button>
+            <div className="flex items-center py-4 gap-5 space-x-4 mt-4">
+                <div>
+                    <MyButton
+                        onClick={prevStep}
+                        className="px-4 py-2 font-medium rounded-lg text-sm focus:ring-4 focus:ring-slate-300  bg-slate-500 hover:bg-slate-700 text-white px-5 py-2.5 rounded-md shadow-sm"
+                    >
+                        <div className='flex items-center justify-between'>
+                            <span><AiOutlineLeft /> </span>
+                            <span className='px-4'>Apply Filter</span>
+                        </div>
+                    </MyButton>
+                </div>
+                <div >
+                    <MyButton
+                        type='button'
+                        className='focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800'
+                        onClick={handleSave}
+                    >
+                        <div className='flex items-center justify-between'>
+                            <span><AiOutlineSave /> </span>
+                            <span className='px-4'>Save</span>
+                        </div>
+                    </MyButton>
+                </div>
             </div>
         </div>
     );
