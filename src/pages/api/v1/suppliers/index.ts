@@ -34,6 +34,26 @@ export default async function handler(
       skip: (pageNumber - 1) * pageSize,
       take: pageSize || ITEMS_PER_PAGE,
       where: Object.keys(filter).length ? filter : undefined,
+      include: {
+        createdSupplierByUser: {
+          select: {
+            username: true,
+            email: true,
+          },
+        },
+        updatedSupplierByUser: {
+          select: {
+            username: true,
+            email: true,
+          },
+        },
+        deletedSupplierByUser: {
+          select: {
+            username: true,
+            email: true,
+          },
+        },
+      },
     });
 
     const totalRecords = await prisma.supplier.count({

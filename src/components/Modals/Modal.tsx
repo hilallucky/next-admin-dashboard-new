@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import TextField from '@/components/Input/TextField/TextField';
-import { AiFillIdcard, AiOutlineClose, AiOutlineCloseCircle, AiOutlineHome, AiOutlineMail, AiOutlineMobile, AiOutlinePhone, AiOutlineQrcode } from 'react-icons/ai';
+import { AiFillIdcard, AiOutlineCalendar, AiOutlineClockCircle, AiOutlineClose, AiOutlineCloseCircle, AiOutlineHome, AiOutlineMail, AiOutlineMobile, AiOutlinePhone, AiOutlineQrcode, AiOutlineUser } from 'react-icons/ai';
 import CustomTextArea from '../Common/Input/CustomTextArea';
 import Select from '../SelectGroup/Select';
 import MyButton from '../Common/Button/MyButton';
 import { statuses } from '@/constants/common';
 import { Supplier } from '@/interfaces';
+import DateToLocal from '@/utilities/FormatDate';
 
 type Props = {
     id?: string | number | null;
@@ -227,21 +228,40 @@ const ModalOne: React.FC<Props> = ({ id, modalOpen, setModalOpen }: Props) => {
                             // defaultValue={Number(supplier?.status)}
                             />
                         </div>
+                    </form>
 
-                        <div className="-mx-3 flex flex-wrap gap-y-4 py-4 justify-center">
-                            <div className="w-full px-3 2xsm:w-1/2">
-                                <MyButton
-                                    onClick={() => setModalOpen(false)}
-                                    className="block w-full rounded border border-stroke bg-slate-600 p-3 text-center font-medium text-black transition hover:border-meta-1 hover:bg-meta-1 hover:text-white dark:border-strokedark dark:bg-meta-4 dark:text-white dark:hover:border-meta-1 dark:hover:bg-meta-1"
-                                >
-                                    <div className='flex items-center justify-center'>
-                                        <span><AiOutlineCloseCircle /> </span>
-                                        <span className='px-4'>Close</span>
-                                    </div>
-                                </MyButton>
+                    <div className="grid grid-cols-3 gap-3 text-sm">
+                        <div>
+                            <div>
+                                <span>Created By : {supplier?.createdSupplierByUser?.username ? supplier?.createdSupplierByUser.username : '-'}</span>
+                            </div>
+                            <div>
+                                <span className='flex items-center gap-2'><AiOutlineClockCircle /> : {supplier?.createdAt ? DateToLocal(supplier?.createdAt) : '-'}</span>
                             </div>
                         </div>
-                    </form>
+                        <div>
+                            <span>Updated By : {supplier?.updatedSupplierByUser?.username ? supplier?.updatedSupplierByUser.username : '-'}</span>
+                            <span className='flex items-center gap-2'><AiOutlineClockCircle /> : {supplier?.updatedAt ? DateToLocal(supplier?.updatedAt) : '-'}</span>
+                        </div>
+                        <div>
+                            <span>Deleted By : {supplier?.deletedSupplierByUser?.username ? supplier?.deletedSupplierByUser.username : '-'}</span>
+                            <span className='flex items-center gap-2'><AiOutlineClockCircle /> : {supplier?.deletedAt ? DateToLocal(supplier?.deletedAt) : '-'}</span>
+                        </div>
+                    </div>
+
+                    <div className="-mx-3 flex flex-wrap gap-y-4 py-4 justify-center">
+                        <div className="w-full px-3 2xsm:w-1/2">
+                            <MyButton
+                                onClick={() => setModalOpen(false)}
+                                className="block w-full rounded border border-stroke bg-slate-600 p-3 text-center font-medium text-black transition hover:border-meta-1 hover:bg-meta-1 hover:text-white dark:border-strokedark dark:bg-meta-4 dark:text-white dark:hover:border-meta-1 dark:hover:bg-meta-1"
+                            >
+                                <div className='flex items-center justify-center'>
+                                    <span><AiOutlineCloseCircle /> </span>
+                                    <span className='px-4'>Close</span>
+                                </div>
+                            </MyButton>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

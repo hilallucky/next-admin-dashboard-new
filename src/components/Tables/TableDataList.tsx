@@ -89,6 +89,7 @@ const TableDataList = ({
                                 <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                                     <div className="flex items-center space-x-3.5">
                                         <button className="hover:text-primary">
+                                            {data.id}
                                             <GoEye size={18} onClick={() => handleModal(data.id)} />
                                         </button>
                                         <button className="hover:text-primary">

@@ -16,6 +16,26 @@ export default async function handler(
     try {
       const supplier = await prisma.supplier.findUnique({
         where: { id: Number(id) },
+        include: {
+          createdSupplierByUser: {
+            select: {
+              username: true,
+              email: true,
+            },
+          },
+          updatedSupplierByUser: {
+            select: {
+              username: true,
+              email: true,
+            },
+          },
+          deletedSupplierByUser: {
+            select: {
+              username: true,
+              email: true,
+            },
+          },
+        },
       });
 
       if (supplier) {

@@ -12,6 +12,7 @@ import PaginationOne from '@/components/Common/Paginations/PaginationOne';
 import TableDataList from '@/components/Tables/TableDataList';
 import SupplierFilterForm from './SupplierFilterForm';
 import { AiOutlineArrowDown, AiOutlineArrowRight, AiOutlineFilter } from 'react-icons/ai';
+import getSupplierListFetcher from '@/fetchers/Suppliers';
 
 const SupplierList: React.FC = () => {
     const [isError, setIsErrorPage] = useState('');
@@ -38,16 +39,8 @@ const SupplierList: React.FC = () => {
                 }
             });
 
-            const response = await fetch(
-                `/api/v1/suppliers?page=${page}&limit=${rowsPerPage}${params.toString() ? '&' + params.toString() : ''}`,
-                {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                },
-            );
-            const data = await response.json();
+            const data = await getSupplierListFetcher({ page, rowsPerPage, params, setIsLoading, setIsErrorPage })
+
             setSuppliers(data?.data.suppliers);
             setTotalPages(data?.data.totalPages);
             setTotalRecords(data?.data.totalRecords);

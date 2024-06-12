@@ -6,7 +6,7 @@ type SupplierList = {
   setIsErrorPage: any;
 };
 
-const supplierListFetcher = async ({
+const getSupplierListFetcher = async ({
   page,
   rowsPerPage,
   params,
@@ -33,4 +33,4 @@ const supplierListFetcher = async ({
   }
 };
 
-export default supplierListFetcher;
+export default getSupplierListFetcher;

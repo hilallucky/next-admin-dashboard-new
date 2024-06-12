@@ -24,6 +24,9 @@ export interface Supplier {
   updatedAt: string | null;
   deletedBy: string | null;
   deletedAt: string | null;
+  createdSupplierByUser: any;
+  updatedSupplierByUser: any;
+  deletedSupplierByUser: any;
 }
 
 export interface SupplierResponseData {
