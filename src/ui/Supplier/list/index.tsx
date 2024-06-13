@@ -12,52 +12,43 @@ import PaginationOne from '@/components/Common/Paginations/PaginationOne';
 import TableDataList from '@/components/Tables/TableDataList';
 import SupplierFilterForm from './SupplierFilterForm';
 import { AiOutlineArrowDown, AiOutlineArrowRight, AiOutlineFilter } from 'react-icons/ai';
-import getSupplierListFetcher from '@/fetchers/Suppliers';
+import { useSupplierList } from '@/fetchers/Suppliers';
 import useSWR from 'swr';
 
 const SupplierList: React.FC = () => {
-    const [isError, setIsErrorPage] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [totalRecords, setTotalRecords] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [newFilter, setNewFilter] = useState<any>({});
+    const [params, setParams] = useState<URLSearchParams>(newFilter);
     const [isFilterVisible, setIsFilterVisible] = useState(false);
 
     const [suppliers, setSuppliers] = useState<Supplier[]>([]);
 
     const tableRef = useRef<{ refresh: () => void }>(null);
 
-    const getSuppliers = useCallback(async (filter: { [key: string]: string | undefined }) => {
-        setIsLoading(true);
+    const paramFilter = () => {
+        const paramFiltered = new URLSearchParams();
+        Object.keys(newFilter).forEach((key) => {
+            if (newFilter[key]) {
+                paramFiltered.append(key, newFilter[key]!);
+            }
+        });
+        setParams(paramFiltered)
+    }
 
-        try {
-            let params = new URLSearchParams();
-            Object.keys(filter).forEach((key) => {
-                if (filter[key]) {
-                    params.append(key, filter[key]!);
-                }
-            });
+    const { data, totalDataPages, totalDataRecords, isDataLoading, isDataError } = useSupplierList({ page, rowsPerPage, params });
 
-            const {data, isLoading, error, mutate} = useSWR(await getSupplierListFetcher({ page, rowsPerPage, params, setIsLoading, setIsErrorPage }))
-            console.log({data});
-
-            setSuppliers(data?.data.suppliers);
-            setTotalPages(data?.data.totalPages);
-            setTotalRecords(data?.data.totalRecords);
-        } catch (error: any) {
-            console.error('Error fetching data:', error);
-            setIsErrorPage(error);
-        } finally {
-            setIsLoading(false);
-        }
+    const getSuppliers = useCallback(() => {
+        setSuppliers(data);
+        setTotalPages(totalDataPages);
+        setTotalRecords(totalDataRecords);
     }, [page, rowsPerPage]);
 
     useEffect(() => {
         const fetchSupplierData = async () => {
-            setIsLoading(true);
-            await getSuppliers(newFilter);
+            paramFilter()
         };
 
         fetchSupplierData();
@@ -89,15 +80,15 @@ const SupplierList: React.FC = () => {
                 )
             }
 
-            {isError ? (
+            {isDataError ? (
                 <p>Internal Server Error</p>
             ) : (
-                (isLoading && !suppliers ? (
+                (isDataLoading && !data ? (
                     <p>Loading...</p>
                 ) : (
                     <div>
                         <TableDataList
-                            datas={suppliers}
+                            datas={data}
                             label={'Supplier List'}
                             headers={[
                                 'Name',

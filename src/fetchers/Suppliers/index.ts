@@ -1,36 +1,43 @@
-type SupplierList = {
+import useSWR from 'swr';
+
+type SupplierListFetcherProps = {
   page: number;
   rowsPerPage: number;
-  params: any;
-  setIsLoading: any;
-  setIsErrorPage: any;
+  params: URLSearchParams;
 };
 
-const getSupplierListFetcher = async ({
+const fetcher = async (url: string) => {
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || 'Error fetching supplier data');
+  }
+
+  return response.json();
+};
+
+export const useSupplierList = ({
   page,
   rowsPerPage,
   params,
-  setIsLoading,
-  setIsErrorPage,
-}: SupplierList) => {
-  try {
-    const response = await fetch(
-      `/api/v1/suppliers?page=${page}&limit=${rowsPerPage}${params.toString() ? '&' + params.toString() : ''}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
-    const data = await response.json();
-    return data;
-  } catch (error: any) {
-    console.error('Error fetching data:', error);
-    setIsErrorPage(error);
-  } finally {
-    setIsLoading(false);
-  }
-};
+}: SupplierListFetcherProps) => {
+  const paramsString = params.toString() ? `&${params.toString()}` : '';
+  const key = `/api/v1/suppliers?page=${page}&limit=${rowsPerPage}${paramsString}`;
 
-export default getSupplierListFetcher;
+  const { data, error, isLoading, mutate } = useSWR(key, fetcher);
+
+  return {
+    data: data?.data.suppliers || [],
+    totalDataPages: data?.data.totalPages || 1,
+    totalDataRecords: data?.data.totalRecords || 0,
+    isDataLoading: !error && !data,
+    isDataError: error,
+    mutate,
+  };
+};

@@ -11,15 +11,17 @@ export async function middleware(request: NextRequest) {
     },
   };
 
+  const url = request.nextUrl;
+  const { pathname } = url;
+
   const session = await getSession({ req: requestForNextAuth });
 
   if (session) {
     console.log({ session });
-
     return NextResponse.next();
   }
 
-  return NextResponse.redirect(new URL('/', request.url));
+    return NextResponse.redirect(new URL('/', request.url));
 }
 
 export const config = {
