@@ -29,11 +29,12 @@ export default async function handler(
           return [key, { contains: value }];
         }),
     );
+    const filtered = Object.keys(filter).length ? filter : undefined;
 
     const suppliers = await prisma.supplier.findMany({
       skip: (pageNumber - 1) * pageSize,
       take: pageSize || ITEMS_PER_PAGE,
-      where: Object.keys(filter).length ? filter : undefined,
+      where: { ...filtered, deletedAt: null },
       include: {
         createdSupplierByUser: {
           select: {

@@ -1,3 +1,4 @@
+import softDeleteMiddleware from '@prisma_/middleware';
 import { Prisma, PrismaClient } from '../../prisma/generated/client';
 
 const globalForPrisma = global as unknown as {
@@ -32,5 +33,11 @@ prisma.$on('query', (e) => {
   console.log('Params: ' + e.params);
   console.log('Duration: ' + e.duration + 'ms');
 });
+
+prisma.$on('error', (e) => {
+  console.error(e);
+});
+
+prisma.$use(softDeleteMiddleware);
 
 if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;

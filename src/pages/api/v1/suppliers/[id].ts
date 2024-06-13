@@ -15,7 +15,7 @@ export default async function handler(
   if (req.method === 'GET') {
     try {
       const supplier = await prisma.supplier.findUnique({
-        where: { id: Number(id) },
+        where: { id: Number(id), deletedAt: null },
         include: {
           createdSupplierByUser: {
             select: {
@@ -55,6 +55,25 @@ export default async function handler(
           );
       }
     } catch (error) {}
+  } else if (req.method === 'DELETE') {
+    try {
+      const supplier = await prisma.supplier.delete({
+        where: { id: Number(id) },
+      });
+
+      res
+        .status(200)
+        .json(
+          Helper.ResponseData(
+            res.statusCode,
+            `Success to delete supplier id : ${id}`,
+            null,
+            supplier,
+          ),
+        );
+    } catch (error) {
+      res.status(500).json({ error: 'Internal server error' });
+    }
   } else {
     res.setHeader('Allow', ['GET']);
     res.status(405).end(`Method ${req.method} Not Allowed`);

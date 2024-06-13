@@ -1,7 +1,8 @@
 import { statuses } from '@/constants/common';
 import { GoPencil, GoEye, GoTrash, GoDownload } from 'react-icons/go';
-import Modal from '../Modals/Modal';
+import SupplierModalView from '../Modals/SupplierModalView';
 import { useState } from 'react';
+import SupplierModalDelete from '../Modals/SupplierModalDelete';
 
 interface Props {
     label?: string;
@@ -23,12 +24,18 @@ const TableDataList = ({
     sizePerPages = 10,
 }: Props) => {
     const [id, setId] = useState(0);
-    const [modalOpen, setModalOpen] = useState(false);
+    const [modalViewOpen, setModalViewOpen] = useState(false);
+    const [modalDeleteOpen, setModalDeleteOpen] = useState(false);
     const newIndex: number = (page - 1) * sizePerPages + 1;
 
-    const handleModal = (id: number) => {
+    const handleModalView = (id: number) => {
         setId(id);
-        setModalOpen(true);
+        setModalViewOpen(true);
+    };
+
+    const handleModalDelete = (id: number) => {
+        setId(id);
+        setModalDeleteOpen(true);
     };
 
     return (
@@ -89,8 +96,7 @@ const TableDataList = ({
                                 <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                                     <div className="flex items-center space-x-3.5">
                                         <button className="hover:text-primary">
-                                            {data.id}
-                                            <GoEye size={18} onClick={() => handleModal(data.id)} />
+                                            <GoEye size={18} onClick={() => handleModalView(data.id)} />
                                         </button>
                                         <button className="hover:text-primary">
                                             <GoDownload size={18} />
@@ -99,7 +105,7 @@ const TableDataList = ({
                                             <GoPencil size={18} />
                                         </button>
                                         <button className="hover:text-primary">
-                                            <GoTrash size={18} />
+                                            <GoTrash size={18} onClick={() => handleModalDelete(data.id)} />
                                         </button>
                                     </div>
                                 </td>
@@ -109,8 +115,12 @@ const TableDataList = ({
                 </table>
 
                 <div className="flex flex-wrap justify-center gap-5">
-                    {modalOpen && (
-                        <Modal id={id} modalOpen={modalOpen} setModalOpen={setModalOpen} />
+                    {modalViewOpen && (
+                        <SupplierModalView id={id} modalOpen={modalViewOpen} setModalOpen={setModalViewOpen} />
+                    )}
+
+                    {modalDeleteOpen && (
+                        <SupplierModalDelete id={id} modalOpen={modalDeleteOpen} setModalOpen={setModalDeleteOpen} />
                     )}
                 </div>
             </div>
