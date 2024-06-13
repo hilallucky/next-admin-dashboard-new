@@ -27,10 +27,18 @@ export const useSupplierList = ({
   rowsPerPage,
   params,
 }: SupplierListFetcherProps) => {
-  const paramsString = params.toString() ? `&${params.toString()}` : '';
+  const paramsString =
+    params.toString() && params.toString() !== '[object Object]'
+      ? `&${params.toString()}`
+      : '';
   const key = `/api/v1/suppliers?page=${page}&limit=${rowsPerPage}${paramsString}`;
 
   const { data, error, isLoading, mutate } = useSWR(key, fetcher);
+
+  console.log({
+    data_pages: data?.data.totalPages,
+    data_records: data?.data.totalRecords,
+  });
 
   return {
     data: data?.data.suppliers || [],

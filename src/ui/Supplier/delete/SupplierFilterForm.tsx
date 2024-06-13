@@ -9,14 +9,12 @@ import { AiFillIdcard, AiOutlineClear, AiOutlineFilter, AiOutlineHome, AiOutline
 interface Props {
     label?: string;
     setNewFilter?;
-    setPage?: any;
     onSubmit: (name: string) => void;
 }
 
 const SupplierFilterForm: React.FC<Props> = ({
     label,
     setNewFilter,
-    setPage,
     onSubmit,
 }) => {
     const [filter, setFilter] = useState<any>({});
@@ -34,7 +32,6 @@ const SupplierFilterForm: React.FC<Props> = ({
         });
 
         setNewFilter(formEntries);
-        setPage(1)
         onSubmit(filter);
     };
 

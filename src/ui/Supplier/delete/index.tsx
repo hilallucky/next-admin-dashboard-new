@@ -17,6 +17,8 @@ import useSWR from 'swr';
 
 const SupplierList: React.FC = () => {
     const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const [totalRecords, setTotalRecords] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [newFilter, setNewFilter] = useState<any>({});
     const [params, setParams] = useState<URLSearchParams>(newFilter);
@@ -38,9 +40,19 @@ const SupplierList: React.FC = () => {
 
     const { data, totalDataPages, totalDataRecords, isDataLoading, isDataError } = useSupplierList({ page, rowsPerPage, params });
 
+    const getSuppliers = useCallback(() => {
+        setSuppliers(data);
+        setTotalPages(totalDataPages);
+        setTotalRecords(totalDataRecords);
+    }, [page, rowsPerPage]);
+
     useEffect(() => {
-        paramFilter()
-    }, [page, rowsPerPage, newFilter]);
+        const fetchSupplierData = async () => {
+            paramFilter()
+        };
+
+        fetchSupplierData();
+    }, [page, rowsPerPage, newFilter, getSuppliers]);
 
     const handleFilterSubmit = (filter: any) => {
         setNewFilter(filter);
@@ -63,7 +75,6 @@ const SupplierList: React.FC = () => {
                 isFilterVisible && (
                     <SupplierFilterForm
                         onSubmit={() => { }}
-                        setPage={setPage}
                         setNewFilter={setNewFilter}
                     />
                 )
@@ -102,12 +113,12 @@ const SupplierList: React.FC = () => {
                         />
 
                         <PaginationOne
-                            totalRecords={totalDataRecords}
+                            totalRecords={totalRecords}
                             page={page}
-                            totalPages={totalDataPages}
+                            totalPages={totalPages}
                             setPage={setPage}
                             setRowsPerPage={setRowsPerPage}
-                            rowsPerPage={data?.length}
+                            rowsPerPage={suppliers.length}
                         />
                     </div>
                 )))}
