@@ -8,6 +8,7 @@ import { statuses } from '@/constants/common';
 import { Supplier } from '@/interfaces';
 import DateToLocal from '@/utils/FormatDate';
 import { useSupplierById } from '@/fetchers/Suppliers';
+import { useSession } from 'next-auth/react';
 
 type Props = {
     id?: string | number | null;
@@ -28,14 +29,17 @@ const SupplierDefaultValue: Supplier = {
     status: 0,
     createdBy: '',
     createdAt: '',
-    updatedBy: '',
+    updatedBy: 0,
     updatedAt: '',
     deletedBy: '',
     deletedAt: '',
 }
 
-const SupplierModalDelete: React.FC<Props> = ({ id, modalOpen, setModalOpen }: Props) => {
+const SupplierModalEdit: React.FC<Props> = ({ id, modalOpen, setModalOpen }: Props) => {
+    const [session] = useSession();
     const [isLoading, setIsLoading] = useState(false);
+    const [isUpdating, setIsUpdating] = useState(false);
+    const [supplierData, setSupplierData] = useState<Supplier>(SupplierDefaultValue);
     const trigger = useRef<any>(null);
     const modal = useRef<any>(null);
 
@@ -78,14 +82,16 @@ const SupplierModalDelete: React.FC<Props> = ({ id, modalOpen, setModalOpen }: P
         }
     }, [modalOpen, supplier]);
 
-    const handleDelete = async (id: number) => {
+    const handleUpdate = async (id: number) => {
         setIsLoading(true);
+        setIsUpdating(true);
         try {
             const response = await fetch(`/api/v1/suppliers/${id}`, {
-                method: 'DELETE',
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                }
+                },
+                body: { ...supplierData, updatedBy: Number(session?.user.id) }
             });
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
@@ -93,6 +99,8 @@ const SupplierModalDelete: React.FC<Props> = ({ id, modalOpen, setModalOpen }: P
             setModalOpen(false)
         } catch (error: any) {
             console.error('Error deleting supplier:', error);
+        }finally{
+            setIsUpdating(false);
         }
         setIsLoading(false);
     }
@@ -130,7 +138,6 @@ const SupplierModalDelete: React.FC<Props> = ({ id, modalOpen, setModalOpen }: P
                                 value={supplier?.code}
                                 label="Supplier Code"
                                 required={false}
-                                disabled
                                 icon={<AiOutlineQrcode size={20} />}
                                 placeholder="Supplier name"
                             />
@@ -142,7 +149,6 @@ const SupplierModalDelete: React.FC<Props> = ({ id, modalOpen, setModalOpen }: P
                                 value={supplier?.name}
                                 label="Supplier Name"
                                 required={false}
-                                disabled
                                 icon={<AiFillIdcard size={20} />}
                                 placeholder="Supplier name"
                             />
@@ -154,7 +160,6 @@ const SupplierModalDelete: React.FC<Props> = ({ id, modalOpen, setModalOpen }: P
                                 value={supplier?.email}
                                 label="Email"
                                 required={false}
-                                disabled
                                 icon={<AiOutlineMail size={20} />}
                                 placeholder="email@domain.com"
                             />
@@ -165,7 +170,6 @@ const SupplierModalDelete: React.FC<Props> = ({ id, modalOpen, setModalOpen }: P
                                 value={supplier?.address}
                                 label="Supplier address"
                                 placeholder="Supplier address"
-                                disabled
                                 required={false}
                                 icon={<AiOutlineHome size={20} />}
                                 status="default"
@@ -178,7 +182,6 @@ const SupplierModalDelete: React.FC<Props> = ({ id, modalOpen, setModalOpen }: P
                                 name="officePhone"
                                 value={supplier?.officePhone}
                                 label="Office Phone"
-                                disabled
                                 required={false}
                                 icon={<AiOutlinePhone size={20} />}
                                 placeholder="Supplier office phone"
@@ -192,7 +195,6 @@ const SupplierModalDelete: React.FC<Props> = ({ id, modalOpen, setModalOpen }: P
                                 value={supplier?.contactPerson}
                                 label="Contact Person"
                                 required={false}
-                                disabled
                                 icon={<AiFillIdcard size={20} />}
                                 placeholder="Supplier contact person"
                             />
@@ -204,7 +206,6 @@ const SupplierModalDelete: React.FC<Props> = ({ id, modalOpen, setModalOpen }: P
                                 name="mobilePhone"
                                 value={supplier?.mobilePhone}
                                 required={false}
-                                disabled
                                 label="Mobile Phone"
                                 icon={<AiOutlineMobile size={20} />}
                                 placeholder="Supplier mobile phone"
@@ -215,7 +216,6 @@ const SupplierModalDelete: React.FC<Props> = ({ id, modalOpen, setModalOpen }: P
                                 name="status"
                                 label="Status"
                                 options={statuses}
-                                disabled
                                 selectValue={supplier?.status}
                             />
                         </div>
@@ -254,12 +254,12 @@ const SupplierModalDelete: React.FC<Props> = ({ id, modalOpen, setModalOpen }: P
                         </div>
                         <div className="w-full px-3 2xsm:w-1/2">
                             <MyButton
-                                onClick={() => handleDelete(supplier?.id)}
+                                onClick={() => handleUpdate(supplier?.id)}
                                 className="block w-full rounded border border-stroke bg-red p-3 text-center font-medium text-black transition hover:border-meta-1 hover:bg-meta-1 hover:text-white dark:border-strokedark dark:bg-red dark:text-white dark:hover:border-meta-1 dark:hover:bg-meta-1"
                             >
                                 <div className='flex items-center justify-center'>
                                     <span><AiOutlineRest /> </span>
-                                    <span className='px-4'>Delete</span>
+                                    <span className='px-4'>Save {supplier?.id}</span>
                                 </div>
                             </MyButton>
                         </div>
@@ -270,4 +270,4 @@ const SupplierModalDelete: React.FC<Props> = ({ id, modalOpen, setModalOpen }: P
     );
 };
 
-export default SupplierModalDelete;
+export default SupplierModalEdit;

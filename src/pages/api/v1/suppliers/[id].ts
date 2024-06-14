@@ -10,8 +10,6 @@ export default async function handler(
 ) {
   const { id } = req.query;
 
-  console.log({ api: id });
-
   if (req.method === 'GET') {
     try {
       const supplier = await prisma.supplier.findUnique({
@@ -57,8 +55,56 @@ export default async function handler(
     } catch (error) {}
   } else if (req.method === 'DELETE') {
     try {
-      const supplier = await prisma.supplier.delete({
+      const supplier = await prisma.supplier.update({
         where: { id: Number(id) },
+        data: { deletedAt: new Date() },
+      });
+
+      res
+        .status(200)
+        .json(
+          Helper.ResponseData(
+            res.statusCode,
+            `Success to delete supplier id : ${id}`,
+            null,
+            supplier,
+          ),
+        );
+    } catch (error) {
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  } else if (req.method === 'PUT') {
+    console.log({ method: req.method });
+
+    const {
+      uid,
+      code,
+      name,
+      email,
+      address,
+      officePhone,
+      contactPerson,
+      mobilePhone,
+      status,
+      updatedBy,
+    } = req.body;
+
+    try {
+      const supplier = await prisma.supplier.update({
+        where: { id: Number(id) },
+        data: {
+          uid,
+          code,
+          name,
+          email,
+          address,
+          officePhone,
+          contactPerson,
+          mobilePhone,
+          status,
+          updatedBy,
+          updatedAt: new Date(),
+        },
       });
 
       res
@@ -75,7 +121,7 @@ export default async function handler(
       res.status(500).json({ error: 'Internal server error' });
     }
   } else {
-    res.setHeader('Allow', ['GET']);
+    res.setHeader('Allow', ['GET', 'DELETE', 'PUT']);
     res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 }

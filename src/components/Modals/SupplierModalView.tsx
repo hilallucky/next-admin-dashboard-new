@@ -7,6 +7,7 @@ import MyButton from '../Common/Button/MyButton';
 import { statuses } from '@/constants/common';
 import { Supplier } from '@/interfaces';
 import DateToLocal from '@/utils/FormatDate';
+import { useSupplierById } from '@/fetchers/Suppliers';
 
 type Props = {
     id?: string | number | null;
@@ -34,11 +35,10 @@ const SupplierDefaultValue: Supplier = {
 }
 
 const SupplierModalView: React.FC<Props> = ({ id, modalOpen, setModalOpen }: Props) => {
-    const [isError, setIsErrorPage] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
-    const [supplier, setSupplier] = useState<Supplier>(SupplierDefaultValue);
     const trigger = useRef<any>(null);
-    const modal = useRef<any>(null);
+
+    const { data, isDataLoading, isDataError, mutate } = useSupplierById(id as number);
+    const supplier: Supplier = data || SupplierDefaultValue;    const modal = useRef<any>(null);
 
     // close on click outside
     useEffect(() => {
@@ -54,7 +54,7 @@ const SupplierModalView: React.FC<Props> = ({ id, modalOpen, setModalOpen }: Pro
         };
         document.addEventListener('click', clickHandler);
         return () => document.removeEventListener('click', clickHandler);
-    }, [modalOpen, setModalOpen]);
+    }, [modalOpen, supplier, setModalOpen]);
 
     // close if the esc key is pressed
     useEffect(() => {
@@ -64,49 +64,17 @@ const SupplierModalView: React.FC<Props> = ({ id, modalOpen, setModalOpen }: Pro
         };
         document.addEventListener('keydown', keyHandler);
         return () => document.removeEventListener('keydown', keyHandler);
-    }, [modalOpen, setModalOpen]);
+    }, [modalOpen, supplier, setModalOpen]);
 
     // Ensure screen starts from top when modal is shown
     useEffect(() => {
-        getSupplier(id)
-
         if (modalOpen) {
             document.body.style.overflow = 'hidden';
             window.scrollTo(0, 0);
         } else {
             document.body.style.overflow = 'auto';
         }
-    }, [modalOpen, id]);
-
-
-    // Ensure screen starts from top when modal is shown
-    // useEffect(() => {
-    //     getSupplier(id)
-    //     console.log({ useEffect: id });
-    // }, []);
-
-    const getSupplier = async (id) => {
-        setIsLoading(true);
-        try {
-            const response = await fetch(
-                `/api/v1/suppliers/${id}`,
-                {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                },
-            );
-            const data = await response.json();
-            setSupplier(data?.data);
-
-        } catch (error: any) {
-            console.error('Error fetching data:', error);
-            setIsErrorPage(error);
-        } finally {
-            setIsLoading(false);
-        }
-    };
+    }, [modalOpen, supplier]);
 
 
     return (

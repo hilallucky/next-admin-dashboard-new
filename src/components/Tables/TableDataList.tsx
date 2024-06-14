@@ -3,6 +3,7 @@ import { GoPencil, GoEye, GoTrash, GoDownload } from 'react-icons/go';
 import SupplierModalView from '../Modals/SupplierModalView';
 import { useState } from 'react';
 import SupplierModalDelete from '../Modals/SupplierModalDelete';
+import SupplierModalEdit from '../Modals/SupplierModalEdit';
 
 interface Props {
     label?: string;
@@ -25,6 +26,7 @@ const TableDataList = ({
 }: Props) => {
     const [id, setId] = useState(0);
     const [modalViewOpen, setModalViewOpen] = useState(false);
+    const [modalEditOpen, setModalEditOpen] = useState(false);
     const [modalDeleteOpen, setModalDeleteOpen] = useState(false);
     const newIndex: number = (page - 1) * sizePerPages + 1;
 
@@ -36,6 +38,11 @@ const TableDataList = ({
     const handleModalDelete = (id: number) => {
         setId(id);
         setModalDeleteOpen(true);
+    };
+
+    const handleModalEdit = (id: number) => {
+        setId(id);
+        setModalEditOpen(true);
     };
 
     return (
@@ -99,13 +106,13 @@ const TableDataList = ({
                                             <GoEye size={18} onClick={() => handleModalView(data.id)} />
                                         </button>
                                         <button className="hover:text-primary">
-                                            <GoDownload size={18} />
-                                        </button>
-                                        <button className="hover:text-primary">
-                                            <GoPencil size={18} />
+                                            <GoPencil size={18} onClick={() => handleModalEdit(data.id)} />
                                         </button>
                                         <button className="hover:text-primary">
                                             <GoTrash size={18} onClick={() => handleModalDelete(data.id)} />
+                                        </button>
+                                        <button className="hover:text-primary">
+                                            <GoDownload size={18} />
                                         </button>
                                     </div>
                                 </td>
@@ -117,6 +124,10 @@ const TableDataList = ({
                 <div className="flex flex-wrap justify-center gap-5">
                     {modalViewOpen && (
                         <SupplierModalView id={id} modalOpen={modalViewOpen} setModalOpen={setModalViewOpen} />
+                    )}
+
+                    {modalEditOpen && (
+                        <SupplierModalEdit id={id} modalOpen={modalEditOpen} setModalOpen={setModalEditOpen} />
                     )}
 
                     {modalDeleteOpen && (
