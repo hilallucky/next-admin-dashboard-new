@@ -74,9 +74,6 @@ export default async function handler(
       res.status(500).json({ error: 'Internal server error' });
     }
   } else if (req.method === 'PUT') {
-    console.log({ method: req.method });
-    console.log({ body_PUT: req.body });
-
     const {
       code,
       name,
