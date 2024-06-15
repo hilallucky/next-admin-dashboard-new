@@ -18,11 +18,11 @@ export interface Supplier {
   contactPerson: string;
   mobilePhone: string;
   status: number;
-  createdBy: string;
+  createdBy: number | null;
   createdAt: string;
-  updatedBy: string | null;
+  updatedBy: number | null;
   updatedAt: string | null;
-  deletedBy: string | null;
+  deletedBy: number | null;
   deletedAt: string | null;
   createdSupplierByUser?: any;
   updatedSupplierByUser?: any;

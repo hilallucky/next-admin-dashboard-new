@@ -75,9 +75,9 @@ export default async function handler(
     }
   } else if (req.method === 'PUT') {
     console.log({ method: req.method });
+    console.log({ body_PUT: req.body });
 
     const {
-      uid,
       code,
       name,
       email,
@@ -93,7 +93,6 @@ export default async function handler(
       const supplier = await prisma.supplier.update({
         where: { id: Number(id) },
         data: {
-          uid,
           code,
           name,
           email,
@@ -106,6 +105,7 @@ export default async function handler(
           updatedAt: new Date(),
         },
       });
+      console.log({ supplier: supplier });
 
       res
         .status(200)
@@ -118,7 +118,7 @@ export default async function handler(
           ),
         );
     } catch (error) {
-      res.status(500).json({ error: 'Internal server error' });
+      res.status(500).json({ error: `Internal server error/${error}` });
     }
   } else {
     res.setHeader('Allow', ['GET', 'DELETE', 'PUT']);
