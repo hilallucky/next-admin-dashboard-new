@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import TextField from '@/components/Input/TextField/TextField';
 import {
   AiFillIdcard,
-  AiOutlineCalendar,
   AiOutlineClockCircle,
   AiOutlineClose,
   AiOutlineCloseCircle,
@@ -11,15 +10,18 @@ import {
   AiOutlineMobile,
   AiOutlinePhone,
   AiOutlineQrcode,
+  AiOutlineRest,
+  AiOutlineSave,
   AiOutlineUser,
 } from 'react-icons/ai';
-import CustomTextArea from '../Common/Input/CustomTextArea';
-import Select from '../SelectGroup/Select';
-import MyButton from '../Common/Button/MyButton';
+import CustomTextArea from '../../Common/Input/CustomTextArea';
+import Select from '../../SelectGroup/Select';
+import MyButton from '../../Common/Button/MyButton';
 import { statuses } from '@/constants/common';
 import { Supplier } from '@/interfaces';
 import DateToLocal from '@/utils/FormatDate';
 import { useSupplierById } from '@/fetchers/Suppliers';
+import { useSession } from 'next-auth/react';
 
 type Props = {
   id?: string | number | null;
@@ -46,21 +48,28 @@ const SupplierDefaultValue: Supplier = {
   deletedAt: '',
 };
 
-const SupplierModalView: React.FC<Props> = ({
+const SupplierModalEdit: React.FC<Props> = ({
   id,
   modalOpen,
   setModalOpen,
 }: Props) => {
+  const { data: session, status } = useSession();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [supplierData, setSupplierData] =
+    useState<Supplier>(SupplierDefaultValue);
   const trigger = useRef<any>(null);
+  const modal = useRef<any>(null);
 
   const { data, isDataLoading, isDataError, mutate } = useSupplierById(
     id as number,
   );
   const supplier: Supplier = data || SupplierDefaultValue;
-  const modal = useRef<any>(null);
 
   // close on click outside
   useEffect(() => {
+    setSupplierData(supplier);
     const clickHandler = ({ target }: MouseEvent) => {
       if (!modal.current || !trigger.current) return;
       if (
@@ -77,6 +86,7 @@ const SupplierModalView: React.FC<Props> = ({
 
   // close if the esc key is pressed
   useEffect(() => {
+    setSupplierData(supplier);
     const keyHandler = ({ keyCode }: KeyboardEvent) => {
       if (!modalOpen || keyCode !== 27) return;
       setModalOpen(false);
@@ -87,6 +97,7 @@ const SupplierModalView: React.FC<Props> = ({
 
   // Ensure screen starts from top when modal is shown
   useEffect(() => {
+    setSupplierData(supplier);
     if (modalOpen) {
       document.body.style.overflow = 'hidden';
       window.scrollTo(0, 0);
@@ -94,6 +105,42 @@ const SupplierModalView: React.FC<Props> = ({
       document.body.style.overflow = 'auto';
     }
   }, [modalOpen, supplier]);
+
+  const handleUpdate = async (id: number) => {
+    setIsLoading(true);
+    setIsUpdating(true);
+    try {
+      const response = await fetch(`/api/v1/suppliers/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...supplierData,
+          updatedBy: Number(session?.user?.id),
+        }),
+      });
+      if (!response.ok) {
+        throw new Error(
+          `HTTP error! status: ${response.status}, error: ${response?.message}`,
+        );
+      }
+
+      setTimeout(() => {
+        setShowSuccessMessage(true);
+      }, 2000);
+
+      setModalOpen(false);
+    } catch (error: any) {
+      console.error('Error updating supplier:', error);
+    } finally {
+      setIsUpdating(false);
+    }
+    setIsLoading(false);
+  };
+
+  if (isDataLoading) return <p>Loading...</p>;
+  if (isDataError) return <p>Error: {isDataError}</p>;
 
   return (
     <div>
@@ -116,9 +163,15 @@ const SupplierModalView: React.FC<Props> = ({
           </div>
 
           <h3 className="pb-2 text-xl font-bold text-black dark:text-white sm:text-2xl">
-            Supplier Detail
+            Supplier Detail Will Updated
           </h3>
-          <form className="mb-4 p-4 border border-stroke outline-none  border-form-strokedark dark:border-form-strokedark dark:bg-form-input dark:text-white rounded">
+          <form
+            className="mb-4 p-4 border border-stroke outline-none  border-form-strokedark dark:border-form-strokedark dark:bg-form-input dark:text-white rounded"
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleUpdate(Number(id));
+            }}
+          >
             <div>
               <TextField
                 type="text"
@@ -126,9 +179,11 @@ const SupplierModalView: React.FC<Props> = ({
                 value={supplier?.code}
                 label="Supplier Code"
                 required={false}
-                disabled
                 icon={<AiOutlineQrcode size={20} />}
                 placeholder="Supplier name"
+                onChange={(e) =>
+                  setSupplierData({ ...supplierData, code: e.target.value })
+                }
               />
             </div>
             <div>
@@ -138,9 +193,11 @@ const SupplierModalView: React.FC<Props> = ({
                 value={supplier?.name}
                 label="Supplier Name"
                 required={false}
-                disabled
                 icon={<AiFillIdcard size={20} />}
                 placeholder="Supplier name"
+                onChange={(e) =>
+                  setSupplierData({ ...supplierData, name: e.target.value })
+                }
               />
             </div>
             <div>
@@ -150,21 +207,26 @@ const SupplierModalView: React.FC<Props> = ({
                 value={supplier?.email}
                 label="Email"
                 required={false}
-                disabled
                 icon={<AiOutlineMail size={20} />}
                 placeholder="email@domain.com"
+                onChange={(e) =>
+                  setSupplierData({ ...supplierData, email: e.target.value })
+                }
               />
             </div>
             <div>
               <CustomTextArea
                 name="address"
-                value={supplier?.address}
+                // value={supplier?.address}
+                defaultValue={supplier?.address}
                 label="Supplier address"
                 placeholder="Supplier address"
-                disabled
                 required={false}
                 icon={<AiOutlineHome size={20} />}
                 status="default"
+                onChange={(e) =>
+                  setSupplierData({ ...supplierData, address: e.target.value })
+                }
               />
             </div>
 
@@ -174,10 +236,15 @@ const SupplierModalView: React.FC<Props> = ({
                 name="officePhone"
                 value={supplier?.officePhone}
                 label="Office Phone"
-                disabled
                 required={false}
                 icon={<AiOutlinePhone size={20} />}
                 placeholder="Supplier office phone"
+                onChange={(e) =>
+                  setSupplierData({
+                    ...supplierData,
+                    officePhone: e.target.value,
+                  })
+                }
               />
             </div>
 
@@ -188,9 +255,14 @@ const SupplierModalView: React.FC<Props> = ({
                 value={supplier?.contactPerson}
                 label="Contact Person"
                 required={false}
-                disabled
                 icon={<AiFillIdcard size={20} />}
                 placeholder="Supplier contact person"
+                onChange={(e) =>
+                  setSupplierData({
+                    ...supplierData,
+                    contactPerson: e.target.value,
+                  })
+                }
               />
             </div>
 
@@ -200,10 +272,15 @@ const SupplierModalView: React.FC<Props> = ({
                 name="mobilePhone"
                 value={supplier?.mobilePhone}
                 required={false}
-                disabled
                 label="Mobile Phone"
                 icon={<AiOutlineMobile size={20} />}
                 placeholder="Supplier mobile phone"
+                onChange={(e) =>
+                  setSupplierData({
+                    ...supplierData,
+                    mobilePhone: e.target.value,
+                  })
+                }
               />
             </div>
             <div>
@@ -211,9 +288,14 @@ const SupplierModalView: React.FC<Props> = ({
                 name="status"
                 label="Status"
                 options={statuses}
-                disabled
                 selectValue={supplier?.status}
                 defaultValue={supplier?.status}
+                onChange={(e) =>
+                  setSupplierData({
+                    ...supplierData,
+                    status: Number(e.target.value),
+                  })
+                }
               />
             </div>
           </form>
@@ -275,6 +357,27 @@ const SupplierModalView: React.FC<Props> = ({
                 </div>
               </MyButton>
             </div>
+            <div className="w-full px-3 2xsm:w-1/2">
+              <MyButton
+                onClick={() => handleUpdate(supplier?.id)}
+                className="block w-full rounded border border-stroke bg-red p-3 text-center font-medium text-black transition hover:border-meta-1 hover:bg-meta-1 hover:text-white dark:border-strokedark dark:bg-red dark:text-white dark:hover:border-meta-1 dark:hover:bg-meta-1"
+                disabled={isUpdating}
+              >
+                <div className="flex items-center justify-center">
+                  <span>
+                    <AiOutlineSave />
+                  </span>
+                  <span className="px-4">
+                    {isUpdating ? 'Updating...' : 'Update'}
+                  </span>
+                </div>
+              </MyButton>
+              {showSuccessMessage && (
+                <span className="ml-2 text-green-600">
+                  Updated successfully!
+                </span>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -282,4 +385,4 @@ const SupplierModalView: React.FC<Props> = ({
   );
 };
 
-export default SupplierModalView;
+export default SupplierModalEdit;

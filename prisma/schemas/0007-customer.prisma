@@ -1,0 +1,29 @@
+model Customer {
+    id              Int       @id @default(autoincrement())
+    uid             String    @unique @default(cuid())
+    code            String    @unique
+    name            String
+    email           String?
+    address         String
+    officePhone     String
+    contactPerson   String
+    mobilePhone     String
+    status          Int       @default(0)
+    latestOrderDate DateTime?
+    latestOrderID   Int?
+    createdBy       Int?
+    createdAt       DateTime  @default(now())
+    updatedBy       Int?
+    updatedAt       DateTime? @updatedAt
+    deletedBy       Int?
+    deletedAt       DateTime?
+
+    custQuotations     CustQuotation[]
+    custPurchaseOrders CustPurchaseOrder[]
+
+    createdCustomerByUser User? @relation("CustomerCreatedBy", fields: [createdBy], references: [id])
+    updatedCustomerByUser User? @relation("CustomerUpdatedBy", fields: [updatedBy], references: [id])
+    deletedCustomerByUser User? @relation("CustomerDeletedBy", fields: [deletedBy], references: [id])
+
+    @@map("customers")
+}

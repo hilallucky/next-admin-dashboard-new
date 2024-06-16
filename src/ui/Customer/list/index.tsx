@@ -1,27 +1,27 @@
 'use client';
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Supplier } from '@/interfaces';
+import { Customer } from '@/interfaces';
 import MyButton from '@components/Common/Button/MyButton';
 import PaginationOne from '@/components/Common/Paginations/PaginationOne';
-import SupplierFilterForm from './SupplierFilterForm';
+import CustomerFilterForm from './CustomerFilterForm';
 import {
   AiOutlineArrowDown,
   AiOutlineArrowRight,
   AiOutlineFilter,
 } from 'react-icons/ai';
-import { useSupplierList } from '@/fetchers/Suppliers';
+import { useCustomerList } from '@/fetchers/Customers';
 import useSWR from 'swr';
-import SupplierTableDataList from '@/components/Masters/Supplier/SupplierTableDataList';
+import CustomerTableDataList from '@/components/Masters/Customer/CustomerTableDataList';
 
-const SupplierList: React.FC = () => {
+const CustomerList: React.FC = () => {
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [newFilter, setNewFilter] = useState<any>({});
   const [params, setParams] = useState<URLSearchParams>(newFilter);
   const [isFilterVisible, setIsFilterVisible] = useState(false);
 
-  const [suppliers, setSuppliers] = useState<Supplier[]>([]);
+  const [customers, setCustomers] = useState<Customer[]>([]);
 
   const tableRef = useRef<{ refresh: () => void }>(null);
 
@@ -36,7 +36,7 @@ const SupplierList: React.FC = () => {
   };
 
   const { data, totalDataPages, totalDataRecords, isDataLoading, isDataError } =
-    useSupplierList({ page, rowsPerPage, params });
+    useCustomerList({ page, rowsPerPage, params });
 
   useEffect(() => {
     paramFilter();
@@ -54,13 +54,13 @@ const SupplierList: React.FC = () => {
             <span>
               <AiOutlineFilter />{' '}
             </span>
-            <span className="px-4">Filter supplier data</span>
+            <span className="px-4">Filter customer data</span>
             {isFilterVisible ? <AiOutlineArrowDown /> : <AiOutlineArrowRight />}
           </div>
         </MyButton>
       </div>
       {isFilterVisible && (
-        <SupplierFilterForm
+        <CustomerFilterForm
           onSubmit={() => {}}
           setPage={setPage}
           setNewFilter={setNewFilter}
@@ -73,9 +73,9 @@ const SupplierList: React.FC = () => {
         <p>Loading...</p>
       ) : (
         <div>
-          <SupplierTableDataList
+          <CustomerTableDataList
             datas={data}
-            label={'Supplier List'}
+            label={'Customer List'}
             headers={[
               'Name',
               'Address',
@@ -112,4 +112,4 @@ const SupplierList: React.FC = () => {
   );
 };
 
-export default SupplierList;
+export default CustomerList;

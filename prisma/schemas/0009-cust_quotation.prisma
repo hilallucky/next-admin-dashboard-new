@@ -1,0 +1,55 @@
+model CustQuotation {
+    id           Int       @id @default(autoincrement())
+    uid          String    @unique @default(cuid())
+    poNumber     String    @unique
+    customerId   Int
+    totalAmount  Int
+    totalItem    Int
+    top          Int
+    orderDate    DateTime?
+    deliveryDate DateTime?
+    invoiceDate  DateTime?
+    status       Int       @default(0)
+    remarks      String?
+    createdBy    Int?
+    createdAt    DateTime  @default(now())
+    updatedBy    Int?
+    updatedAt    DateTime? @updatedAt
+    deletedBy    Int?
+    deletedAt    DateTime?
+
+    customer Customer              @relation(fields: [customerId], references: [id])
+    details  CustQuotationDetail[]
+
+    createdCustQuotationByUser User? @relation("CustQuotationCreatedBy", fields: [createdBy], references: [id])
+    updatedCustQuotationByUser User? @relation("CustQuotationUpdatedBy", fields: [updatedBy], references: [id])
+    deletedCustQuotationByUser User? @relation("CustQuotationDeletedBy", fields: [deletedBy], references: [id])
+
+    @@map("cust_quotations")
+}
+
+model CustQuotationDetail {
+    id               Int       @id @default(autoincrement())
+    uid              String    @unique @default(cuid())
+    quotationOrderId Int
+    productId        Int
+    amount           Int
+    quantity         Int
+    unitPrice        Decimal   @db.Decimal(10, 2)
+    status           Int       @default(0)
+    createdBy        Int?
+    createdAt        DateTime  @default(now())
+    updatedBy        Int?
+    updatedAt        DateTime? @updatedAt
+    deletedBy        Int?
+    deletedAt        DateTime?
+
+    quotationOrder CustQuotation @relation(fields: [quotationOrderId], references: [id])
+    product        Product       @relation(fields: [productId], references: [id])
+
+    createdCustQuotationDetailByUser User? @relation("CustQuotationDetailCreatedBy", fields: [createdBy], references: [id])
+    updatedCustQuotationDetailByUser User? @relation("CustQuotationDetailUpdatedBy", fields: [updatedBy], references: [id])
+    deletedCustQuotationDetailByUser User? @relation("CustQuotationDetailDeletedBy", fields: [deletedBy], references: [id])
+
+    @@map("cust_quotation_details")
+}

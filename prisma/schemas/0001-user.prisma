@@ -38,6 +38,10 @@ model User {
     updatedSupplierByUser Supplier[] @relation("SupplierUpdatedBy")
     deletedSupplierByUser Supplier[] @relation("SupplierDeletedBy")
 
+    createdCustomerByUser Customer[] @relation("CustomerCreatedBy")
+    updatedCustomerByUser Customer[] @relation("CustomerUpdatedBy")
+    deletedCustomerByUser Customer[] @relation("CustomerDeletedBy")
+
     createdProductByUser Product[] @relation("ProductCreatedBy")
     updatedProductByUser Product[] @relation("ProductUpdatedBy")
     deletedProductByUser Product[] @relation("ProductDeletedBy")
@@ -53,6 +57,22 @@ model User {
     createdPurchaseOrderDetailByUser PurchaseOrderDetail[] @relation("PurchaseOrderDetailCreatedBy")
     updatedPurchaseOrderDetailByUser PurchaseOrderDetail[] @relation("PurchaseOrderDetailUpdatedBy")
     deletedPurchaseOrderDetailByUser PurchaseOrderDetail[] @relation("PurchaseOrderDetailDeletedBy")
+
+    createdCustQuotationByUser CustQuotation[] @relation("CustQuotationCreatedBy")
+    updatedCustQuotationByUser CustQuotation[] @relation("CustQuotationUpdatedBy")
+    deletedCustQuotationByUser CustQuotation[] @relation("CustQuotationDeletedBy")
+
+    createdCustQuotationDetailByUser CustQuotationDetail[] @relation("CustQuotationDetailCreatedBy")
+    updatedCustQuotationDetailByUser CustQuotationDetail[] @relation("CustQuotationDetailUpdatedBy")
+    deletedCustQuotationDetailByUser CustQuotationDetail[] @relation("CustQuotationDetailDeletedBy")
+
+    createdCustPurchaseOrderByUser CustPurchaseOrder[] @relation("CustPurchaseOrderCreatedBy")
+    updatedCustPurchaseOrderByUser CustPurchaseOrder[] @relation("CustPurchaseOrderUpdatedBy")
+    deletedCustPurchaseOrderByUser CustPurchaseOrder[] @relation("CustPurchaseOrderDeletedBy")
+
+    createdCustPurchaseOrderDetailByUser CustPurchaseOrderDetail[] @relation("CustPurchaseOrderDetailCreatedBy")
+    updatedCustPurchaseOrderDetailByUser CustPurchaseOrderDetail[] @relation("CustPurchaseOrderDetailUpdatedBy")
+    deletedCustPurchaseOrderDetailByUser CustPurchaseOrderDetail[] @relation("CustPurchaseOrderDetailDeletedBy")
 
     @@map("users")
 }

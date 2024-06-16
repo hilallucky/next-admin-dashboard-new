@@ -67,14 +67,13 @@ const Select: React.FC<SelectProps> = ({
               value={item.value || item}
               className="text-body dark:text-bodydark"
               disabled={disabled}
-              //   selected={selectValue ? index === selectValue : undefined}
+              selected={selectValue ? index === selectValue : undefined}
               {...props}
             >
               {item.label || item}
             </option>
           ))}
         </select>
-
         <span className="absolute right-4 top-1/2 z-10 -translate-y-1/2">
           <AiOutlineDown />
         </span>

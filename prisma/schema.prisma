@@ -1,12 +1,11 @@
-
 generator client {
-  provider = "prisma-client-js"
-  output   = "./generated/client"
+    provider = "prisma-client-js"
+    output   = "./generated/client"
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("MYSQL_DATABASE_URL")
+    provider = "mysql"
+    url      = env("MYSQL_DATABASE_URL")
 }
 
 model User {
@@ -49,6 +48,10 @@ model User {
     updatedSupplierByUser Supplier[] @relation("SupplierUpdatedBy")
     deletedSupplierByUser Supplier[] @relation("SupplierDeletedBy")
 
+    createdCustomerByUser Customer[] @relation("CustomerCreatedBy")
+    updatedCustomerByUser Customer[] @relation("CustomerUpdatedBy")
+    deletedCustomerByUser Customer[] @relation("CustomerDeletedBy")
+
     createdProductByUser Product[] @relation("ProductCreatedBy")
     updatedProductByUser Product[] @relation("ProductUpdatedBy")
     deletedProductByUser Product[] @relation("ProductDeletedBy")
@@ -65,9 +68,24 @@ model User {
     updatedPurchaseOrderDetailByUser PurchaseOrderDetail[] @relation("PurchaseOrderDetailUpdatedBy")
     deletedPurchaseOrderDetailByUser PurchaseOrderDetail[] @relation("PurchaseOrderDetailDeletedBy")
 
+    createdCustQuotationByUser CustQuotation[] @relation("CustQuotationCreatedBy")
+    updatedCustQuotationByUser CustQuotation[] @relation("CustQuotationUpdatedBy")
+    deletedCustQuotationByUser CustQuotation[] @relation("CustQuotationDeletedBy")
+
+    createdCustQuotationDetailByUser CustQuotationDetail[] @relation("CustQuotationDetailCreatedBy")
+    updatedCustQuotationDetailByUser CustQuotationDetail[] @relation("CustQuotationDetailUpdatedBy")
+    deletedCustQuotationDetailByUser CustQuotationDetail[] @relation("CustQuotationDetailDeletedBy")
+
+    createdCustPurchaseOrderByUser CustPurchaseOrder[] @relation("CustPurchaseOrderCreatedBy")
+    updatedCustPurchaseOrderByUser CustPurchaseOrder[] @relation("CustPurchaseOrderUpdatedBy")
+    deletedCustPurchaseOrderByUser CustPurchaseOrder[] @relation("CustPurchaseOrderDeletedBy")
+
+    createdCustPurchaseOrderDetailByUser CustPurchaseOrderDetail[] @relation("CustPurchaseOrderDetailCreatedBy")
+    updatedCustPurchaseOrderDetailByUser CustPurchaseOrderDetail[] @relation("CustPurchaseOrderDetailUpdatedBy")
+    deletedCustPurchaseOrderDetailByUser CustPurchaseOrderDetail[] @relation("CustPurchaseOrderDetailDeletedBy")
+
     @@map("users")
 }
-
 
 model Role {
     id          Int       @id @default(autoincrement())
@@ -93,7 +111,6 @@ model Role {
 
     @@map("roles")
 }
-
 
 model MasterMenu {
     id          Int       @id @default(autoincrement())
@@ -174,7 +191,6 @@ model RoleMenuAccess {
     @@map("role_menu_accesses")
 }
 
-
 model Supplier {
     id            Int       @id @default(autoincrement())
     uid           String    @unique @default(cuid())
@@ -204,7 +220,6 @@ model Supplier {
     @@map("suppliers")
 }
 
-
 model Product {
     id         Int       @id @default(autoincrement())
     uid        String    @unique @default(cuid())
@@ -220,13 +235,15 @@ model Product {
     deletedBy  Int?
     deletedAt  DateTime?
 
-    supplier     Supplier              @relation(fields: [supplierId], references: [id])
-    orderDetails PurchaseOrderDetail[]
-    productAliases ProductAlias[]
+    supplier             Supplier              @relation(fields: [supplierId], references: [id])
+    orderDetails         PurchaseOrderDetail[]
+    custQuotationDetails CustQuotationDetail[]
+    productAliases       ProductAlias[]
 
-    createdProductByUser User? @relation("ProductCreatedBy", fields: [createdBy], references: [id])
-    updatedProductByUser User? @relation("ProductUpdatedBy", fields: [updatedBy], references: [id])
-    deletedProductByUser User? @relation("ProductDeletedBy", fields: [deletedBy], references: [id])
+    createdProductByUser    User?                     @relation("ProductCreatedBy", fields: [createdBy], references: [id])
+    updatedProductByUser    User?                     @relation("ProductUpdatedBy", fields: [updatedBy], references: [id])
+    deletedProductByUser    User?                     @relation("ProductDeletedBy", fields: [deletedBy], references: [id])
+    CustPurchaseOrderDetail CustPurchaseOrderDetail[]
 
     @@map("products")
 }
@@ -255,7 +272,6 @@ model ProductAlias {
 
     @@map("product_aliases")
 }
-
 
 model PurchaseOrder {
     id           Int       @id @default(autoincrement())
@@ -312,3 +328,148 @@ model PurchaseOrderDetail {
     @@map("purchase_order_details")
 }
 
+model Customer {
+    id              Int       @id @default(autoincrement())
+    uid             String    @unique @default(cuid())
+    code            String    @unique
+    name            String
+    email           String?
+    address         String
+    officePhone     String
+    contactPerson   String
+    mobilePhone     String
+    status          Int       @default(0)
+    latestOrderDate DateTime?
+    latestOrderID   Int?
+    createdBy       Int?
+    createdAt       DateTime  @default(now())
+    updatedBy       Int?
+    updatedAt       DateTime? @updatedAt
+    deletedBy       Int?
+    deletedAt       DateTime?
+
+    custQuotations     CustQuotation[]
+    custPurchaseOrders CustPurchaseOrder[]
+
+    createdCustomerByUser User? @relation("CustomerCreatedBy", fields: [createdBy], references: [id])
+    updatedCustomerByUser User? @relation("CustomerUpdatedBy", fields: [updatedBy], references: [id])
+    deletedCustomerByUser User? @relation("CustomerDeletedBy", fields: [deletedBy], references: [id])
+
+    @@map("customers")
+}
+
+model CustPurchaseOrder {
+    id              Int       @id @default(autoincrement())
+    uid             String    @unique @default(cuid())
+    custPoNumber    String    @unique
+    customerId      Int
+    totalAmount     Int
+    totalItem       Int
+    discountPercent Int       @default(0)
+    discount        Int       @default(0)
+    nettAmount      Int       @default(0)
+    dealAmount      Int       @default(0)
+    top             Int
+    orderDate       DateTime
+    deliveryDate    DateTime?
+    invoiceDate     DateTime?
+    status          Int       @default(0)
+    remarks         String?
+    createdBy       Int?
+    createdAt       DateTime  @default(now())
+    updatedBy       Int?
+    updatedAt       DateTime? @updatedAt
+    deletedBy       Int?
+    deletedAt       DateTime?
+
+    customer     Customer                  @relation(fields: [customerId], references: [id])
+    orderDetails CustPurchaseOrderDetail[]
+
+    createdCustPurchaseOrderByUser User? @relation("CustPurchaseOrderCreatedBy", fields: [createdBy], references: [id])
+    updatedCustPurchaseOrderByUser User? @relation("CustPurchaseOrderUpdatedBy", fields: [updatedBy], references: [id])
+    deletedCustPurchaseOrderByUser User? @relation("CustPurchaseOrderDeletedBy", fields: [deletedBy], references: [id])
+
+    @@map("cust_purchase_orders")
+}
+
+model CustPurchaseOrderDetail {
+    id                  Int       @id @default(autoincrement())
+    uid                 String    @unique @default(cuid())
+    custPurchaseOrderId Int
+    productId           Int
+    amount              Int
+    quantity            Int
+    unitPrice           Decimal   @db.Decimal(10, 2)
+    status              Int       @default(0)
+    createdBy           Int?
+    createdAt           DateTime  @default(now())
+    updatedBy           Int?
+    updatedAt           DateTime? @updatedAt
+    deletedBy           Int?
+    deletedAt           DateTime?
+
+    custPurchaseOrder CustPurchaseOrder @relation(fields: [custPurchaseOrderId], references: [id])
+    product           Product           @relation(fields: [productId], references: [id])
+
+    createdCustPurchaseOrderDetailByUser User? @relation("CustPurchaseOrderDetailCreatedBy", fields: [createdBy], references: [id])
+    updatedCustPurchaseOrderDetailByUser User? @relation("CustPurchaseOrderDetailUpdatedBy", fields: [updatedBy], references: [id])
+    deletedCustPurchaseOrderDetailByUser User? @relation("CustPurchaseOrderDetailDeletedBy", fields: [deletedBy], references: [id])
+
+    @@map("cust_purchase_order_details")
+}
+
+model CustQuotation {
+    id           Int       @id @default(autoincrement())
+    uid          String    @unique @default(cuid())
+    poNumber     String    @unique
+    customerId   Int
+    totalAmount  Int
+    totalItem    Int
+    top          Int
+    orderDate    DateTime?
+    deliveryDate DateTime?
+    invoiceDate  DateTime?
+    status       Int       @default(0)
+    remarks      String?
+    createdBy    Int?
+    createdAt    DateTime  @default(now())
+    updatedBy    Int?
+    updatedAt    DateTime? @updatedAt
+    deletedBy    Int?
+    deletedAt    DateTime?
+
+    customer Customer              @relation(fields: [customerId], references: [id])
+    details  CustQuotationDetail[]
+
+    createdCustQuotationByUser User? @relation("CustQuotationCreatedBy", fields: [createdBy], references: [id])
+    updatedCustQuotationByUser User? @relation("CustQuotationUpdatedBy", fields: [updatedBy], references: [id])
+    deletedCustQuotationByUser User? @relation("CustQuotationDeletedBy", fields: [deletedBy], references: [id])
+
+    @@map("cust_quotations")
+}
+
+model CustQuotationDetail {
+    id               Int       @id @default(autoincrement())
+    uid              String    @unique @default(cuid())
+    quotationOrderId Int
+    productId        Int
+    amount           Int
+    quantity         Int
+    unitPrice        Decimal   @db.Decimal(10, 2)
+    status           Int       @default(0)
+    createdBy        Int?
+    createdAt        DateTime  @default(now())
+    updatedBy        Int?
+    updatedAt        DateTime? @updatedAt
+    deletedBy        Int?
+    deletedAt        DateTime?
+
+    quotationOrder CustQuotation @relation(fields: [quotationOrderId], references: [id])
+    product        Product       @relation(fields: [productId], references: [id])
+
+    createdCustQuotationDetailByUser User? @relation("CustQuotationDetailCreatedBy", fields: [createdBy], references: [id])
+    updatedCustQuotationDetailByUser User? @relation("CustQuotationDetailUpdatedBy", fields: [updatedBy], references: [id])
+    deletedCustQuotationDetailByUser User? @relation("CustQuotationDetailDeletedBy", fields: [deletedBy], references: [id])
+
+    @@map("cust_quotation_details")
+}

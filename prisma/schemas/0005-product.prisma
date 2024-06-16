@@ -13,9 +13,10 @@ model Product {
     deletedBy  Int?
     deletedAt  DateTime?
 
-    supplier     Supplier              @relation(fields: [supplierId], references: [id])
-    orderDetails PurchaseOrderDetail[]
-    productAliases ProductAlias[]
+    supplier             Supplier              @relation(fields: [supplierId], references: [id])
+    orderDetails         PurchaseOrderDetail[]
+    custQuotationDetails CustQuotationDetail[]
+    productAliases       ProductAlias[]
 
     createdProductByUser User? @relation("ProductCreatedBy", fields: [createdBy], references: [id])
     updatedProductByUser User? @relation("ProductUpdatedBy", fields: [updatedBy], references: [id])

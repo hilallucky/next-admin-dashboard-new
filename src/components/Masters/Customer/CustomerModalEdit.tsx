@@ -14,13 +14,13 @@ import {
   AiOutlineSave,
   AiOutlineUser,
 } from 'react-icons/ai';
-import CustomTextArea from '../Common/Input/CustomTextArea';
-import Select from '../SelectGroup/Select';
-import MyButton from '../Common/Button/MyButton';
+import CustomTextArea from '../../Common/Input/CustomTextArea';
+import Select from '../../SelectGroup/Select';
+import MyButton from '../../Common/Button/MyButton';
 import { statuses } from '@/constants/common';
-import { Supplier } from '@/interfaces';
+import { Customer } from '@/interfaces';
 import DateToLocal from '@/utils/FormatDate';
-import { useSupplierById } from '@/fetchers/Suppliers';
+import { useCustomerById } from '@/fetchers/Customers';
 import { useSession } from 'next-auth/react';
 
 type Props = {
@@ -29,7 +29,7 @@ type Props = {
   setModalOpen: (open: boolean) => void;
 };
 
-const SupplierDefaultValue: Supplier = {
+const CustomerDefaultValue: Customer = {
   id: 0,
   uid: '',
   code: '',
@@ -48,7 +48,7 @@ const SupplierDefaultValue: Supplier = {
   deletedAt: '',
 };
 
-const SupplierModalEdit: React.FC<Props> = ({
+const CustomerModalEdit: React.FC<Props> = ({
   id,
   modalOpen,
   setModalOpen,
@@ -57,19 +57,19 @@ const SupplierModalEdit: React.FC<Props> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-  const [supplierData, setSupplierData] =
-    useState<Supplier>(SupplierDefaultValue);
+  const [customerData, setCustomerData] =
+    useState<Customer>(CustomerDefaultValue);
   const trigger = useRef<any>(null);
   const modal = useRef<any>(null);
 
-  const { data, isDataLoading, isDataError, mutate } = useSupplierById(
+  const { data, isDataLoading, isDataError, mutate } = useCustomerById(
     id as number,
   );
-  const supplier: Supplier = data || SupplierDefaultValue;
+  const customer: Customer = data || CustomerDefaultValue;
 
   // close on click outside
   useEffect(() => {
-    setSupplierData(supplier);
+    setCustomerData(customer);
     const clickHandler = ({ target }: MouseEvent) => {
       if (!modal.current || !trigger.current) return;
       if (
@@ -82,41 +82,41 @@ const SupplierModalEdit: React.FC<Props> = ({
     };
     document.addEventListener('click', clickHandler);
     return () => document.removeEventListener('click', clickHandler);
-  }, [modalOpen, supplier, setModalOpen]);
+  }, [modalOpen, customer, setModalOpen]);
 
   // close if the esc key is pressed
   useEffect(() => {
-    setSupplierData(supplier);
+    setCustomerData(customer);
     const keyHandler = ({ keyCode }: KeyboardEvent) => {
       if (!modalOpen || keyCode !== 27) return;
       setModalOpen(false);
     };
     document.addEventListener('keydown', keyHandler);
     return () => document.removeEventListener('keydown', keyHandler);
-  }, [modalOpen, supplier, setModalOpen]);
+  }, [modalOpen, customer, setModalOpen]);
 
   // Ensure screen starts from top when modal is shown
   useEffect(() => {
-    setSupplierData(supplier);
+    setCustomerData(customer);
     if (modalOpen) {
       document.body.style.overflow = 'hidden';
       window.scrollTo(0, 0);
     } else {
       document.body.style.overflow = 'auto';
     }
-  }, [modalOpen, supplier]);
+  }, [modalOpen, customer]);
 
   const handleUpdate = async (id: number) => {
     setIsLoading(true);
     setIsUpdating(true);
     try {
-      const response = await fetch(`/api/v1/suppliers/${id}`, {
+      const response = await fetch(`/api/v1/customers/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          ...supplierData,
+          ...customerData,
           updatedBy: Number(session?.user?.id),
         }),
       });
@@ -132,7 +132,7 @@ const SupplierModalEdit: React.FC<Props> = ({
 
       setModalOpen(false);
     } catch (error: any) {
-      console.error('Error updating supplier:', error);
+      console.error('Error updating customer:', error);
     } finally {
       setIsUpdating(false);
     }
@@ -163,7 +163,7 @@ const SupplierModalEdit: React.FC<Props> = ({
           </div>
 
           <h3 className="pb-2 text-xl font-bold text-black dark:text-white sm:text-2xl">
-            Supplier Detail Will Deleted
+            Customer Detail Will Deleted
           </h3>
           <form
             className="mb-4 p-4 border border-stroke outline-none  border-form-strokedark dark:border-form-strokedark dark:bg-form-input dark:text-white rounded"
@@ -176,13 +176,13 @@ const SupplierModalEdit: React.FC<Props> = ({
               <TextField
                 type="text"
                 name="code"
-                value={supplier?.code}
-                label="Supplier Code"
+                value={customer?.code}
+                label="Customer Code"
                 required={false}
                 icon={<AiOutlineQrcode size={20} />}
-                placeholder="Supplier name"
+                placeholder="Customer name"
                 onChange={(e) =>
-                  setSupplierData({ ...supplierData, code: e.target.value })
+                  setCustomerData({ ...customerData, code: e.target.value })
                 }
               />
             </div>
@@ -190,13 +190,13 @@ const SupplierModalEdit: React.FC<Props> = ({
               <TextField
                 type="text"
                 name="name"
-                value={supplier?.name}
-                label="Supplier Name"
+                value={customer?.name}
+                label="Customer Name"
                 required={false}
                 icon={<AiFillIdcard size={20} />}
-                placeholder="Supplier name"
+                placeholder="Customer name"
                 onChange={(e) =>
-                  setSupplierData({ ...supplierData, name: e.target.value })
+                  setCustomerData({ ...customerData, name: e.target.value })
                 }
               />
             </div>
@@ -204,28 +204,28 @@ const SupplierModalEdit: React.FC<Props> = ({
               <TextField
                 type="text"
                 name="email"
-                value={supplier?.email}
+                value={customer?.email}
                 label="Email"
                 required={false}
                 icon={<AiOutlineMail size={20} />}
                 placeholder="email@domain.com"
                 onChange={(e) =>
-                  setSupplierData({ ...supplierData, email: e.target.value })
+                  setCustomerData({ ...customerData, email: e.target.value })
                 }
               />
             </div>
             <div>
               <CustomTextArea
                 name="address"
-                // value={supplier?.address}
-                defaultValue={supplier?.address}
-                label="Supplier address"
-                placeholder="Supplier address"
+                // value={customer?.address}
+                defaultValue={customer?.address}
+                label="Customer address"
+                placeholder="Customer address"
                 required={false}
                 icon={<AiOutlineHome size={20} />}
                 status="default"
                 onChange={(e) =>
-                  setSupplierData({ ...supplierData, address: e.target.value })
+                  setCustomerData({ ...customerData, address: e.target.value })
                 }
               />
             </div>
@@ -234,14 +234,14 @@ const SupplierModalEdit: React.FC<Props> = ({
               <TextField
                 type="text"
                 name="officePhone"
-                value={supplier?.officePhone}
+                value={customer?.officePhone}
                 label="Office Phone"
                 required={false}
                 icon={<AiOutlinePhone size={20} />}
-                placeholder="Supplier office phone"
+                placeholder="Customer office phone"
                 onChange={(e) =>
-                  setSupplierData({
-                    ...supplierData,
+                  setCustomerData({
+                    ...customerData,
                     officePhone: e.target.value,
                   })
                 }
@@ -252,14 +252,14 @@ const SupplierModalEdit: React.FC<Props> = ({
               <TextField
                 type="text"
                 name="contactPerson"
-                value={supplier?.contactPerson}
+                value={customer?.contactPerson}
                 label="Contact Person"
                 required={false}
                 icon={<AiFillIdcard size={20} />}
-                placeholder="Supplier contact person"
+                placeholder="Customer contact person"
                 onChange={(e) =>
-                  setSupplierData({
-                    ...supplierData,
+                  setCustomerData({
+                    ...customerData,
                     contactPerson: e.target.value,
                   })
                 }
@@ -270,14 +270,14 @@ const SupplierModalEdit: React.FC<Props> = ({
               <TextField
                 type="text"
                 name="mobilePhone"
-                value={supplier?.mobilePhone}
+                value={customer?.mobilePhone}
                 required={false}
                 label="Mobile Phone"
                 icon={<AiOutlineMobile size={20} />}
-                placeholder="Supplier mobile phone"
+                placeholder="Customer mobile phone"
                 onChange={(e) =>
-                  setSupplierData({
-                    ...supplierData,
+                  setCustomerData({
+                    ...customerData,
                     mobilePhone: e.target.value,
                   })
                 }
@@ -288,11 +288,11 @@ const SupplierModalEdit: React.FC<Props> = ({
                 name="status"
                 label="Status"
                 options={statuses}
-                selectValue={supplier?.status}
-                defaultValue={supplier?.status}
+                selectValue={customer?.status}
+                defaultValue={customer?.status}
                 onChange={(e) =>
-                  setSupplierData({
-                    ...supplierData,
+                  setCustomerData({
+                    ...customerData,
                     status: Number(e.target.value),
                   })
                 }
@@ -305,40 +305,40 @@ const SupplierModalEdit: React.FC<Props> = ({
               <div>
                 <span>
                   Created By :{' '}
-                  {supplier?.createdSupplierByUser?.username
-                    ? supplier?.createdSupplierByUser.username
+                  {customer?.createdCustomerByUser?.username
+                    ? customer?.createdCustomerByUser.username
                     : '-'}
                 </span>
               </div>
               <div>
                 <span className="flex items-center gap-2">
                   <AiOutlineClockCircle /> :{' '}
-                  {supplier?.createdAt ? DateToLocal(supplier?.createdAt) : '-'}
+                  {customer?.createdAt ? DateToLocal(customer?.createdAt) : '-'}
                 </span>
               </div>
             </div>
             <div>
               <span>
                 Updated By :{' '}
-                {supplier?.updatedSupplierByUser?.username
-                  ? supplier?.updatedSupplierByUser.username
+                {customer?.updatedCustomerByUser?.username
+                  ? customer?.updatedCustomerByUser.username
                   : '-'}
               </span>
               <span className="flex items-center gap-2">
                 <AiOutlineClockCircle /> :{' '}
-                {supplier?.updatedAt ? DateToLocal(supplier?.updatedAt) : '-'}
+                {customer?.updatedAt ? DateToLocal(customer?.updatedAt) : '-'}
               </span>
             </div>
             <div>
               <span>
                 Deleted By :{' '}
-                {supplier?.deletedSupplierByUser?.username
-                  ? supplier?.deletedSupplierByUser.username
+                {customer?.deletedCustomerByUser?.username
+                  ? customer?.deletedCustomerByUser.username
                   : '-'}
               </span>
               <span className="flex items-center gap-2">
                 <AiOutlineClockCircle /> :{' '}
-                {supplier?.deletedAt ? DateToLocal(supplier?.deletedAt) : '-'}
+                {customer?.deletedAt ? DateToLocal(customer?.deletedAt) : '-'}
               </span>
             </div>
           </div>
@@ -359,7 +359,7 @@ const SupplierModalEdit: React.FC<Props> = ({
             </div>
             <div className="w-full px-3 2xsm:w-1/2">
               <MyButton
-                onClick={() => handleUpdate(supplier?.id)}
+                onClick={() => handleUpdate(customer?.id)}
                 className="block w-full rounded border border-stroke bg-red p-3 text-center font-medium text-black transition hover:border-meta-1 hover:bg-meta-1 hover:text-white dark:border-strokedark dark:bg-red dark:text-white dark:hover:border-meta-1 dark:hover:bg-meta-1"
                 disabled={isUpdating}
               >
@@ -385,4 +385,4 @@ const SupplierModalEdit: React.FC<Props> = ({
   );
 };
 
-export default SupplierModalEdit;
+export default CustomerModalEdit;

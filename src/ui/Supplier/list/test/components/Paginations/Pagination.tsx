@@ -153,96 +153,106 @@
 
 // export default Pagination;
 
-
 import React from 'react';
 
 interface PaginationProps {
-    className?: string;
-    currentPage: number;
-    totalPages: number;
-    onPageChange: (page: number) => void;
-    totalRecords: number;
-    pageSize: number;
+  className?: string;
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
+  totalRecords: number;
+  pageSize: number;
 }
 
-const Pagination: React.FC<PaginationProps> = ({ className, currentPage, totalPages, onPageChange, totalRecords, pageSize }) => {
-    const createPageNumbers = () => {
-        const pages: number[] = [];
-        let startPage = 1;
-        let endPage = totalPages;
+const Pagination: React.FC<PaginationProps> = ({
+  className,
+  currentPage,
+  totalPages,
+  onPageChange,
+  totalRecords,
+  pageSize,
+}) => {
+  const createPageNumbers = () => {
+    const pages: number[] = [];
+    let startPage = 1;
+    let endPage = totalPages;
 
-        if (totalPages > 7) {
-            if (currentPage <= 4) {
-                startPage = 1;
-                endPage = 7;
-            } else if (currentPage + 3 >= totalPages) {
-                startPage = totalPages - 6;
-                endPage = totalPages;
-            } else {
-                startPage = currentPage - 3;
-                endPage = currentPage + 3;
-            }
-        }
+    if (totalPages > 7) {
+      if (currentPage <= 4) {
+        startPage = 1;
+        endPage = 7;
+      } else if (currentPage + 3 >= totalPages) {
+        startPage = totalPages - 6;
+        endPage = totalPages;
+      } else {
+        startPage = currentPage - 3;
+        endPage = currentPage + 3;
+      }
+    }
 
-        for (let i = startPage; i <= endPage; i++) {
-            pages.push(i);
-        }
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(i);
+    }
 
-        return pages;
-    };
+    return pages;
+  };
 
-    const pages = createPageNumbers();
+  const pages = createPageNumbers();
 
-    const startRecord = (currentPage - 1) * pageSize + 1;
-    const endRecord = Math.min(currentPage * pageSize, totalRecords);
+  const startRecord = (currentPage - 1) * pageSize + 1;
+  const endRecord = Math.min(currentPage * pageSize, totalRecords);
 
-    return (
-        <div className={className}>
-            <div className="pagination-info">
-                Page {currentPage} of {totalPages}
-                Showing {startRecord} to {startRecord + endRecord - 1} of {totalRecords} records
-            </div>
-            <button
-                onClick={() => onPageChange(currentPage - 1)}
-                disabled={currentPage === 1}
-                className="pagination-button"
-            >
-                Previous
-            </button>
-            {currentPage > 4 && (
-                <>
-                    <button onClick={() => onPageChange(1)} className="pagination-button">
-                        1
-                    </button>
-                    <span>...</span>
-                </>
-            )}
-            {pages.map((page) => (
-                <button
-                    key={page}
-                    onClick={() => onPageChange(page)}
-                    className={`pagination-button ${currentPage === page ? 'active' : ''}`}
-                >
-                    {page}
-                </button>
-            ))}
-            {currentPage + 3 < totalPages && (
-                <>
-                    <span>...</span>
-                    <button onClick={() => onPageChange(totalPages)} className="pagination-button">
-                        {totalPages}
-                    </button>
-                </>
-            )}
-            <button
-                onClick={() => onPageChange(currentPage + 1)}
-                disabled={currentPage === totalPages}
-                className="pagination-button"
-            >
-                Next
-            </button>
-        </div>
-    );
+  return (
+    <div className={className}>
+      <div className="pagination-info">
+        Page {currentPage} of {totalPages}
+        Showing {startRecord} to {startRecord + endRecord - 1} of {totalRecords}{' '}
+        records
+      </div>
+      <button
+        onClick={() => onPageChange(currentPage - 1)}
+        disabled={currentPage === 1}
+        className="pagination-button"
+      >
+        Previous
+      </button>
+      {currentPage > 4 && (
+        <>
+          <button onClick={() => onPageChange(1)} className="pagination-button">
+            1
+          </button>
+          <span>...</span>
+        </>
+      )}
+      {pages.map((page) => (
+        <button
+          key={page}
+          onClick={() => onPageChange(page)}
+          className={`pagination-button ${currentPage === page ? 'active' : ''}`}
+        >
+          {page}
+        </button>
+      ))}
+      {currentPage + 3 < totalPages && (
+        <>
+          <span>...</span>
+          <button
+            onClick={() => onPageChange(totalPages)}
+            className="pagination-button"
+          >
+            {totalPages}
+          </button>
+        </>
+      )}
+      <button
+        onClick={() => onPageChange(currentPage + 1)}
+        disabled={currentPage === totalPages}
+        className="pagination-button"
+      >
+        Next
+      </button>
+    </div>
+  );
 };
 
 export default Pagination;

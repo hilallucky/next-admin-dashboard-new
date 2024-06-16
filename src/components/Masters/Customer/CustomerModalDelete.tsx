@@ -13,13 +13,13 @@ import {
   AiOutlineRest,
   AiOutlineUser,
 } from 'react-icons/ai';
-import CustomTextArea from '../Common/Input/CustomTextArea';
-import Select from '../SelectGroup/Select';
-import MyButton from '../Common/Button/MyButton';
+import CustomTextArea from '../../Common/Input/CustomTextArea';
+import Select from '../../SelectGroup/Select';
+import MyButton from '../../Common/Button/MyButton';
 import { statuses } from '@/constants/common';
-import { Supplier } from '@/interfaces';
+import { Customer } from '@/interfaces';
 import DateToLocal from '@/utils/FormatDate';
-import { useSupplierById } from '@/fetchers/Suppliers';
+import { useCustomerById } from '@/fetchers/Customers';
 
 type Props = {
   id?: string | number | null;
@@ -27,7 +27,7 @@ type Props = {
   setModalOpen: (open: boolean) => void;
 };
 
-const SupplierDefaultValue: Supplier = {
+const CustomerDefaultValue: Customer = {
   id: 0,
   uid: '',
   code: '',
@@ -46,7 +46,7 @@ const SupplierDefaultValue: Supplier = {
   deletedAt: '',
 };
 
-const SupplierModalDelete: React.FC<Props> = ({
+const CustomerModalDelete: React.FC<Props> = ({
   id,
   modalOpen,
   setModalOpen,
@@ -55,10 +55,10 @@ const SupplierModalDelete: React.FC<Props> = ({
   const trigger = useRef<any>(null);
   const modal = useRef<any>(null);
 
-  const { data, isDataLoading, isDataError, mutate } = useSupplierById(
+  const { data, isDataLoading, isDataError, mutate } = useCustomerById(
     id as number,
   );
-  const supplier: Supplier = data || SupplierDefaultValue;
+  const customer: Customer = data || CustomerDefaultValue;
 
   // close on click outside
   useEffect(() => {
@@ -74,7 +74,7 @@ const SupplierModalDelete: React.FC<Props> = ({
     };
     document.addEventListener('click', clickHandler);
     return () => document.removeEventListener('click', clickHandler);
-  }, [modalOpen, supplier, setModalOpen]);
+  }, [modalOpen, customer, setModalOpen]);
 
   // close if the esc key is pressed
   useEffect(() => {
@@ -84,7 +84,7 @@ const SupplierModalDelete: React.FC<Props> = ({
     };
     document.addEventListener('keydown', keyHandler);
     return () => document.removeEventListener('keydown', keyHandler);
-  }, [modalOpen, supplier, setModalOpen]);
+  }, [modalOpen, customer, setModalOpen]);
 
   // Ensure screen starts from top when modal is shown
   useEffect(() => {
@@ -94,12 +94,12 @@ const SupplierModalDelete: React.FC<Props> = ({
     } else {
       document.body.style.overflow = 'auto';
     }
-  }, [modalOpen, supplier]);
+  }, [modalOpen, customer]);
 
   const handleDelete = async (id: number) => {
     setIsLoading(true);
     try {
-      const response = await fetch(`/api/v1/suppliers/${id}`, {
+      const response = await fetch(`/api/v1/customers/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -110,7 +110,7 @@ const SupplierModalDelete: React.FC<Props> = ({
       }
       setModalOpen(false);
     } catch (error: any) {
-      console.error('Error deleting supplier:', error);
+      console.error('Error deleting customer:', error);
     }
     setIsLoading(false);
   };
@@ -139,38 +139,38 @@ const SupplierModalDelete: React.FC<Props> = ({
           </div>
 
           <h3 className="pb-2 text-xl font-bold text-black dark:text-white sm:text-2xl">
-            Supplier Detail Will Deleted
+            Customer Detail Will Deleted
           </h3>
           <form className="mb-4 p-4 border border-stroke outline-none  border-form-strokedark dark:border-form-strokedark dark:bg-form-input dark:text-white rounded">
             <div>
               <TextField
                 type="text"
                 name="code"
-                value={supplier?.code}
-                label="Supplier Code"
+                value={customer?.code}
+                label="Customer Code"
                 required={false}
                 disabled
                 icon={<AiOutlineQrcode size={20} />}
-                placeholder="Supplier name"
+                placeholder="Customer name"
               />
             </div>
             <div>
               <TextField
                 type="text"
                 name="name"
-                value={supplier?.name}
-                label="Supplier Name"
+                value={customer?.name}
+                label="Customer Name"
                 required={false}
                 disabled
                 icon={<AiFillIdcard size={20} />}
-                placeholder="Supplier name"
+                placeholder="Customer name"
               />
             </div>
             <div>
               <TextField
                 type="text"
                 name="email"
-                value={supplier?.email}
+                value={customer?.email}
                 label="Email"
                 required={false}
                 disabled
@@ -181,9 +181,9 @@ const SupplierModalDelete: React.FC<Props> = ({
             <div>
               <CustomTextArea
                 name="address"
-                value={supplier?.address}
-                label="Supplier address"
-                placeholder="Supplier address"
+                value={customer?.address}
+                label="Customer address"
+                placeholder="Customer address"
                 disabled
                 required={false}
                 icon={<AiOutlineHome size={20} />}
@@ -195,12 +195,12 @@ const SupplierModalDelete: React.FC<Props> = ({
               <TextField
                 type="text"
                 name="officePhone"
-                value={supplier?.officePhone}
+                value={customer?.officePhone}
                 label="Office Phone"
                 disabled
                 required={false}
                 icon={<AiOutlinePhone size={20} />}
-                placeholder="Supplier office phone"
+                placeholder="Customer office phone"
               />
             </div>
 
@@ -208,12 +208,12 @@ const SupplierModalDelete: React.FC<Props> = ({
               <TextField
                 type="text"
                 name="contactPerson"
-                value={supplier?.contactPerson}
+                value={customer?.contactPerson}
                 label="Contact Person"
                 required={false}
                 disabled
                 icon={<AiFillIdcard size={20} />}
-                placeholder="Supplier contact person"
+                placeholder="Customer contact person"
               />
             </div>
 
@@ -221,12 +221,12 @@ const SupplierModalDelete: React.FC<Props> = ({
               <TextField
                 type="text"
                 name="mobilePhone"
-                value={supplier?.mobilePhone}
+                value={customer?.mobilePhone}
                 required={false}
                 disabled
                 label="Mobile Phone"
                 icon={<AiOutlineMobile size={20} />}
-                placeholder="Supplier mobile phone"
+                placeholder="Customer mobile phone"
               />
             </div>
             <div>
@@ -235,8 +235,8 @@ const SupplierModalDelete: React.FC<Props> = ({
                 label="Status"
                 options={statuses}
                 disabled
-                selectValue={supplier?.status}
-                defaultValue={supplier?.status}
+                selectValue={customer?.status}
+                defaultValue={customer?.status}
               />
             </div>
           </form>
@@ -246,40 +246,40 @@ const SupplierModalDelete: React.FC<Props> = ({
               <div>
                 <span>
                   Created By :{' '}
-                  {supplier?.createdSupplierByUser?.username
-                    ? supplier?.createdSupplierByUser.username
+                  {customer?.createdCustomerByUser?.username
+                    ? customer?.createdCustomerByUser.username
                     : '-'}
                 </span>
               </div>
               <div>
                 <span className="flex items-center gap-2">
                   <AiOutlineClockCircle /> :{' '}
-                  {supplier?.createdAt ? DateToLocal(supplier?.createdAt) : '-'}
+                  {customer?.createdAt ? DateToLocal(customer?.createdAt) : '-'}
                 </span>
               </div>
             </div>
             <div>
               <span>
                 Updated By :{' '}
-                {supplier?.updatedSupplierByUser?.username
-                  ? supplier?.updatedSupplierByUser.username
+                {customer?.updatedCustomerByUser?.username
+                  ? customer?.updatedCustomerByUser.username
                   : '-'}
               </span>
               <span className="flex items-center gap-2">
                 <AiOutlineClockCircle /> :{' '}
-                {supplier?.updatedAt ? DateToLocal(supplier?.updatedAt) : '-'}
+                {customer?.updatedAt ? DateToLocal(customer?.updatedAt) : '-'}
               </span>
             </div>
             <div>
               <span>
                 Deleted By :{' '}
-                {supplier?.deletedSupplierByUser?.username
-                  ? supplier?.deletedSupplierByUser.username
+                {customer?.deletedCustomerByUser?.username
+                  ? customer?.deletedCustomerByUser.username
                   : '-'}
               </span>
               <span className="flex items-center gap-2">
                 <AiOutlineClockCircle /> :{' '}
-                {supplier?.deletedAt ? DateToLocal(supplier?.deletedAt) : '-'}
+                {customer?.deletedAt ? DateToLocal(customer?.deletedAt) : '-'}
               </span>
             </div>
           </div>
@@ -300,7 +300,7 @@ const SupplierModalDelete: React.FC<Props> = ({
             </div>
             <div className="w-full px-3 2xsm:w-1/2">
               <MyButton
-                onClick={() => handleDelete(supplier?.id)}
+                onClick={() => handleDelete(customer?.id)}
                 className="block w-full rounded border border-stroke bg-red p-3 text-center font-medium text-black transition hover:border-meta-1 hover:bg-meta-1 hover:text-white dark:border-strokedark dark:bg-red dark:text-white dark:hover:border-meta-1 dark:hover:bg-meta-1"
               >
                 <div className="flex items-center justify-center">
@@ -318,4 +318,4 @@ const SupplierModalDelete: React.FC<Props> = ({
   );
 };
 
-export default SupplierModalDelete;
+export default CustomerModalDelete;

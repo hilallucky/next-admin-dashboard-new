@@ -1,9 +1,9 @@
 import { statuses } from '@/constants/common';
 import { GoPencil, GoEye, GoTrash, GoDownload } from 'react-icons/go';
-import SupplierModalView from '../Modals/SupplierModalView';
+import SupplierModalView from '../Masters/Supplier/SupplierModalView';
 import { useState } from 'react';
-import SupplierModalDelete from '../Modals/SupplierModalDelete';
-import SupplierModalEdit from '../Modals/SupplierModalEdit';
+import SupplierModalDelete from '../Masters/Supplier/SupplierModalDelete';
+import SupplierModalEdit from '../Masters/Supplier/SupplierModalEdit';
 
 interface Props {
     label?: string;

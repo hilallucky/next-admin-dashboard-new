@@ -16,12 +16,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 5.14.0
- * Query Engine version: e9771e62de70f79a5e1c604a2d7c8e2a0a874b48
+ * Prisma Client JS version: 5.15.0
+ * Query Engine version: 12e25d8d06f6ea5a0252864dd9a03b1bb51f3022
  */
 Prisma.prismaVersion = {
-  client: "5.14.0",
-  engine: "e9771e62de70f79a5e1c604a2d7c8e2a0a874b48"
+  client: "5.15.0",
+  engine: "12e25d8d06f6ea5a0252864dd9a03b1bb51f3022"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -290,6 +290,107 @@ exports.Prisma.PurchaseOrderDetailScalarFieldEnum = {
   deletedAt: 'deletedAt'
 };
 
+exports.Prisma.CustomerScalarFieldEnum = {
+  id: 'id',
+  uid: 'uid',
+  code: 'code',
+  name: 'name',
+  email: 'email',
+  address: 'address',
+  officePhone: 'officePhone',
+  contactPerson: 'contactPerson',
+  mobilePhone: 'mobilePhone',
+  status: 'status',
+  latestOrderDate: 'latestOrderDate',
+  latestOrderID: 'latestOrderID',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedBy: 'updatedBy',
+  updatedAt: 'updatedAt',
+  deletedBy: 'deletedBy',
+  deletedAt: 'deletedAt'
+};
+
+exports.Prisma.CustPurchaseOrderScalarFieldEnum = {
+  id: 'id',
+  uid: 'uid',
+  custPoNumber: 'custPoNumber',
+  customerId: 'customerId',
+  totalAmount: 'totalAmount',
+  totalItem: 'totalItem',
+  discountPercent: 'discountPercent',
+  discount: 'discount',
+  nettAmount: 'nettAmount',
+  dealAmount: 'dealAmount',
+  top: 'top',
+  orderDate: 'orderDate',
+  deliveryDate: 'deliveryDate',
+  invoiceDate: 'invoiceDate',
+  status: 'status',
+  remarks: 'remarks',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedBy: 'updatedBy',
+  updatedAt: 'updatedAt',
+  deletedBy: 'deletedBy',
+  deletedAt: 'deletedAt'
+};
+
+exports.Prisma.CustPurchaseOrderDetailScalarFieldEnum = {
+  id: 'id',
+  uid: 'uid',
+  custPurchaseOrderId: 'custPurchaseOrderId',
+  productId: 'productId',
+  amount: 'amount',
+  quantity: 'quantity',
+  unitPrice: 'unitPrice',
+  status: 'status',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedBy: 'updatedBy',
+  updatedAt: 'updatedAt',
+  deletedBy: 'deletedBy',
+  deletedAt: 'deletedAt'
+};
+
+exports.Prisma.CustQuotationScalarFieldEnum = {
+  id: 'id',
+  uid: 'uid',
+  poNumber: 'poNumber',
+  customerId: 'customerId',
+  totalAmount: 'totalAmount',
+  totalItem: 'totalItem',
+  top: 'top',
+  orderDate: 'orderDate',
+  deliveryDate: 'deliveryDate',
+  invoiceDate: 'invoiceDate',
+  status: 'status',
+  remarks: 'remarks',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedBy: 'updatedBy',
+  updatedAt: 'updatedAt',
+  deletedBy: 'deletedBy',
+  deletedAt: 'deletedAt'
+};
+
+exports.Prisma.CustQuotationDetailScalarFieldEnum = {
+  id: 'id',
+  uid: 'uid',
+  quotationOrderId: 'quotationOrderId',
+  productId: 'productId',
+  amount: 'amount',
+  quantity: 'quantity',
+  unitPrice: 'unitPrice',
+  status: 'status',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedBy: 'updatedBy',
+  updatedAt: 'updatedAt',
+  deletedBy: 'deletedBy',
+  deletedAt: 'deletedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -311,7 +412,12 @@ exports.Prisma.ModelName = {
   Product: 'Product',
   ProductAlias: 'ProductAlias',
   PurchaseOrder: 'PurchaseOrder',
-  PurchaseOrderDetail: 'PurchaseOrderDetail'
+  PurchaseOrderDetail: 'PurchaseOrderDetail',
+  Customer: 'Customer',
+  CustPurchaseOrder: 'CustPurchaseOrder',
+  CustPurchaseOrderDetail: 'CustPurchaseOrderDetail',
+  CustQuotation: 'CustQuotation',
+  CustQuotationDetail: 'CustQuotationDetail'
 };
 
 /**
