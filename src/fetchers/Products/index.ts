@@ -1,39 +1,9 @@
 import useSWR from 'swr';
 
-type SupplierListFetcherProps = {
+type ProductListFetcherProps = {
   page: number;
   rowsPerPage: number;
   params: URLSearchParams;
-};
-
-const fetcherForSelect = async (url: string) => {
-  const response = await fetch(url, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.message || 'Error fetching supplier data');
-  }
-
-  return response.json();
-};
-
-export const useSupplierListForSelect = () => {
-  const { data, error, isLoading, mutate } = useSWR(
-    '/api/v1/suppliers/select-all',
-    fetcherForSelect,
-  );
-
-  return {
-    data: data?.data.suppliers || [],
-    isDataLoading: !error && !data,
-    isDataError: error,
-    mutate,
-  };
 };
 
 const fetcher = async (url: string) => {
@@ -46,27 +16,27 @@ const fetcher = async (url: string) => {
 
   if (!response.ok) {
     const errorData = await response.json();
-    throw new Error(errorData.message || 'Error fetching supplier data');
+    throw new Error(errorData.message || 'Error fetching product data');
   }
 
   return response.json();
 };
 
-export const useSupplierList = ({
+export const useProductList = ({
   page,
   rowsPerPage,
   params,
-}: SupplierListFetcherProps) => {
+}: ProductListFetcherProps) => {
   const paramsString =
     params.toString() && params.toString() !== '[object Object]'
       ? `&${params.toString()}`
       : '';
-  const key = `/api/v1/suppliers?page=${page}&limit=${rowsPerPage}${paramsString}`;
+  const key = `/api/v1/products?page=${page}&limit=${rowsPerPage}${paramsString}`;
 
   const { data, error, isLoading, mutate } = useSWR(key, fetcher);
 
   return {
-    data: data?.data.suppliers || [],
+    data: data?.data.products || [],
     totalDataPages: data?.data.totalPages || 1,
     totalDataRecords: data?.data.totalRecords || 0,
     isDataLoading: !error && !data,
@@ -85,14 +55,14 @@ const fetcherById = async (url: string) => {
 
   if (!response.ok) {
     const errorData = await response.json();
-    throw new Error(errorData.message || 'Error fetching supplier data');
+    throw new Error(errorData.message || 'Error fetching product data');
   }
 
   return response.json();
 };
 
-export const useSupplierById = (id: number) => {
-  const key = `/api/v1/suppliers/${id}`;
+export const useProductById = (id: number) => {
+  const key = `/api/v1/products/${id}`;
 
   const { data, error, isLoading, mutate } = useSWR(key, fetcherById);
 
@@ -114,23 +84,23 @@ const deleter = async (url: string) => {
 
   if (!response.ok) {
     const errorData = await response.json();
-    throw new Error(errorData.message || 'Error delete supplier data');
+    throw new Error(errorData.message || 'Error delete product data');
   }
 
   return response.json();
 };
 
-export const useSupplierDelete = (id: number) => {
-  const key = id ? `/api/v1/suppliers/${id}` : null;
+export const useProductDelete = (id: number) => {
+  const key = id ? `/api/v1/products/${id}` : null;
 
   const { data, error, mutate } = useSWR(key, deleter, {
     revalidateOnMount: false,
   });
 
   return {
-    data: data?.data.suppliers || [],
+    data: data?.data.products || [],
     isDataLoading: !error && !data,
     isDataError: error,
-    deleteSupplier: () => mutate(),
+    deleteProduct: () => mutate(),
   };
 };

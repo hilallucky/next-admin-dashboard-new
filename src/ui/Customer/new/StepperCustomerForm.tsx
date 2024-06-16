@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import CreateSupplierForm from './CreateSupplierForm';
 import CustomerReview from './CustomerReview';
+import CreateCustomerForm from './CreateSupplierForm';
 
 const StepperCustomerForm = () => {
   const [step, setStep] = useState(1);
@@ -10,13 +10,11 @@ const StepperCustomerForm = () => {
 
   switch (step) {
     case 1:
-      return <CreateSupplierForm nextStep={nextStep} />;
-    case 2:
-      return <CustomerReview prevStep={prevStep} />;
+      return <CreateCustomerForm nextStep={nextStep} />;
     case 2:
       return <CustomerReview prevStep={prevStep} />;
     default:
-      return <CreateSupplierForm nextStep={nextStep} />;
+      return <CreateCustomerForm nextStep={nextStep} />;
   }
 };
 

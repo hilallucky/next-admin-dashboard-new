@@ -1,18 +1,19 @@
-import Link from "next/link";
-import { useEffect, useState } from "react";
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
 interface AlertProps {
-    type: string; //success, failed/error
-    title: string;
-    message: string;
+  type: string; //success, failed/error
+  title: string;
+  message: string;
+  showToast: any;
 }
 
 const Types = {
-    success: {
-        bgDiv1: "border-[#34D399] bg-[#34D399]",
-        bgDiv2: "bg-[#34D399]",
-        textTitle: "text-[#34D399]",
-        textMessage: "text-body",
-        icon: `<svg
+  success: {
+    bgDiv1: 'border-[#34D399] bg-[#34D399]',
+    bgDiv2: 'bg-[#34D399]',
+    textTitle: 'text-[#34D399]',
+    textMessage: 'text-body',
+    icon: `<svg
                     width="16"
                     height="12"
                     viewBox="0 0 16 12"
@@ -24,15 +25,14 @@ const Types = {
                         fill="white"
                         stroke="white"
                     />
-                </svg>`
-
-    },
-    error: {
-        bgDiv1: "border-[#F87171] bg-[#F87171]",
-        bgDiv2: "bg-[#F87171]",
-        textTitle: "text-[#B45454]",
-        textMessage: "text-[#CD5D5D]",
-        icon: `<svg
+                </svg>`,
+  },
+  error: {
+    bgDiv1: 'border-[#F87171] bg-[#F87171]',
+    bgDiv2: 'bg-[#F87171]',
+    textTitle: 'text-[#B45454]',
+    textMessage: 'text-[#CD5D5D]',
+    icon: `<svg
                     width="13"
                     height="13"
                     viewBox="0 0 13 13"
@@ -44,37 +44,47 @@ const Types = {
                         fill="#ffffff"
                         stroke="#ffffff"
                     />
-                </svg>`
-    },
+                </svg>`,
+  },
 };
 
-const ErrorAlerts = ({ type, title, message, ...props }: AlertProps) => {
-    const typeClassName = type === 'success' ? Types.success : Types.error;
+const ErrorAlerts = ({
+  type,
+  title,
+  message,
+  showToast,
+  ...props
+}: AlertProps) => {
+  const typeClassName = type === 'success' ? Types.success : Types.error;
 
-    return (
-        <div className={`flex flex-col gap-7.5 relative ${props?.showToast ? '' : 'hidden'}`}>
-            {/* <!-- Alerts Item --> */}
-            <div className={`flex w-full border-l-6 ${typeClassName.bgDiv1} bg-opacity-[15%] px-7 py-8 shadow-md dark:bg-[#1B1B24] dark:bg-opacity-30 md:p-9`}>
-                <div className={`placeholder:mr-5 flex h-9 w-full max-w-[36px] items-center justify-center rounded-lg ${typeClassName.bgDiv1}`}>
-                    <div dangerouslySetInnerHTML={{ __html: typeClassName.icon }} />
-                </div>
-                <div className="w-full">
-                    <h5 className={`mb-3 pt-2 font-semibold ${typeClassName.textTitle} `}>
-                        {title}
-                    </h5>
-                    <ul>
-                        <li className={`leading-relaxed ${typeClassName.textMessage} `}>
-                            {message}
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <div className="text-white absolute top-2 right-2 cursor-pointer" >
-                X
-            </div>
+  return (
+    <div
+      className={`flex flex-col gap-7.5 relative ${showToast ? '' : 'hidden'}`}
+    >
+      {/* <!-- Alerts Item --> */}
+      <div
+        className={`flex w-full border-l-6 ${typeClassName.bgDiv1} bg-opacity-[15%] px-7 py-8 shadow-md dark:bg-[#1B1B24] dark:bg-opacity-30 md:p-9`}
+      >
+        <div
+          className={`placeholder:mr-5 flex h-9 w-full max-w-[36px] items-center justify-center rounded-lg ${typeClassName.bgDiv1}`}
+        >
+          <div dangerouslySetInnerHTML={{ __html: typeClassName.icon }} />
         </div>
-    );
+        <div className="w-full">
+          <h5 className={`mb-3 pt-2 font-semibold ${typeClassName.textTitle} `}>
+            {title}
+          </h5>
+          <ul>
+            <li className={`leading-relaxed ${typeClassName.textMessage} `}>
+              {message}
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div className="text-white absolute top-2 right-2 cursor-pointer">X</div>
+    </div>
+  );
 };
 
 export default ErrorAlerts;

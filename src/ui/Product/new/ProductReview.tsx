@@ -1,26 +1,29 @@
 import MyButton from '@/components/Common/Button/MyButton';
 import { statuses } from '@/constants/common';
 import { FormContext } from '@/contexts/FormContext';
+import { useSupplierListForSelect } from '@/fetchers/Suppliers';
 import { useRouter } from 'next/router';
 import React, { Dispatch, SetStateAction, useContext, useState } from 'react';
 import { AiOutlineLeft, AiOutlineSave } from 'react-icons/ai';
 
-interface CustomerReviewProps {
+interface ProductReviewProps {
   prevStep: () => void;
 }
 
-const CustomerReview: React.FC<CustomerReviewProps> = ({ prevStep }) => {
+const ProductReview: React.FC<ProductReviewProps> = ({ prevStep }) => {
   const { formValues } = useContext(FormContext);
   const router = useRouter();
   const [isError, setIsErrorPage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  const { data, isDataLoading, isDataError } = useSupplierListForSelect();
 
   const handleSave = async () => {
     setIsLoading(true);
 
     if (isLoading) return <p>Loading...</p>;
 
-    const response = await fetch('/api/v1/customers', {
+    const response = await fetch('/api/v1/products', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -28,9 +31,9 @@ const CustomerReview: React.FC<CustomerReviewProps> = ({ prevStep }) => {
       body: JSON.stringify(formValues),
     });
     if (response.ok) {
-      router.push('/dashboard/customer/list');
+      router.push('/dashboard/product/list');
     } else {
-      router.push('/dashboard/customer/new2/status?status=error');
+      router.push('/dashboard/product/new2/status?status=error');
     }
     setIsLoading(false);
   };
@@ -50,28 +53,20 @@ const CustomerReview: React.FC<CustomerReviewProps> = ({ prevStep }) => {
             <td className="px-4 py-2">{formValues.name}</td>
           </tr>
           <tr>
-            <td className="px-4 py-2">Email</td>
-            <td className="px-4 py-2">{formValues.email}</td>
-          </tr>
-          <tr>
-            <td className="px-4 py-2">Address</td>
-            <td className="px-4 py-2">{formValues.address}</td>
-          </tr>
-          <tr>
-            <td className="px-4 py-2">Office Phone</td>
-            <td className="px-4 py-2">{formValues.officePhone}</td>
-          </tr>
-          <tr>
-            <td className="px-4 py-2">Contact Person</td>
-            <td className="px-4 py-2">{formValues.contactPerson}</td>
-          </tr>
-          <tr>
-            <td className="px-4 py-2">Mobile Phone</td>
-            <td className="px-4 py-2">{formValues.mobilePhone}</td>
+            <td className="px-4 py-2">Supplier</td>
+            <td className="px-4 py-2">{data[formValues.supplierId].label}</td>
           </tr>
           <tr>
             <td className="px-4 py-2">Status</td>
-            <td className="px-4 py-2">{statuses[formValues.status].label}</td>
+            <td className="px-4 py-2">
+              {formValues.status !== ''
+                ? statuses[formValues.status].label
+                : ''}
+            </td>
+          </tr>
+          <tr>
+            <td className="px-4 py-2">Quantity</td>
+            <td className="px-4 py-2">{formValues.quantity}</td>
           </tr>
         </tbody>
       </table>
@@ -108,4 +103,4 @@ const CustomerReview: React.FC<CustomerReviewProps> = ({ prevStep }) => {
   );
 };
 
-export default CustomerReview;
+export default ProductReview;
