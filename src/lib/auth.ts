@@ -32,7 +32,7 @@ export const authOptions: NextAuthOptions = {
           },
         });
 
-        console.log({ user });
+        console.log({ dataUser: user });
 
         if (!user) return null;
 
@@ -60,7 +60,9 @@ export const authOptions: NextAuthOptions = {
       return {
         ...session,
         user: {
-          name: token.name,
+          username: token.username,
+          firstName: token.firstName,
+          lastName: token.lastName,
           email: token.email,
           id: token.id,
         },

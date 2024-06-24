@@ -29,6 +29,11 @@ export interface Supplier {
   deletedSupplierByUser?: any;
 }
 
+export interface SupplierForSelect {
+  id: number;
+  name: string;
+}
+
 export interface SupplierResponseData {
   code: string;
   message: string;

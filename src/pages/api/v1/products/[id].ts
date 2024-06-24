@@ -15,6 +15,12 @@ export default async function handler(
       const product = await prisma.product.findUnique({
         where: { id: Number(id), deletedAt: null },
         include: {
+          supplier: {
+            select: {
+              code: true,
+              name: true,
+            },
+          },
           createdProductByUser: {
             select: {
               username: true,

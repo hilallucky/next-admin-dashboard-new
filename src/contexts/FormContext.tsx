@@ -8,9 +8,12 @@ interface FormContextType {
   methods: any;
 }
 
-export const FormContext = createContext<FormContextType | undefined>(
-  undefined,
-);
+export const FormContext = createContext<FormContextType>({
+  formValues: null,
+  setFormValues: () => {},
+  resetFormValues: () => {},
+  methods: null,
+});
 
 export const FormProvider = ({
   children,

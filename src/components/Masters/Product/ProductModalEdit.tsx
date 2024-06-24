@@ -12,16 +12,18 @@ import {
   AiOutlineQrcode,
   AiOutlineRest,
   AiOutlineSave,
+  AiOutlineStock,
   AiOutlineUser,
 } from 'react-icons/ai';
 import CustomTextArea from '../../Common/Input/CustomTextArea';
 import Select from '../../SelectGroup/Select';
 import MyButton from '../../Common/Button/MyButton';
 import { statuses } from '@/constants/common';
-import { Product } from '@/interfaces';
+import { Product, SupplierForSelect } from '@/interfaces';
 import DateToLocal from '@/utils/FormatDate';
 import { useProductById } from '@/fetchers/Products';
 import { useSession } from 'next-auth/react';
+import { useSupplierListForSelect } from '@/fetchers/Suppliers';
 
 type Props = {
   id?: string | number | null;
@@ -34,18 +36,23 @@ const ProductDefaultValue: Product = {
   uid: '',
   code: '',
   name: '',
-  email: '',
   address: '',
   officePhone: '',
   contactPerson: '',
   mobilePhone: '',
   status: 0,
+  supplier: '',
   createdBy: 0,
   createdAt: '',
   updatedBy: 0,
   updatedAt: '',
   deletedBy: 0,
   deletedAt: '',
+};
+
+const SupplierDefaultValue: SupplierForSelect = {
+  id: 0,
+  name: '',
 };
 
 const ProductModalEdit: React.FC<Props> = ({
@@ -65,6 +72,14 @@ const ProductModalEdit: React.FC<Props> = ({
     id as number,
   );
   const product: Product = data || ProductDefaultValue;
+
+  const {
+    data: supplierData,
+    isDataLoading: supplierLoading,
+    isDataError: supplierDataError,
+    mutate: supplierMutate,
+  } = useSupplierListForSelect();
+  const suppliers = supplierData;
 
   // close on click outside
   useEffect(() => {
@@ -121,7 +136,7 @@ const ProductModalEdit: React.FC<Props> = ({
       });
       if (!response.ok) {
         throw new Error(
-          `HTTP error! status: ${response.status}, error: ${response?.message}`,
+          `HTTP error! status: ${response.status}, error: ${response?.statusText}`,
         );
       }
 
@@ -202,16 +217,17 @@ const ProductModalEdit: React.FC<Props> = ({
             </div>
 
             <div>
-              <TextField
-                type="text"
+              <Select
                 name="supplierId"
-                value={product?.supplierId}
-                label="Supplier ID"
-                required={false}
-                icon={<AiOutlineMail size={20} />}
-                placeholder="1"
+                label="Supplier"
+                options={suppliers}
+                selectValue={product?.supplierId}
+                defaultValue={product?.supplierId}
                 onChange={(e) =>
-                  setProductData({ ...productData, supplierId: e.target.value })
+                  setProductData({
+                    ...productData,
+                    supplierId: Number(e.target.value),
+                  })
                 }
               />
             </div>
@@ -220,10 +236,10 @@ const ProductModalEdit: React.FC<Props> = ({
               <TextField
                 type="text"
                 name="quantity"
-                value={product?.quantity}
+                value={product?.quantity?.toString() || '0'}
                 label="Product Quantity"
                 required={false}
-                icon={<AiOutlineMail size={20} />}
+                icon={<AiOutlineStock size={20} />}
                 placeholder="123"
                 onChange={(e) =>
                   setProductData({ ...productData, quantity: e.target.value })

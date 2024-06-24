@@ -1,7 +1,7 @@
 import MyButton from '@/components/Common/Button/MyButton';
 import { statuses } from '@/constants/common';
 import { FormContext } from '@/contexts/FormContext';
-import { useSupplierListForSelect } from '@/fetchers/Suppliers';
+import { useSupplierById } from '@/fetchers/Suppliers';
 import { useRouter } from 'next/router';
 import React, { Dispatch, SetStateAction, useContext, useState } from 'react';
 import { AiOutlineLeft, AiOutlineSave } from 'react-icons/ai';
@@ -16,7 +16,9 @@ const ProductReview: React.FC<ProductReviewProps> = ({ prevStep }) => {
   const [isError, setIsErrorPage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const { data, isDataLoading, isDataError } = useSupplierListForSelect();
+  const { data, isDataLoading, isDataError } = useSupplierById(
+    formValues.supplierId,
+  );
 
   const handleSave = async () => {
     setIsLoading(true);
@@ -54,7 +56,7 @@ const ProductReview: React.FC<ProductReviewProps> = ({ prevStep }) => {
           </tr>
           <tr>
             <td className="px-4 py-2">Supplier</td>
-            <td className="px-4 py-2">{data[formValues.supplierId].label}</td>
+            <td className="px-4 py-2">{data.name}</td>
           </tr>
           <tr>
             <td className="px-4 py-2">Status</td>

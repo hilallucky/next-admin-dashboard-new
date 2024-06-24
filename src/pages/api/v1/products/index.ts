@@ -36,6 +36,12 @@ export default async function handler(
       take: pageSize || ITEMS_PER_PAGE,
       where: { ...filtered, deletedAt: null },
       include: {
+        supplier: {
+          select: {
+            code: true,
+            name: true,
+          },
+        },
         createdProductByUser: {
           select: {
             username: true,

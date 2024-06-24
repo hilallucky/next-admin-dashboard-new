@@ -77,7 +77,7 @@ const ProductList: React.FC = () => {
             datas={data}
             label={'Product List'}
             headers={['Name', 'Supplier', 'Quantity', 'Status']}
-            columns={['name', 'supplierId', 'quantity', 'status']}
+            columns={['name', 'supplierName', 'quantity', 'status']}
             page={page}
             sizePerPages={rowsPerPage}
           />

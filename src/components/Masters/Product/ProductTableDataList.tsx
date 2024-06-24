@@ -51,18 +51,18 @@ const ProductTableDataList = ({
         <table className="w-full">
           <thead>
             <tr className="bg-gray-2 text-left bg-meta-4">
-              <th className="min-w-3 px-4 py-4 font-medium text-center text-white xl:pl-11">
+              <th className="min-w-3 px-4 py-4 font-medium text-center text-white xl:pl-2">
                 No
               </th>
               {headers.map((item, index) => (
                 <th
-                  className={`min-w-max px-4 py-4 font-medium text-white xl:pl-11`}
+                  className={`min-w-max px-4 py-4 font-medium text-left text-white xl:pl-2`}
                   key={index}
                 >
                   {item}
                 </th>
               ))}
-              <th className="min-w-3 px-4 py-4 font-medium text-center text-white xl:pl-11">
+              <th className="min-w-3 px-4 py-4 font-medium text-left text-white xl:pl-2">
                 Action
               </th>
             </tr>
@@ -71,36 +71,47 @@ const ProductTableDataList = ({
             {datas.map((data, key) => (
               <tr
                 key={key}
-                className="border-b border-[#eee] dark:border-strokedark"
+                className="border-b border-[#eee] dark:border-strokedark dark:hover:bg-slate-600 hover:bg-slate-200  hover:bg-transparent"
               >
                 <td key={`${data}--${key}`}>
                   <p className="text-black text-center dark:text-white">
                     {newIndex + key}
                   </p>
                 </td>
-                {columns.map((column, colKey) =>
-                  column !== 'status' ? (
-                    <td key={colKey}>
-                      <p className="text-black text-left dark:text-white">
-                        {data[column]}
-                      </p>
-                    </td>
-                  ) : (
-                    <td key={colKey} className="px-4 py-5">
-                      <p
-                        className={`inline-flex rounded-full bg-opacity-10 px-3 py-1 text-sm font-medium ${
-                          data.status === 1
-                            ? 'bg-success text-success'
-                            : data.status === 3
-                              ? 'bg-danger text-danger'
-                              : 'bg-warning text-warning'
-                        }`}
-                      >
-                        {statuses[data.status].label}
-                      </p>
-                    </td>
-                  ),
-                )}
+
+                {columns.map((column, colKey) => {
+                  const dataField =
+                    column === 'supplierName'
+                      ? data?.supplier.name
+                      : data[column];
+
+                  if (column !== 'status') {
+                    return (
+                      <td key={colKey}>
+                        <p className="text-black text-left dark:text-white">
+                          {dataField}
+                        </p>
+                      </td>
+                    );
+                  } else {
+                    return (
+                      <td key={colKey} className="px-4 py-5">
+                        <p
+                          className={`inline-flex rounded-full bg-opacity-10 px-3 py-1 text-sm font-medium ${
+                            data.status === 1
+                              ? 'bg-success text-success'
+                              : data.status === 3
+                                ? 'bg-danger text-danger'
+                                : 'bg-warning text-warning'
+                          }`}
+                        >
+                          {statuses[data.status].label}
+                        </p>
+                      </td>
+                    );
+                  }
+                })}
+
                 <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                   <div className="flex items-center space-x-3.5">
                     <button className="hover:text-primary">

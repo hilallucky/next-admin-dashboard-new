@@ -21,6 +21,7 @@ export interface ProductAlias {
   updatedAt: string | null;
   deletedBy: number | null;
   deletedAt: string | null;
+  supplier?: any;
   createdProductByUser?: any;
   updatedProductByUser?: any;
   deletedProductByUser?: any;
@@ -40,6 +41,7 @@ export interface Product {
   updatedAt: string | null;
   deletedBy: number | null;
   deletedAt: string | null;
+  supplier?: any;
   createdProductByUser?: any;
   updatedProductByUser?: any;
   deletedProductByUser?: any;

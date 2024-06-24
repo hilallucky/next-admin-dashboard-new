@@ -71,7 +71,7 @@ const CustomerTableDataList = ({
             {datas.map((data, key) => (
               <tr
                 key={key}
-                className="border-b border-[#eee] dark:border-strokedark"
+                className="border-b border-[#eee] dark:border-strokedark dark:hover:bg-slate-600 hover:bg-slate-200 hover:bg-transparent"
               >
                 <td key={`${data}--${key}`}>
                   <p className="text-black text-center dark:text-white">

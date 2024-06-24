@@ -11,6 +11,7 @@ import {
   AiOutlinePhone,
   AiOutlineQrcode,
   AiOutlineRest,
+  AiOutlineStock,
   AiOutlineUser,
 } from 'react-icons/ai';
 import CustomTextArea from '../../Common/Input/CustomTextArea';
@@ -20,6 +21,7 @@ import { statuses } from '@/constants/common';
 import { Product } from '@/interfaces';
 import DateToLocal from '@/utils/FormatDate';
 import { useProductById } from '@/fetchers/Products';
+import { GoFileSymlinkFile } from 'react-icons/go';
 
 type Props = {
   id?: string | number | null;
@@ -35,6 +37,7 @@ const ProductDefaultValue: Product = {
   supplierId: 0,
   quantity: 0,
   status: 0,
+  supplier: '',
   createdBy: 0,
   createdAt: '',
   updatedBy: 0,
@@ -169,11 +172,11 @@ const ProductModalDelete: React.FC<Props> = ({
               <TextField
                 type="text"
                 name="supplierId"
-                value={product?.supplierId}
-                label="Supplier ID"
+                value={product?.supplier?.name}
+                label="Supplier"
                 required={false}
                 disabled
-                icon={<AiOutlineMail size={20} />}
+                icon={<GoFileSymlinkFile size={20} />}
                 placeholder="email@domain.com"
               />
             </div>
@@ -182,11 +185,11 @@ const ProductModalDelete: React.FC<Props> = ({
               <TextField
                 type="text"
                 name="quantity"
-                value={product?.quantity}
+                value={product?.quantity?.toString() || '0'}
                 label="Product Quantity"
                 required={false}
                 disabled
-                icon={<AiOutlineMail size={20} />}
+                icon={<AiOutlineStock size={20} />}
                 placeholder="123"
               />
             </div>
