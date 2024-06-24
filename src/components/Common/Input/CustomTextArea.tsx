@@ -66,8 +66,7 @@ const CustomTextArea = ({
               required={required}
               placeholder={placeholder}
               disabled={disabled}
-              // value={data || ''}
-              defaultValue={defaultValue || ''}
+              value={data || ''}
               className={`${textareaClassName}`}
               {...props}
             ></textarea>

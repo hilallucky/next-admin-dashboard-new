@@ -58,7 +58,7 @@ export default async function handler(
     });
 
     const totalRecords = await prisma.product.count({
-      where: Object.keys(filter).length ? filter : undefined,
+      where: { ...filtered, deletedAt: null },
     });
 
     const totalPages = Math.ceil(totalRecords / pageSize);

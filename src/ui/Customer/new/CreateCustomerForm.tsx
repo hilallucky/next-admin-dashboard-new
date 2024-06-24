@@ -7,10 +7,15 @@ import { statuses } from '@/constants/common';
 import { FormContext } from '@/contexts/FormContext';
 import Button from '@/components/Common/Button/Button';
 import SelectOption from '@/components/SelectGroup/SelectOption';
-import { AiFillIdcard, AiOutlineMobile } from 'react-icons/ai';
-import { useSupplierListForSelect } from '@/fetchers/Suppliers';
+import {
+    AiFillIdcard,
+    AiOutlineHome,
+    AiOutlineMail,
+    AiOutlineMobile,
+    AiOutlinePhone,
+} from 'react-icons/ai';
 
-const CreateProductForm = ({ nextStep }: { nextStep?: () => void }) => {
+const CreateCustomerForm = ({ nextStep }: { nextStep?: () => void }) => {
     const { formValues, setFormValues, resetFormValues, methods } =
         useContext(FormContext);
     const { handleSubmit } = methods;
@@ -20,8 +25,6 @@ const CreateProductForm = ({ nextStep }: { nextStep?: () => void }) => {
     const [toast, setToast] = useState({ type: '', title: '', message: '' });
     const [isValid, setIsValid] = useState(true);
 
-    const { data, isDataLoading, isDataError } = useSupplierListForSelect();
-
     const handleChange = (event: any) => {
         const { attributes, name, value } = event.target;
 
@@ -30,7 +33,6 @@ const CreateProductForm = ({ nextStep }: { nextStep?: () => void }) => {
         setFormValues((prevData: any) => ({
             ...prevData,
             [name]: name === 'status' ? Number(value) : value,
-            supplierName: prevData.supplierId,
         }));
 
         if (value === '') {
@@ -56,10 +58,6 @@ const CreateProductForm = ({ nextStep }: { nextStep?: () => void }) => {
         resetFormValues();
     };
 
-    // const handleSubmit = () => {
-    //     nextStep();
-    // };
-
     const onSubmit = (data: any) => {
         // console.log(data);
         nextStep();
@@ -67,7 +65,7 @@ const CreateProductForm = ({ nextStep }: { nextStep?: () => void }) => {
 
     return (
         <div>
-            <Breadcrumb pageName="Create Product" pageLink="CreateProductForm" />
+            <Breadcrumb pageName="Create Customer" pageLink="CreateCustomerForm" />
 
             <div className="grid-cols-2 gap-9 sm:grid-cols-2">
                 <div className="flex flex-col gap-9">
@@ -75,7 +73,7 @@ const CreateProductForm = ({ nextStep }: { nextStep?: () => void }) => {
                     <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
                         <div className="border-b border-stroke px-6.5 py-4 dark:border-strokedark">
                             <h3 className="font-medium text-black dark:text-white">
-                                Input Data Product
+                                Input Data Customer
                             </h3>
                         </div>
 
@@ -92,29 +90,86 @@ const CreateProductForm = ({ nextStep }: { nextStep?: () => void }) => {
                                         value={formValues.name}
                                         onChange={handleChange}
                                         icon={<AiFillIdcard size={20} />}
-                                        placeholder="Product name"
+                                        placeholder="Customer name"
                                     />
                                 </div>
 
                                 <div>
-                                    <SelectOption
-                                        key={0}
-                                        name="supplierId"
-                                        defaultValue=''
-                                        value={formValues.supplierId | ''}
-                                        label="Supplier"
-                                        onChange={handleChange}
-                                        options={data}
+                                    <TextField
+                                        type="text"
+                                        name="email"
+                                        alias="Email"
+                                        label="Email"
                                         required={true}
+                                        value={formValues.email}
+                                        onChange={handleChange}
+                                        icon={<AiOutlineMail size={20} />}
+                                        placeholder="email@domain.com"
+                                    />
+                                </div>
+
+                                <div>
+                                    <CustomTextArea
+                                        name="address"
+                                        label="Customer address"
+                                        alias="Customer address"
+                                        placeholder="Customer address"
+                                        required={true}
+                                        disabled={false}
+                                        value={formValues.address}
+                                        onChange={handleChange}
+                                        icon={<AiOutlineHome size={20} />}
+                                        status="default"
+                                    />
+                                </div>
+
+                                <div>
+                                    <TextField
+                                        type="text"
+                                        name="officePhone"
+                                        alias="Office Phone"
+                                        label="Office Phone"
+                                        required={true}
+                                        value={formValues.officePhone}
+                                        onChange={handleChange}
+                                        icon={<AiOutlinePhone size={20} />}
+                                        placeholder="Customer office phone"
+                                    />
+                                </div>
+
+                                <div>
+                                    <TextField
+                                        type="text"
+                                        name="contactPerson"
+                                        alias="Contact Person"
+                                        label="Contact Person"
+                                        required={true}
+                                        value={formValues.contactPerson}
+                                        onChange={handleChange}
+                                        icon={<AiFillIdcard size={20} />}
+                                        placeholder="Customer contact person"
+                                    />
+                                </div>
+
+                                <div>
+                                    <TextField
+                                        type="text"
+                                        name="mobilePhone"
+                                        alias="Mobile Phone"
+                                        label="Mobile Phone"
+                                        required={true}
+                                        value={formValues.mobilePhone}
+                                        onChange={handleChange}
+                                        icon={<AiOutlineMobile size={20} />}
+                                        placeholder="Customer mobile phone"
                                     />
                                 </div>
 
                                 <div>
                                     <SelectOption
-                                        key={1}
                                         name="status"
                                         defaultValue=''
-                                        value={formValues.status | ''}
+                                        value={formValues.status?.toString() || ''}
                                         label="Status"
                                         onChange={handleChange}
                                         options={statuses}
@@ -122,19 +177,6 @@ const CreateProductForm = ({ nextStep }: { nextStep?: () => void }) => {
                                     />
                                 </div>
 
-                                <div>
-                                    <TextField
-                                        type="text"
-                                        name="quantity"
-                                        alias="Quantity"
-                                        label="Quantity"
-                                        required={true}
-                                        value={formValues.quantity}
-                                        onChange={handleChange}
-                                        icon={<AiOutlineMobile size={20} />}
-                                        placeholder="Product mobile phone"
-                                    />
-                                </div>
                                 <div>
                                     {error && (
                                         <div className="flex w-full text-red justify-center items-center">
@@ -183,4 +225,4 @@ const CreateProductForm = ({ nextStep }: { nextStep?: () => void }) => {
     );
 };
 
-export default CreateProductForm;
+export default CreateCustomerForm;

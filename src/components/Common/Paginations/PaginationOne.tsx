@@ -104,7 +104,7 @@ const PaginationOne: React.FC<PaginationOneProps> = ({
         <div className="flex flex-wrap items-center lg:justify-between md:justify-between sm:justify-start ">
           <div>
             <p className="text-sm text-gray-700">
-              Showing
+              Showing 
               <span className="font-medium px-1">
                 {totalRecords === 0
                   ? 0

@@ -167,7 +167,8 @@ const CreateSupplierForm = ({ nextStep }: { nextStep?: () => void }) => {
                                 <div>
                                     <SelectOption
                                         name="status"
-                                        value={formValues.status}
+                                        defaultValue=''
+                                        value={formValues.status | ''}
                                         label="Status"
                                         onChange={handleChange}
                                         options={statuses}

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import CustomerReview from './CustomerReview';
-import CreateCustomerForm from './CreateSupplierForm';
+import CreateCustomerForm from './CreateCustomerForm';
 
 const StepperCustomerForm = () => {
   const [step, setStep] = useState(1);

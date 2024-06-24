@@ -27,6 +27,10 @@ const Select: React.FC<SelectProps> = ({
         value={value || ''}
         onChange={onChange}
       >
+         {/* <option disabled key={'none'} value={''}> */}
+         <option value={''} disabled className="text-body dark:text-bodydark">
+            Select
+          </option>
         {options.map((option) => (
           <option key={option.value} value={option.value}>
             {option.label}

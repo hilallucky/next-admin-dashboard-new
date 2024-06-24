@@ -9,7 +9,8 @@ import { useRouter } from 'next/router';
 interface FormData {
   text: string;
   textarea: string;
-  select: string;
+  select1: string;
+  select2: string;
   checkbox: boolean;
 }
 
@@ -17,7 +18,8 @@ const Index: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     text: '',
     textarea: '',
-    select: '',
+    select1: '',
+    select2: '',
     checkbox: false,
   });
 
@@ -39,10 +41,17 @@ const Index: React.FC = () => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
 
-    // If value might be empty initially, set default
-    if (!formData.select) {
-      setFormData({ ...formData, select: 'option1' }); // Or your default value
-    }
+    console.log({event: value});
+    
+
+    // // If value might be empty initially, set default
+    // if (!formData.select1) {
+    //   setFormData({ ...formData, select1: 'option1' }); // Or your default value
+    // }
+
+    // if (!formData.select2) {
+    //     setFormData({ ...formData, select2: '' }); // Or your default value
+    //   }
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -70,14 +79,25 @@ const Index: React.FC = () => {
           onChange={handleChange}
         />
         <Select
-          label="Select"
-          name="select"
-          defaultValue="option1"
+          label="Select 1"
+          name="select1"
+        //   defaultValue=""
           options={[
             { value: 'option1', label: 'Option 1' },
             { value: 'option2', label: 'Option 2' },
           ]}
-          value={formData.select}
+          value={formData.select1}
+          onChange={handleChange}
+        />
+        <Select
+          label="Select 2"
+          name="select2"
+          defaultValue=""
+          options={[
+            { value: 'option1', label: 'Option 1' },
+            { value: 'option2', label: 'Option 2' },
+          ]}
+          value={formData.select2}
           onChange={handleChange}
         />
         <Checkbox

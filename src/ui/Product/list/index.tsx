@@ -81,6 +81,7 @@ const ProductList: React.FC = () => {
             page={page}
             sizePerPages={rowsPerPage}
           />
+          {totalDataRecords}
 
           <PaginationOne
             totalRecords={totalDataRecords}
