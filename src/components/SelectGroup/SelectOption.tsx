@@ -51,7 +51,7 @@ const SelectOption: React.FC<SelectOptionProps> = ({
   };
 
   return (
-    <div className="pt-4">
+    <div className="">
       <label className="mt mb-3 block text-md font-medium text-black dark:text-white">
         Select {label}
       </label>

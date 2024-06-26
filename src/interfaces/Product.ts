@@ -25,6 +25,8 @@ export interface ProductAlias {
   createdProductByUser?: any;
   updatedProductByUser?: any;
   deletedProductByUser?: any;
+  isEdited?: boolean;
+  index?: number;
 }
 
 export interface Product {
