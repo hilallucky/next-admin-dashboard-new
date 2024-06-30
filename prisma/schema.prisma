@@ -226,7 +226,8 @@ model Product {
     code       String    @unique
     name       String
     supplierId Int
-    quantity   Int
+    quantity   Int       @default(0)
+    price      Int       @default(0)
     status     Int       @default(0)
     createdBy  Int?
     createdAt  DateTime  @default(now())

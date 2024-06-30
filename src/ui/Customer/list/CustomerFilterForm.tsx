@@ -29,6 +29,12 @@ const CustomerFilterForm: React.FC<Props> = ({
 }) => {
   const [filter, setFilter] = useState<any>({});
   const formRef = useRef<HTMLFormElement>(null);
+  const [textValue, setTextValue] = useState<string>('');
+
+  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { attributes, name, value } = event.target;
+    setTextValue(value);
+  };
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -77,6 +83,7 @@ const CustomerFilterForm: React.FC<Props> = ({
             name="email"
             label="Email"
             required={false}
+            value={''}
             icon={<AiOutlineMail size={20} />}
             placeholder="email@domain.com"
           />
@@ -88,8 +95,10 @@ const CustomerFilterForm: React.FC<Props> = ({
             placeholder="Customer address"
             disabled={false}
             required={false}
+            value={textValue}
             icon={<AiOutlineHome size={20} />}
             status="default"
+            onChange={handleChange}
           />
         </div>
 

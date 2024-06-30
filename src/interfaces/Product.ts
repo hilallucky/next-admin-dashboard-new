@@ -35,6 +35,7 @@ export interface Product {
   code: string;
   name: string;
   supplierId: number;
+  price: number;
   quantity: number;
   status: number;
   createdBy: number | null;

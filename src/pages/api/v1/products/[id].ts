@@ -1,5 +1,5 @@
 import Helper from '@/helpers/BaseResponseHelper';
-import { PrismaClient } from '@prisma_/generated/client';
+import { Prisma, PrismaClient } from '@prisma_/generated/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 const prisma = new PrismaClient();
@@ -17,8 +17,18 @@ export default async function handler(
         include: {
           supplier: {
             select: {
+              id: true,
               code: true,
               name: true,
+            },
+          },
+          productAliases: {
+            select: {
+              id: true,
+              uid: true,
+              code: true,
+              name: true,
+              status: true,
             },
           },
           createdProductByUser: {
@@ -60,10 +70,25 @@ export default async function handler(
       }
     } catch (error) {}
   } else if (req.method === 'DELETE') {
+    const { id } = req.query;
+
     try {
-      const product = await prisma.product.update({
-        where: { id: Number(id) },
-        data: { deletedAt: new Date() },
+      const result = await prisma.$transaction(async (prisma) => {
+        const product = await prisma.product.update({
+          where: { id: Number(id) },
+          data: { deletedAt: new Date() },
+        });
+
+        const updatedAliases = await prisma.productAlias.updateMany({
+          where: {
+            productId: Number(id),
+          },
+          data: {
+            deletedAt: new Date(),
+          },
+        });
+
+        return { product, updatedAliases };
       });
 
       res
@@ -73,28 +98,71 @@ export default async function handler(
             res.statusCode,
             `Success to delete product id : ${id}`,
             null,
-            product,
+            result,
           ),
         );
     } catch (error) {
-      res.status(500).json({ error: 'Internal server error' });
+      res
+        .status(500)
+        .json({ error: 'Internal server error' + '+++++' + error });
     }
   } else if (req.method === 'PUT') {
-    const { code, supplierId, quantity, status, updatedBy } = req.body;
+    const {
+      uid,
+      code,
+      name,
+      productId,
+      supplierId,
+      quantity,
+      price,
+      status,
+      createdBy,
+      updatedBy,
+      productAliases,
+    } = req.body;
 
     try {
-      const product = await prisma.product.update({
-        where: { id: Number(id) },
-        data: {
-          code,
-          supplierId: Number(supplierId),
-          quantity: Number(quantity),
-          status,
-          updatedBy,
-          updatedAt: new Date(),
-        },
+      const result = await prisma.$transaction(async (prisma) => {
+        const product = await prisma.product.update({
+          where: { id: Number(id) },
+          data: {
+            name,
+            code,
+            supplierId: Number(supplierId),
+            quantity: Number(quantity),
+            price: Number(price),
+            status,
+            updatedBy,
+            updatedAt: new Date(),
+          },
+        });
+
+        // Bulk update product aliases
+        const updatedAliases = await Promise.all(
+          productAliases.map((alias) =>
+            prisma.productAlias.upsert({
+              where: { id: alias.id, productId: Number(id), uid: alias.uid },
+              update: {
+                code: alias.code,
+                name: alias.name,
+                supplierId: Number(supplierId),
+                status: alias.status,
+              },
+              create: {
+                code: alias.code,
+                name: alias.name,
+                supplierId: Number(supplierId),
+                productId: Number(id),
+                status: alias.status,
+                createdBy,
+                updatedBy,
+              },
+            }),
+          ),
+        );
+
+        return { product, updatedAliases };
       });
-      console.log({ product: product });
 
       res
         .status(200)
@@ -103,10 +171,12 @@ export default async function handler(
             res.statusCode,
             `Success to delete product id : ${id}`,
             null,
-            product,
+            result,
           ),
         );
     } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      }
       res.status(500).json({ error: `Internal server error/${error}` });
     }
   } else {

@@ -10696,6 +10696,7 @@ export namespace Prisma {
     id: number | null
     supplierId: number | null
     quantity: number | null
+    price: number | null
     status: number | null
     createdBy: number | null
     updatedBy: number | null
@@ -10706,6 +10707,7 @@ export namespace Prisma {
     id: number | null
     supplierId: number | null
     quantity: number | null
+    price: number | null
     status: number | null
     createdBy: number | null
     updatedBy: number | null
@@ -10719,6 +10721,7 @@ export namespace Prisma {
     name: string | null
     supplierId: number | null
     quantity: number | null
+    price: number | null
     status: number | null
     createdBy: number | null
     createdAt: Date | null
@@ -10735,6 +10738,7 @@ export namespace Prisma {
     name: string | null
     supplierId: number | null
     quantity: number | null
+    price: number | null
     status: number | null
     createdBy: number | null
     createdAt: Date | null
@@ -10751,6 +10755,7 @@ export namespace Prisma {
     name: number
     supplierId: number
     quantity: number
+    price: number
     status: number
     createdBy: number
     createdAt: number
@@ -10766,6 +10771,7 @@ export namespace Prisma {
     id?: true
     supplierId?: true
     quantity?: true
+    price?: true
     status?: true
     createdBy?: true
     updatedBy?: true
@@ -10776,6 +10782,7 @@ export namespace Prisma {
     id?: true
     supplierId?: true
     quantity?: true
+    price?: true
     status?: true
     createdBy?: true
     updatedBy?: true
@@ -10789,6 +10796,7 @@ export namespace Prisma {
     name?: true
     supplierId?: true
     quantity?: true
+    price?: true
     status?: true
     createdBy?: true
     createdAt?: true
@@ -10805,6 +10813,7 @@ export namespace Prisma {
     name?: true
     supplierId?: true
     quantity?: true
+    price?: true
     status?: true
     createdBy?: true
     createdAt?: true
@@ -10821,6 +10830,7 @@ export namespace Prisma {
     name?: true
     supplierId?: true
     quantity?: true
+    price?: true
     status?: true
     createdBy?: true
     createdAt?: true
@@ -10924,6 +10934,7 @@ export namespace Prisma {
     name: string
     supplierId: number
     quantity: number
+    price: number
     status: number
     createdBy: number | null
     createdAt: Date
@@ -10959,6 +10970,7 @@ export namespace Prisma {
     name?: boolean
     supplierId?: boolean
     quantity?: boolean
+    price?: boolean
     status?: boolean
     createdBy?: boolean
     createdAt?: boolean
@@ -10985,6 +10997,7 @@ export namespace Prisma {
     name?: boolean
     supplierId?: boolean
     quantity?: boolean
+    price?: boolean
     status?: boolean
     createdBy?: boolean
     createdAt?: boolean
@@ -11025,6 +11038,7 @@ export namespace Prisma {
       name: string
       supplierId: number
       quantity: number
+      price: number
       status: number
       createdBy: number | null
       createdAt: Date
@@ -11446,6 +11460,7 @@ export namespace Prisma {
     readonly name: FieldRef<"Product", 'String'>
     readonly supplierId: FieldRef<"Product", 'Int'>
     readonly quantity: FieldRef<"Product", 'Int'>
+    readonly price: FieldRef<"Product", 'Int'>
     readonly status: FieldRef<"Product", 'Int'>
     readonly createdBy: FieldRef<"Product", 'Int'>
     readonly createdAt: FieldRef<"Product", 'DateTime'>
@@ -21410,6 +21425,7 @@ export namespace Prisma {
     name: 'name',
     supplierId: 'supplierId',
     quantity: 'quantity',
+    price: 'price',
     status: 'status',
     createdBy: 'createdBy',
     createdAt: 'createdAt',
@@ -22473,6 +22489,7 @@ export namespace Prisma {
     name?: StringFilter<"Product"> | string
     supplierId?: IntFilter<"Product"> | number
     quantity?: IntFilter<"Product"> | number
+    price?: IntFilter<"Product"> | number
     status?: IntFilter<"Product"> | number
     createdBy?: IntNullableFilter<"Product"> | number | null
     createdAt?: DateTimeFilter<"Product"> | Date | string
@@ -22497,6 +22514,7 @@ export namespace Prisma {
     name?: SortOrder
     supplierId?: SortOrder
     quantity?: SortOrder
+    price?: SortOrder
     status?: SortOrder
     createdBy?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -22524,6 +22542,7 @@ export namespace Prisma {
     name?: StringFilter<"Product"> | string
     supplierId?: IntFilter<"Product"> | number
     quantity?: IntFilter<"Product"> | number
+    price?: IntFilter<"Product"> | number
     status?: IntFilter<"Product"> | number
     createdBy?: IntNullableFilter<"Product"> | number | null
     createdAt?: DateTimeFilter<"Product"> | Date | string
@@ -22548,6 +22567,7 @@ export namespace Prisma {
     name?: SortOrder
     supplierId?: SortOrder
     quantity?: SortOrder
+    price?: SortOrder
     status?: SortOrder
     createdBy?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -22572,6 +22592,7 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"Product"> | string
     supplierId?: IntWithAggregatesFilter<"Product"> | number
     quantity?: IntWithAggregatesFilter<"Product"> | number
+    price?: IntWithAggregatesFilter<"Product"> | number
     status?: IntWithAggregatesFilter<"Product"> | number
     createdBy?: IntNullableWithAggregatesFilter<"Product"> | number | null
     createdAt?: DateTimeWithAggregatesFilter<"Product"> | Date | string
@@ -24468,7 +24489,8 @@ export namespace Prisma {
     uid?: string
     code: string
     name: string
-    quantity: number
+    quantity?: number
+    price?: number
     status?: number
     createdAt?: Date | string
     updatedAt?: Date | string | null
@@ -24489,7 +24511,8 @@ export namespace Prisma {
     code: string
     name: string
     supplierId: number
-    quantity: number
+    quantity?: number
+    price?: number
     status?: number
     createdBy?: number | null
     createdAt?: Date | string
@@ -24508,6 +24531,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
+    price?: IntFieldUpdateOperationsInput | number
     status?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -24529,6 +24553,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     supplierId?: IntFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
+    price?: IntFieldUpdateOperationsInput | number
     status?: IntFieldUpdateOperationsInput | number
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24548,7 +24573,8 @@ export namespace Prisma {
     code: string
     name: string
     supplierId: number
-    quantity: number
+    quantity?: number
+    price?: number
     status?: number
     createdBy?: number | null
     createdAt?: Date | string
@@ -24563,6 +24589,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
+    price?: IntFieldUpdateOperationsInput | number
     status?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -24576,6 +24603,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     supplierId?: IntFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
+    price?: IntFieldUpdateOperationsInput | number
     status?: IntFieldUpdateOperationsInput | number
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26385,6 +26413,7 @@ export namespace Prisma {
     name?: SortOrder
     supplierId?: SortOrder
     quantity?: SortOrder
+    price?: SortOrder
     status?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
@@ -26398,6 +26427,7 @@ export namespace Prisma {
     id?: SortOrder
     supplierId?: SortOrder
     quantity?: SortOrder
+    price?: SortOrder
     status?: SortOrder
     createdBy?: SortOrder
     updatedBy?: SortOrder
@@ -26411,6 +26441,7 @@ export namespace Prisma {
     name?: SortOrder
     supplierId?: SortOrder
     quantity?: SortOrder
+    price?: SortOrder
     status?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
@@ -26427,6 +26458,7 @@ export namespace Prisma {
     name?: SortOrder
     supplierId?: SortOrder
     quantity?: SortOrder
+    price?: SortOrder
     status?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
@@ -26440,6 +26472,7 @@ export namespace Prisma {
     id?: SortOrder
     supplierId?: SortOrder
     quantity?: SortOrder
+    price?: SortOrder
     status?: SortOrder
     createdBy?: SortOrder
     updatedBy?: SortOrder
@@ -31711,7 +31744,8 @@ export namespace Prisma {
     uid?: string
     code: string
     name: string
-    quantity: number
+    quantity?: number
+    price?: number
     status?: number
     createdAt?: Date | string
     updatedAt?: Date | string | null
@@ -31731,7 +31765,8 @@ export namespace Prisma {
     code: string
     name: string
     supplierId: number
-    quantity: number
+    quantity?: number
+    price?: number
     status?: number
     createdAt?: Date | string
     updatedBy?: number | null
@@ -31758,7 +31793,8 @@ export namespace Prisma {
     uid?: string
     code: string
     name: string
-    quantity: number
+    quantity?: number
+    price?: number
     status?: number
     createdAt?: Date | string
     updatedAt?: Date | string | null
@@ -31778,7 +31814,8 @@ export namespace Prisma {
     code: string
     name: string
     supplierId: number
-    quantity: number
+    quantity?: number
+    price?: number
     status?: number
     createdBy?: number | null
     createdAt?: Date | string
@@ -31805,7 +31842,8 @@ export namespace Prisma {
     uid?: string
     code: string
     name: string
-    quantity: number
+    quantity?: number
+    price?: number
     status?: number
     createdAt?: Date | string
     updatedAt?: Date | string | null
@@ -31825,7 +31863,8 @@ export namespace Prisma {
     code: string
     name: string
     supplierId: number
-    quantity: number
+    quantity?: number
+    price?: number
     status?: number
     createdBy?: number | null
     createdAt?: Date | string
@@ -33306,6 +33345,7 @@ export namespace Prisma {
     name?: StringFilter<"Product"> | string
     supplierId?: IntFilter<"Product"> | number
     quantity?: IntFilter<"Product"> | number
+    price?: IntFilter<"Product"> | number
     status?: IntFilter<"Product"> | number
     createdBy?: IntNullableFilter<"Product"> | number | null
     createdAt?: DateTimeFilter<"Product"> | Date | string
@@ -37612,7 +37652,8 @@ export namespace Prisma {
     uid?: string
     code: string
     name: string
-    quantity: number
+    quantity?: number
+    price?: number
     status?: number
     createdAt?: Date | string
     updatedAt?: Date | string | null
@@ -37631,7 +37672,8 @@ export namespace Prisma {
     uid?: string
     code: string
     name: string
-    quantity: number
+    quantity?: number
+    price?: number
     status?: number
     createdBy?: number | null
     createdAt?: Date | string
@@ -39689,7 +39731,8 @@ export namespace Prisma {
     uid?: string
     code: string
     name: string
-    quantity: number
+    quantity?: number
+    price?: number
     status?: number
     createdAt?: Date | string
     updatedAt?: Date | string | null
@@ -39709,7 +39752,8 @@ export namespace Prisma {
     code: string
     name: string
     supplierId: number
-    quantity: number
+    quantity?: number
+    price?: number
     status?: number
     createdBy?: number | null
     createdAt?: Date | string
@@ -40167,6 +40211,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
+    price?: IntFieldUpdateOperationsInput | number
     status?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -40187,6 +40232,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     supplierId?: IntFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
+    price?: IntFieldUpdateOperationsInput | number
     status?: IntFieldUpdateOperationsInput | number
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -41554,7 +41600,8 @@ export namespace Prisma {
     uid?: string
     code: string
     name: string
-    quantity: number
+    quantity?: number
+    price?: number
     status?: number
     createdAt?: Date | string
     updatedAt?: Date | string | null
@@ -41574,7 +41621,8 @@ export namespace Prisma {
     code: string
     name: string
     supplierId: number
-    quantity: number
+    quantity?: number
+    price?: number
     status?: number
     createdBy?: number | null
     createdAt?: Date | string
@@ -42030,6 +42078,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
+    price?: IntFieldUpdateOperationsInput | number
     status?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -42050,6 +42099,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     supplierId?: IntFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
+    price?: IntFieldUpdateOperationsInput | number
     status?: IntFieldUpdateOperationsInput | number
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -44335,7 +44385,8 @@ export namespace Prisma {
     uid?: string
     code: string
     name: string
-    quantity: number
+    quantity?: number
+    price?: number
     status?: number
     createdAt?: Date | string
     updatedAt?: Date | string | null
@@ -44355,7 +44406,8 @@ export namespace Prisma {
     code: string
     name: string
     supplierId: number
-    quantity: number
+    quantity?: number
+    price?: number
     status?: number
     createdBy?: number | null
     createdAt?: Date | string
@@ -44821,6 +44873,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
+    price?: IntFieldUpdateOperationsInput | number
     status?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -44841,6 +44894,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     supplierId?: IntFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
+    price?: IntFieldUpdateOperationsInput | number
     status?: IntFieldUpdateOperationsInput | number
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -46214,7 +46268,8 @@ export namespace Prisma {
     uid?: string
     code: string
     name: string
-    quantity: number
+    quantity?: number
+    price?: number
     status?: number
     createdAt?: Date | string
     updatedAt?: Date | string | null
@@ -46234,7 +46289,8 @@ export namespace Prisma {
     code: string
     name: string
     supplierId: number
-    quantity: number
+    quantity?: number
+    price?: number
     status?: number
     createdBy?: number | null
     createdAt?: Date | string
@@ -46692,6 +46748,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
+    price?: IntFieldUpdateOperationsInput | number
     status?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -46712,6 +46769,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     supplierId?: IntFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
+    price?: IntFieldUpdateOperationsInput | number
     status?: IntFieldUpdateOperationsInput | number
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -47417,7 +47475,8 @@ export namespace Prisma {
     code: string
     name: string
     supplierId: number
-    quantity: number
+    quantity?: number
+    price?: number
     status?: number
     createdAt?: Date | string
     updatedBy?: number | null
@@ -47432,7 +47491,8 @@ export namespace Prisma {
     code: string
     name: string
     supplierId: number
-    quantity: number
+    quantity?: number
+    price?: number
     status?: number
     createdBy?: number | null
     createdAt?: Date | string
@@ -47447,7 +47507,8 @@ export namespace Prisma {
     code: string
     name: string
     supplierId: number
-    quantity: number
+    quantity?: number
+    price?: number
     status?: number
     createdBy?: number | null
     createdAt?: Date | string
@@ -48817,6 +48878,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
+    price?: IntFieldUpdateOperationsInput | number
     status?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -48837,6 +48899,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     supplierId?: IntFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
+    price?: IntFieldUpdateOperationsInput | number
     status?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedBy?: NullableIntFieldUpdateOperationsInput | number | null
@@ -48856,6 +48919,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     supplierId?: IntFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
+    price?: IntFieldUpdateOperationsInput | number
     status?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedBy?: NullableIntFieldUpdateOperationsInput | number | null
@@ -48869,6 +48933,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
+    price?: IntFieldUpdateOperationsInput | number
     status?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -48889,6 +48954,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     supplierId?: IntFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
+    price?: IntFieldUpdateOperationsInput | number
     status?: IntFieldUpdateOperationsInput | number
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -48908,6 +48974,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     supplierId?: IntFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
+    price?: IntFieldUpdateOperationsInput | number
     status?: IntFieldUpdateOperationsInput | number
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -48921,6 +48988,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
+    price?: IntFieldUpdateOperationsInput | number
     status?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -48941,6 +49009,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     supplierId?: IntFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
+    price?: IntFieldUpdateOperationsInput | number
     status?: IntFieldUpdateOperationsInput | number
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -48960,6 +49029,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     supplierId?: IntFieldUpdateOperationsInput | number
     quantity?: IntFieldUpdateOperationsInput | number
+    price?: IntFieldUpdateOperationsInput | number
     status?: IntFieldUpdateOperationsInput | number
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -50581,7 +50651,8 @@ export namespace Prisma {
     uid?: string
     code: string
     name: string
-    quantity: number
+    quantity?: number
+    price?: number
     status?: number
     createdBy?: number | null
     createdAt?: Date | string
@@ -50630,6 +50701,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
+    price?: IntFieldUpdateOperationsInput | number
     status?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -50649,6 +50721,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
+    price?: IntFieldUpdateOperationsInput | number
     status?: IntFieldUpdateOperationsInput | number
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -50668,6 +50741,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
+    price?: IntFieldUpdateOperationsInput | number
     status?: IntFieldUpdateOperationsInput | number
     createdBy?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

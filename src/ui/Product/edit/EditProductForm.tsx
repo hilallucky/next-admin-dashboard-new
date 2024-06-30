@@ -25,11 +25,11 @@ import { ProductAlias } from '@/interfaces';
 import { uuid } from 'uuidv4';
 import { GoPencil, GoTrash } from 'react-icons/go';
 
-interface CreateProductFormProps {
+interface EditProductFormProps {
   nextStep?: () => void;
 }
 
-const CreateProductForm: React.FC<CreateProductFormProps> = ({ nextStep }) => {
+const EditProductForm: React.FC<EditProductFormProps> = ({ nextStep }) => {
   const defaultProductAliasValues: ProductAlias = {
     id: 0,
     uid: '',
@@ -174,6 +174,7 @@ const CreateProductForm: React.FC<CreateProductFormProps> = ({ nextStep }) => {
             ],
       }));
     }
+
     setFormProductAlias({ ...defaultProductAliasValues });
     setEditingIndex(null);
 
@@ -190,12 +191,6 @@ const CreateProductForm: React.FC<CreateProductFormProps> = ({ nextStep }) => {
   const handleEditProductAlias = (index: number) => {
     productAlias[index].isEdited = true;
     setFormProductAlias(productAlias[index]);
-    setProductAlias(productAlias);
-    console.log({ productAlias });
-    setFormValues((prevData: any) => ({
-      ...prevData,
-      productAliases: productAlias,
-    }));
     setEditingIndex(index);
   };
 
@@ -218,16 +213,15 @@ const CreateProductForm: React.FC<CreateProductFormProps> = ({ nextStep }) => {
     setProductAlias([]);
   };
 
-  const onSubmit = (data: any) => {
+  const onSubmit = () => {
     if (nextStep) {
-      // sessionStorage.setItem('formValues', JSON.stringify(formValues));
       nextStep();
     }
   };
 
   return (
     <div>
-      <Breadcrumb pageName="Create Product" pageLink="CreateProductForm" />
+      <Breadcrumb pageName="Edit Product" pageLink="EditProductForm" />
 
       <div className="grid-cols-2 gap-9 sm:grid-cols-2">
         <div className="flex flex-col gap-9">
@@ -253,7 +247,6 @@ const CreateProductForm: React.FC<CreateProductFormProps> = ({ nextStep }) => {
                     placeholder="Product name"
                   />
                 </div>
-
                 <div>
                   <SelectOption
                     key={0}
@@ -266,7 +259,6 @@ const CreateProductForm: React.FC<CreateProductFormProps> = ({ nextStep }) => {
                     required
                   />
                 </div>
-
                 <div>
                   <SelectOption
                     key={1}
@@ -279,7 +271,6 @@ const CreateProductForm: React.FC<CreateProductFormProps> = ({ nextStep }) => {
                     required
                   />
                 </div>
-
                 <div>
                   <TextField
                     type="text"
@@ -293,7 +284,6 @@ const CreateProductForm: React.FC<CreateProductFormProps> = ({ nextStep }) => {
                     placeholder="Product price"
                   />
                 </div>
-
                 <div>
                   <TextField
                     type="text"
@@ -307,7 +297,6 @@ const CreateProductForm: React.FC<CreateProductFormProps> = ({ nextStep }) => {
                     placeholder="Product quantity"
                   />
                 </div>
-
                 <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
                   <div className="border-b border-stroke px-6.5 py-4 dark:border-strokedark">
                     <h3 className="font-medium underline text-black dark:text-white">
@@ -453,7 +442,6 @@ const CreateProductForm: React.FC<CreateProductFormProps> = ({ nextStep }) => {
                     </table>
                   </div>
                 </div>
-
                 <div>
                   {error && (
                     <div className="flex w-full text-red justify-center items-center">
@@ -461,7 +449,6 @@ const CreateProductForm: React.FC<CreateProductFormProps> = ({ nextStep }) => {
                     </div>
                   )}
                 </div>
-
                 <div className="mb-5 flex gap-20 items-center justify-between">
                   <Button
                     label="Reset"
@@ -477,7 +464,6 @@ const CreateProductForm: React.FC<CreateProductFormProps> = ({ nextStep }) => {
                     className="w-[30%] cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
                   />
                 </div>
-
                 <div>
                   {showToast && (
                     <div
@@ -502,4 +488,4 @@ const CreateProductForm: React.FC<CreateProductFormProps> = ({ nextStep }) => {
   );
 };
 
-export default CreateProductForm;
+export default EditProductForm;

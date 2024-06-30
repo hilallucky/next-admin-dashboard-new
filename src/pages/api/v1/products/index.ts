@@ -42,6 +42,13 @@ export default async function handler(
             name: true,
           },
         },
+        productAliases: {
+          select: {
+            code: true,
+            name: true,
+            status: true,
+          },
+        },
         createdProductByUser: {
           select: {
             username: true,
@@ -82,25 +89,53 @@ export default async function handler(
       }),
     );
   } else if (req.method === 'POST') {
-    const { name, supplierId, quantity, status, createdBy, updatedBy } =
-      req.body;
+    const {
+      name,
+      supplierId,
+      quantity,
+      status,
+      createdBy,
+      updatedBy,
+      productAliases,
+    } = req.body;
 
     const uid = uuid();
     try {
-      const newProduct = await prisma.product.create({
-        data: {
-          code: uid,
-          name,
-          supplierId: Number(supplierId),
-          quantity: Number(quantity),
-          status,
-          createdBy,
-          updatedBy,
-        },
+      const result = await prisma.$transaction(async (prisma) => {
+        // Create the product
+        const newProduct = await prisma.product.create({
+          data: {
+            code: uid,
+            name,
+            supplierId: Number(supplierId),
+            quantity: Number(quantity),
+            status,
+            createdBy,
+            updatedBy,
+          },
+        });
+
+        // Create product aliases
+        if (Array.isArray(productAliases) && productAliases.length > 0) {
+          await prisma.productAlias.createMany({
+            data: productAliases.map((alias) => ({
+              code: alias.code,
+              name: alias.name,
+              supplierId: Number(supplierId),
+              productId: newProduct.id,
+              status: alias.status,
+              createdBy,
+              updatedBy,
+            })),
+          });
+        }
+
+        return newProduct;
       });
+
       res
         .status(201)
-        .json(Helper.ResponseData(res.statusCode, 'Created', null, newProduct));
+        .json(Helper.ResponseData(res.statusCode, 'Created', null, result));
     } catch (error) {
       console.log(error);
     }

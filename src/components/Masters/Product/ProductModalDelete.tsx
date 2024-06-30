@@ -139,7 +139,7 @@ const ProductModalDelete: React.FC<Props> = ({
           </div>
 
           <h3 className="pb-2 text-xl font-bold text-black dark:text-white sm:text-2xl">
-            Product Detail Will Deleted
+            Product Detail Will Deletedd
           </h3>
           <form className="mb-4 p-4 border border-stroke outline-none  border-form-strokedark dark:border-form-strokedark dark:bg-form-input dark:text-white rounded">
             <div>
@@ -200,9 +200,82 @@ const ProductModalDelete: React.FC<Props> = ({
                 label="Status"
                 options={statuses}
                 disabled
-                selectValue={product?.status}
                 defaultValue={product?.status}
               />
+            </div>
+
+            <div className="overflow-x-auto">
+              <div className="border-b border-stroke px-6.5 py-6 dark:border-strokedark">
+                <h3 className="font-medium underline text-black dark:text-white">
+                  Product Aliases
+                </h3>
+              </div>
+
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50 dark:bg-gray-800">
+                  <tr>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      #
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Code
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Name
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Status
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200 dark:bg-boxdark dark:divide-gray-700">
+                  {product?.productAliases &&
+                    product.productAliases.map((alias, index) => (
+                      <tr
+                        key={index}
+                        className="hover:bg-slate-400 hover:bg-transparent"
+                      >
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-900">
+                            {index + 1}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-900">
+                            {alias.code}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-900">
+                            {alias.name}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                            {
+                              statuses.find(
+                                (status) =>
+                                  Number(status.value) === alias.status,
+                              )?.label
+                            }
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
             </div>
           </form>
 

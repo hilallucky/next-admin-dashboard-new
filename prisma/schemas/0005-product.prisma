@@ -3,8 +3,9 @@ model Product {
     uid        String    @unique @default(cuid())
     code       String    @unique
     name       String
-    supplierId Int?      @default(null) @relation(fields: [uid], references: [uid]) @onDelete(setNull) @onUpdate(cascade) @onDelete(setNull)
-    quantity   Int
+    supplierId Int
+    quantity   Int       @default(0)
+    price      Int       @default(0)
     status     Int       @default(0)
     createdBy  Int?
     createdAt  DateTime  @default(now())

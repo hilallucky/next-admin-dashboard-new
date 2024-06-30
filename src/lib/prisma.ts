@@ -41,3 +41,5 @@ prisma.$on('error', (e) => {
 prisma.$use(softDeleteMiddleware);
 
 if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
+
+export default prisma;

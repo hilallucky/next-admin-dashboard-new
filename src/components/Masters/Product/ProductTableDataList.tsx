@@ -1,9 +1,20 @@
 import { statuses } from '@/constants/common';
-import { GoPencil, GoEye, GoTrash, GoDownload } from 'react-icons/go';
-import { useState } from 'react';
+import {
+  GoPencil,
+  GoEye,
+  GoTrash,
+  GoDownload,
+  GoDuplicate,
+} from 'react-icons/go';
+import { useContext, useState } from 'react';
 import ProductModalView from './ProductModalView';
 import ProductModalEdit from './ProductModalEdit';
 import ProductModalDelete from './ProductModalDelete';
+import EditProductForm from '@/ui/Product/edit/EditProductForm';
+import EditForm from '@/pages/dashboard/product/edit/[id]';
+import { useRouter } from 'next/router';
+import { FormContext } from '@/contexts/FormContext';
+import Link from 'next/link';
 
 interface Props {
   label?: string;
@@ -27,8 +38,15 @@ const ProductTableDataList = ({
   const [id, setId] = useState(0);
   const [modalViewOpen, setModalViewOpen] = useState(false);
   const [modalEditOpen, setModalEditOpen] = useState(false);
+  const [modalEditFormOpen, setModalEditFormOpen] = useState(false);
   const [modalDeleteOpen, setModalDeleteOpen] = useState(false);
+  const [step, setStep] = useState(1);
+  const { formValues, setFormValues, resetFormValues, methods } =
+    useContext(FormContext);
   const newIndex: number = (page - 1) * sizePerPages + 1;
+  const router = useRouter();
+
+  const nextStep = () => setStep(step + 1);
 
   const handleModalView = (id: number) => {
     setId(id);
@@ -43,6 +61,11 @@ const ProductTableDataList = ({
   const handleModalEdit = (id: number) => {
     setId(id);
     setModalEditOpen(true);
+  };
+
+  const handleModalEditForm = (id: number, data: any) => {
+    setId(id);
+    router.push(`/dashboard/product/edit/${id}`);
   };
 
   return (
@@ -123,7 +146,7 @@ const ProductTableDataList = ({
                     <button className="hover:text-primary">
                       <GoPencil
                         size={18}
-                        onClick={() => handleModalEdit(data.id)}
+                        onClick={() => handleModalEditForm(data.id, data)}
                       />
                     </button>
                     <button className="hover:text-primary">
@@ -158,6 +181,8 @@ const ProductTableDataList = ({
               setModalOpen={setModalEditOpen}
             />
           )}
+
+          {modalEditFormOpen && <EditForm formValues={formValues} />}
 
           {modalDeleteOpen && (
             <ProductModalDelete
